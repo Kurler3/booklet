@@ -9,7 +9,7 @@ const typeDefs = gql`
         email: String!
         librariesEnrolled: [ID!]!
         token: String!
-        createdAt: String!
+        createdAt: String
     }
 
     # BOOK
@@ -27,7 +27,7 @@ const typeDefs = gql`
 
         # ADDED FIELDS
         addedBy: [User]!
-        addedAt: String!
+        addedAt: String
 
         # RETURNED FIELDS
         returnedAt: String
@@ -54,10 +54,7 @@ const typeDefs = gql`
     }
 
     # QUERIES
-    type Query {
-        # GET ALL USERS QUERY
-        getUsers: [User]
-    }
+
 
     # MUTATIONS
     type Mutation {

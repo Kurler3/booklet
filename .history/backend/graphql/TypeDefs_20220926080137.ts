@@ -54,10 +54,7 @@ const typeDefs = gql`
     }
 
     # QUERIES
-    type Query {
-        # GET ALL USERS QUERY
-        getUsers: [User]
-    }
+
 
     # MUTATIONS
     type Mutation {

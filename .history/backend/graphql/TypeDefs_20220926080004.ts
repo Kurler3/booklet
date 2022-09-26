@@ -21,17 +21,17 @@ const typeDefs = gql`
         # ISSUED FIELDS
         issuedAt: String
         # THE ID OF THE LIBRARIAN/ADMIN THAT ALLOWED THE BOOK TO BE ISSUED
-        issuedBy: [User]!
+        issuedBy: [ID]!
         # TO WHOM IT IS BEING BORROWED
-        issuedTo: [User]!
+        issuedTo: [ID]!
 
         # ADDED FIELDS
-        addedBy: [User]!
+        addedBy: [ID]!
         addedAt: String!
 
         # RETURNED FIELDS
         returnedAt: String
-        returnedBy: [User]!
+        returnedBy: [ID]!
     }
 
     # LIBRARY
@@ -39,8 +39,8 @@ const typeDefs = gql`
         id: ID
         name: String!
         # CAN'T BE NULL AND THE IDS INSIDE ALSO CAN'T BE NULL
-        admins: [User!]!
-        librarians: [User!]!
+        admins: [ID!]!
+        librarians: [ID!]!
         books: [Book]
         createdAt: String
     }
@@ -54,10 +54,7 @@ const typeDefs = gql`
     }
 
     # QUERIES
-    type Query {
-        # GET ALL USERS QUERY
-        getUsers: [User]
-    }
+
 
     # MUTATIONS
     type Mutation {
