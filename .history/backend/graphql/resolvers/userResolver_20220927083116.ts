@@ -1,6 +1,6 @@
 import { UserInputError } from "apollo-server-core";
 import { RegisterInput, UserType } from "../../../types/userTypes";
-import { validateLoginInput, validateRegisterInput } from "../../../utils/validators";
+import { validateRegisterInput } from "../../../utils/validators";
 import UserModel from '../../mongodb/models/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -24,9 +24,7 @@ const userResolver = {
         
         // GET ALL USERS
         getUsers: async () => {
-            const result = await UserModel.find();
 
-            return result;
         }
 
     },
@@ -36,7 +34,7 @@ const userResolver = {
 
         // REGISTER USER
         registerUser: async (_:null, args: {registerInput: RegisterInput}) => {
-            const {username, password, confirmPassword, email} = args.registerInput;
+           const {username, password, confirmPassword, email} = args.registerInput;
            
             // VALIDATE DATA INPUTTED
             const {valid, errors} = validateRegisterInput(
@@ -92,44 +90,7 @@ const userResolver = {
 
         // LOGIN USER
         loginUser: async (_:null, args: {username: string, password: string}) => {
-            const {username, password} = args;
-
-            // VALIDATION OF INPUTTED DATA
-            const {valid, errors} = validateLoginInput(username, password);
-
-            if(!valid) {
-                throw new UserInputError("Login Errors", errors);
-            }
-
-            // TRY TO FIND USER IN DB WITH SAME USERNAME
-            const user = await UserModel.findOne({username});
-
-            // IF DIDN'T FIND USER
-            if(!user) {
-                errors.general = "User not found";
-
-                throw new UserInputError("User not found", errors);
-            }
-
-            // COMPARE PASSWORD INPUTTED WITH ENCRYPTED FROM DB
-            const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-            // IF DOESN'T MATCH
-            if(!isPasswordMatch) {
-                errors.general = "Wrong credentials";
-
-                throw new UserInputError("Wrong credentials", errors);
-            }
-
-            // CREATE JWT TOKEN
-            const token = generateToken(user);
-
-            // RETURN
-            return {
-                ...user._doc,
-                id: user._id,
-                token: token,
-            }
+            
         }
 
     }

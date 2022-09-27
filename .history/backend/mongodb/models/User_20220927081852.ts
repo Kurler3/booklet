@@ -7,8 +7,6 @@ const userSchema = new Schema({
     password: String,
     // EMAIL
     email: String,
-    // LIBRARIES ENROLLED
-    librariesEnrolled: [String],
     // CREATED AT
     createdAt: String,
 });
