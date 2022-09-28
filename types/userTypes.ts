@@ -21,3 +21,10 @@ export interface UserJWT {
     email: string;
     username: string;
 }
+// USER
+export interface IUser {
+    image: string;
+    userName: string;
+    _id: string;
+    _type: string;
+}

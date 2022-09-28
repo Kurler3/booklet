@@ -21,17 +21,17 @@ const typeDefs = gql`
         # ISSUED FIELDS
         issuedAt: String
         # THE ID OF THE LIBRARIAN/ADMIN THAT ALLOWED THE BOOK TO BE ISSUED
-        issuedBy: [User]!
+        issuedBy: User!
         # TO WHOM IT IS BEING BORROWED
-        issuedTo: [User]!
+        issuedTo: User!
 
         # ADDED FIELDS
-        addedBy: [User]!
+        addedBy: User!
         addedAt: String!
 
         # RETURNED FIELDS
         returnedAt: String
-        returnedBy: [User]!
+        returnedBy: User!
     }
 
     # LIBRARY
