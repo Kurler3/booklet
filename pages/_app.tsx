@@ -59,7 +59,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
         {/* MAIN CONTENT */}
-        <Component {...pageProps} />
+        <Component 
+          userProfile={userProfile}
+          {...pageProps}
+        />
 
       </div>
     </ApolloProvider>

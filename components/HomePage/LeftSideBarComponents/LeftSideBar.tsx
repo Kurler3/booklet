@@ -24,7 +24,7 @@ const LeftSideBar:React.FC<IProps> = ({
     /////////////////
 
     return (
-        <div className='w-[15%] h-full leftSideBarBg flex flex-col items-center justify-start gap-10 min-w-[250px]'>
+        <div className='w-[250px] h-full leftSideBarBg flex flex-col items-center justify-start gap-10'>
 
             {/* APP TITLE */}
             <span className='text-white mt-20 text-[40px] font-bold'>
