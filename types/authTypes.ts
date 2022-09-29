@@ -1,3 +1,5 @@
+import { IUser } from "./userTypes";
+
 export interface RegisterState {
     username: string;
     email: string;
@@ -10,3 +12,14 @@ export interface LoginState {
   password: string;
 }
   
+
+export interface IAuth {
+  userProfile: IUser | null;
+  allUsers: IUser[] | null;
+  // CALLED AFTER REGISTERING NEW USER / LOGGING IN
+  addUser: any;
+  // LOGOUT USER
+  logout: any;
+  // FETCH ALL USERS FUNCTION
+  fetchAllUsers: any;
+}

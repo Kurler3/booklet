@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { getAllUsersQuery } from '../graphql/users/queries';
 import apolloClient from '../utils/ApolloClient';
-
+import Head from 'next/head';
 
 
 // GET ALL USERS TEST 
@@ -26,9 +26,9 @@ export async function getServerSideProps() {
 
 const Home: NextPage = () => {
   return (
-    <div>
-      Main Content!
-    </div>
+      <div>
+        Main Content!
+      </div>
   )
 }
 

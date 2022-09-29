@@ -1,19 +1,8 @@
 import create from "zustand";
 import {persist} from 'zustand/middleware';
-import { IUser } from "../types/userTypes";
+import { IAuth } from "../types/authTypes";
 
-interface IAuth {
-    userProfile: IUser | null;
-    allUsers: IUser[] | null;
-    // CALLED AFTER REGISTERING NEW USER / LOGGING IN
-    addUser: any;
-    // LOGOUT USER
-    logout: any;
-    // FETCH ALL USERS FUNCTION
-    fetchAllUsers: any;
-}
-
-const authStore = (set:any) => ({
+const authStore = (set:any):IAuth => ({
     userProfile: null,
     allUsers: null,
 
@@ -31,12 +20,13 @@ const authStore = (set:any) => ({
 // CREATE PERSISTENT STORE HOOK
 const useAuthStore = create(
     // WRAP IN PERSIS
-    persist(
-        authStore,
-        {
-            name: "auth",
-        }
-    ),  
+    // persist(
+    //     authStore,
+    //     {
+    //         name: "auth",
+    //     }
+    // ),
+    authStore  
 );
 
 export default useAuthStore;

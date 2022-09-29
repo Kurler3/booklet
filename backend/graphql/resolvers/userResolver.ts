@@ -24,9 +24,9 @@ const userResolver = {
         
         // GET ALL USERS
         getUsers: async () => {
-            // const result = await UserModel.find();
+            const result = await UserModel.find();
 
-            return [];
+            return result;
         }
 
     },

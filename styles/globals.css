@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+
+:root {
+    --dark-purple: #0d1033;
+    --normal-purple: #3b4eff;
+}
+
+body {
+    font-family: 'Oxygen', sans-serif;
+}
+
+.leftSideBarBg {
+    background-color: var(--dark-purple);
+}
