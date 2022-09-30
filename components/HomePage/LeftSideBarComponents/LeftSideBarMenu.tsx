@@ -13,7 +13,7 @@ const LeftSideBarMenu = () => {
 
 
     return (
-        <div className='w-full text-white p-10 mt-20 flex items-center justify-center'>
+        <div className='w-full text-white p-10 flex items-center justify-center'>
             
             {/* MENU BTN */}
             <div className='flex items-center justify-start gap-2 cursor-pointer p-2 transition rounded-md'>   

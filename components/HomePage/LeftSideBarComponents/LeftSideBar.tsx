@@ -1,35 +1,42 @@
 import {memo} from 'react';
+import useAuthStore from '../../../store/authStore';
 import { IUser } from '../../../types/userTypes';
+import Button from '../../Common/Button';
 import LeftSideBarMenu from './LeftSideBarMenu';
-
-
-
+import Link from 'next/link';
 
 
 // PROPS INTERFACE
 interface IProps {
-    userProfile: IUser | null;
+    // userProfile: IUser | null;
 }
 
 ////////////////////
 // LEFT SIDE BAR ///
 ////////////////////
 
-const LeftSideBar:React.FC<IProps> = ({
-    userProfile,
-}) => {
+const LeftSideBar:React.FC<IProps> = () => {
+
+    /////////////////
+    // ZUSTAND //////
+    /////////////////
+
+    const {logout, userProfile} = useAuthStore();
 
     /////////////////
     // RENDER ///////
     /////////////////
 
     return (
-        <div className='w-[250px] h-full leftSideBarBg flex flex-col items-center justify-start gap-10'>
+        <div className='w-[250px] h-full leftSideBarBg flex flex-col items-center justify-between py-10 gap-10 shadow-xl'>
 
             {/* APP TITLE */}
-            <span className='text-white mt-20 text-[40px] font-bold'>
-                Booklet
-            </span>
+            <Link href="/">
+                <span className='text-white text-[40px] font-bold transition cursor-pointer hover:scale-[1.1]'>
+                    Booklet
+                </span>
+            </Link>
+            
 
             {/* SHOW MENU IF LOGGED IN */}
             {
@@ -41,6 +48,19 @@ const LeftSideBar:React.FC<IProps> = ({
 
             {/* SETTINGS */}
 
+            {/* LOGOUT BTN */}
+            {
+                userProfile &&
+
+                <Button 
+                    onClick={logout}
+                    txt="Logout"
+                    icon="logout"
+                    width="80%"
+                    borderRadius='8px'
+                    txtCss='font-semibold ml-3'
+                />
+            }
         </div>  
     );
 };

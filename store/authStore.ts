@@ -1,15 +1,28 @@
 import create from "zustand";
-import {persist} from 'zustand/middleware';
+// import {persist} from 'zustand/middleware';
 import { IAuth } from "../types/authTypes";
+import { USER_TOKEN } from "../utils/constants";
 
 const authStore = (set:any):IAuth => ({
     userProfile: null,
     allUsers: null,
 
-    // ADD USER FUNCTION
-    addUser: (user: any) => set({userProfile: user}),
+    // ADD USER/LOGIN FUNCTION
+    addUser: (user: any) => {
+
+        // SET LOCAL STORAGE TOKEN
+        localStorage.setItem(USER_TOKEN, user.token);
+
+        set({userProfile: user})
+    },
     // LOGOUT USER
-    logout: () => set({userProfile: null}),
+    logout: () => {
+        
+        // SET TOKEN TO EMPTY
+        localStorage.setItem(USER_TOKEN, '');
+
+        set({userProfile: null})
+    },
     // FETCH ALL USERS FUNCTION
     fetchAllUsers: async () => {
         // MAKE GRAPHQL REQUEST

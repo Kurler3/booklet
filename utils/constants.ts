@@ -9,18 +9,11 @@ export const USER_TOKEN = "LOCAL_USER_TOKEN";
 export const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.PROD_BASE_URL;
 
 
-// // LEFT SIDE BAR MENU BUTTONS
-// export const LEFT_SIDE_BAR_MENU_BUTTONS = [
-//     // HOME BUTTON
-//     // {
-//     //     id: 'home',
-//     //     label: 'Home',
-//     // },
-//     // // CHANGE LIBRARY
-//     // {
-//     //     id: 'change_library',
-//     //     label: 'Change Library',
-//     //     icon: 
-//     // }
+// DARK PURPLE STRING
+export const DARK_PURPLE = "#0d1033";
 
-// ]
+// NORMAL PURPLE
+export const NORMAL_PURPLE = "#3b4eff";
+
+// BLUE
+export const BLUE = "#66b5ff";

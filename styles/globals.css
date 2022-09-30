@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 :root {
     --dark-purple: #0d1033;
@@ -10,7 +10,7 @@
 }
 
 body {
-    font-family: 'Oxygen', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .leftSideBarBg {

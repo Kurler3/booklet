@@ -7,15 +7,14 @@ import LeftSideBar from '../components/HomePage/LeftSideBarComponents/LeftSideBa
 import useAuthStore from '../store/authStore';
 import { USER_TOKEN } from '../utils/constants';
 import Head from 'next/head';
+import jwt from 'jsonwebtoken';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
   const [isSSR, setIsSSR] = useState(true);
 
   // GET USER PROFILE FROM ZUSTAND
-  const {userProfile} = useAuthStore();
-
-
+  const {userProfile, addUser} = useAuthStore();
 
   useEffect(() => { 
     setIsSSR(false);
@@ -29,12 +28,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     // IF THERE'S A JWT AND THE USER IS NOT LOGGED IN THE STATE
     if(localJwt && localJwt.length > 0 && !userProfile) {
       // DECODE JWT
-
+      const userData = jwt.decode(localJwt);
       // IF HASN'T EXPIRED YET, THEN DISPATCH LOG IN STATE ACTION
-
+      addUser(userData);
     }
 
-  }, [userProfile]);
+  }, [addUser, userProfile]);
 
   // IF IS IN SERVER SIDE, THEN DON'T DISPLAY FRONT-END
   if(isSSR) return null;
@@ -44,25 +43,22 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={apolloClient}>
 
       <Head>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-          <meta charSet="utf-8" />
           <title>Booklet</title>
-          <meta name="description" content="The best library management app." />
       </Head>
 
       <div className='w-screen h-screen flex items-center justify-start'>
 
         {/* LEFT SIDE BAR */}
-        <LeftSideBar 
-          userProfile={userProfile}
-        />
+        <LeftSideBar />
 
-
-        {/* MAIN CONTENT */}
-        <Component 
-          userProfile={userProfile}
-          {...pageProps}
-        />
+        <div className='flex-1 h-full'>
+          {/* MAIN CONTENT */}
+          <Component 
+                userProfile={userProfile}
+                {...pageProps}
+          />
+        </div>
+        
 
       </div>
     </ApolloProvider>
