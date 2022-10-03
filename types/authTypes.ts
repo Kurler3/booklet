@@ -23,3 +23,13 @@ export interface IAuth {
   // FETCH ALL USERS FUNCTION
   fetchAllUsers: any;
 }
+
+export interface CustomJWTPayload {
+  id: string;
+  email: string;
+  username: string;
+  createdAt: string;
+  exp: number;
+  iat: number;
+  librariesEnrolled: string[];
+}

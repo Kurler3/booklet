@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client';
+import Link from 'next/link';
 import Router from 'next/router';
 import { memo, useState } from 'react';
 import { Circles } from 'react-loader-spinner';
@@ -39,6 +40,7 @@ const RegisterPage = () => {
         password: '',
         email: '',
         confirmPassword: '',
+        message: '',
     });
 
     // CUSTOM FORM HOOK
@@ -61,18 +63,20 @@ const RegisterPage = () => {
             update(proxy, result) {
                 // PUSH TO HOMEPAGE
                 Router.push("/");
-                console.log('Result: ', result);
+               
                 // CALL ZUSTAND ACTION
                 addUser(result.data.registerUser);
             },
 
             // IF ERROR
             onError(err) {
+                
                 // SET ERRORS
                 setErrors((prevErrors) => {
                     return {
                         ...prevErrors,
                         ...err.graphQLErrors[0]?.extensions.errors as RegisterState,
+                        message: err.graphQLErrors[0].message.length > 0 ? err.graphQLErrors[0].message : '',
                     }
                 });
             },
@@ -192,9 +196,26 @@ const RegisterPage = () => {
                     btnCss={`border transition text-white hover:scale-105 hover:shadow-lg w-[20%] bg-[${NORMAL_PURPLE}] m-auto min-w-[80px] mt-5 p-3 rounded-lg hover:bg-[${DARK_PURPLE}] hover:border-[color:var(--main-blue)]`}
                 />
 
+<div className="m-auto mt-5 flex justify-center items-center">
+                    <span className='text-gray-400 text-sm'>Already have an account?</span>
 
+                    <Link href="/auth/login">
+                        <span 
+                            className={`cursor-pointer font-bold ml-3 text-sm text-[${BLUE}]
+                                hover:scale-[1.05] transition
+                            `}
+                        >Login here</span>
+                    </Link>
+                </div>    
             </div>
 
+            {
+                errors.message.length > 0 ?
+                <span className='text-red-400 mt-5 text-sm font-bold'>
+                    {errors.message}
+                </span>
+            :null}
+            
         </div>
     );
 };
