@@ -3,13 +3,17 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 
 // APOLLO AUTH CONTEXT
 import {setContext} from '@apollo/client/link/context';
+import { BASE_URL, USER_TOKEN } from './constants';
 
-const GRAPHQL_URI = `/api/graphql`;
+const GRAPHQL_URI = `${BASE_URL}/api/graphql`;
 
 // AUTH
 export const authLink = setContext(() => {
-
-    // let token = localStorage.getItem(USER_TOKEN);
+    // let token;
+    // if(localStorage) {
+    //     token = localStorage.getItem(USER_TOKEN);
+    // }
+    
 
     // SET AUTH HEADER
     return {

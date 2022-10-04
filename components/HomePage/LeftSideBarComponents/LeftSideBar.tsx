@@ -1,9 +1,9 @@
 import {memo} from 'react';
 import useAuthStore from '../../../store/authStore';
-import { IUser } from '../../../types/userTypes';
 import Button from '../../Common/Button';
 import LeftSideBarMenu from './LeftSideBarMenu';
 import Link from 'next/link';
+import useMainStore from '../../../store/mainStore';
 
 
 // PROPS INTERFACE
@@ -23,6 +23,8 @@ const LeftSideBar:React.FC<IProps> = () => {
 
     const {logout, userProfile} = useAuthStore();
 
+    const {selectedLibrary} = useMainStore();
+
     /////////////////
     // RENDER ///////
     /////////////////
@@ -40,10 +42,10 @@ const LeftSideBar:React.FC<IProps> = () => {
 
             {/* SHOW MENU IF LOGGED IN */}
             {
-                userProfile ?
+                userProfile && selectedLibrary ?
                 <LeftSideBarMenu />
                 :
-                <div className='text-white'>Not Logged :/</div>
+                <div className='text-white'>{!userProfile ? "Not Logged :/" : "Select a library!"}</div>
             }
 
             {/* SETTINGS */}

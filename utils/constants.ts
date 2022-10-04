@@ -1,6 +1,7 @@
 import {
     AiOutlineMenu
 } from 'react-icons/ai';
+import { toast } from 'react-toastify';
 
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -17,3 +18,30 @@ export const NORMAL_PURPLE = "#3b4eff";
 
 // BLUE
 export const BLUE = "#66b5ff";
+
+// TOAST OPTIONS
+export const TOAST_TYPE_OPTIONS = {
+    info: 'INFO',
+    success: 'SUCCESS',
+    warning: 'WARNING',
+    error: "ERROR",
+    default: "DEFAULT",
+}
+
+// TOAST SECOND ARGUMENT
+export const TOAST_SECOND_ARGUMENT = {
+    position: toast.POSITION.BOTTOM_RIGHT,
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: false,
+    progress: undefined,
+}
+
+// MENU OPTIONS
+export const MENU_OPTIONS = {
+    home: 'HOME',
+    issueRequests: 'ISSUE_REQUESTS',
+    changeLibrary: 'CHANGE_LIBRARY',
+}

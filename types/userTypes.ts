@@ -7,6 +7,14 @@ export interface RegisterInput {
     email: string;
 }
 
+export interface IUserWithoutToken {
+    id: string;
+    username: string;
+    email: string;
+    createdAt: string;
+    librariesEnrolled: string[];
+}
+
 export interface UserType {
     id: string;
     username: string;
@@ -20,11 +28,4 @@ export interface UserJWT {
     id: string;
     email: string;
     username: string;
-}
-// USER
-export interface IUser {
-    image: string;
-    userName: string;
-    _id: string;
-    _type: string;
 }

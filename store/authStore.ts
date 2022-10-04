@@ -1,12 +1,16 @@
 import create from "zustand";
+import { getAllUsersQuery } from "../graphql/users/queries";
 // import {persist} from 'zustand/middleware';
 import { IAuth } from "../types/authTypes";
+import client from "../utils/ApolloClient";
 import { USER_TOKEN } from "../utils/constants";
 
 const authStore = (set:any):IAuth => ({
+    
+    // LOGGED USER 
     userProfile: null,
+    // ALL USERS
     allUsers: null,
-
     // ADD USER/LOGIN FUNCTION
     addUser: (user: any) => {
 
@@ -26,7 +30,11 @@ const authStore = (set:any):IAuth => ({
     // FETCH ALL USERS FUNCTION
     fetchAllUsers: async () => {
         // MAKE GRAPHQL REQUEST
+        const {data} = await client.query({
+            query: getAllUsersQuery,
+        }); 
 
+        set({allUsers: data.getUsers});
     },
 });
 

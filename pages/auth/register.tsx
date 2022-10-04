@@ -7,7 +7,8 @@ import Button from '../../components/Common/Button';
 import { REGISTER_USER } from '../../graphql/users/mutations';
 import useAuthStore from '../../store/authStore';
 import { RegisterState } from '../../types/authTypes';
-import { BLUE, DARK_PURPLE, NORMAL_PURPLE } from '../../utils/constants';
+import { BLUE, DARK_PURPLE, NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../utils/constants';
+import { showToast } from '../../utils/functions';
 import { useForm } from '../../utils/hooks/useForm';
 
 
@@ -61,16 +62,22 @@ const RegisterPage = () => {
         // OPTIONS
         {
             update(proxy, result) {
+                // SHOW TOAST
+                showToast(
+                    TOAST_TYPE_OPTIONS.success,
+                    "Registered successfully!",
+                );
+
                 // PUSH TO HOMEPAGE
                 Router.push("/");
-               
+
                 // CALL ZUSTAND ACTION
                 addUser(result.data.registerUser);
             },
 
             // IF ERROR
             onError(err) {
-                
+
                 // SET ERRORS
                 setErrors((prevErrors) => {
                     return {
@@ -79,6 +86,14 @@ const RegisterPage = () => {
                         message: err.graphQLErrors[0].message.length > 0 ? err.graphQLErrors[0].message : '',
                     }
                 });
+
+
+                if (err.graphQLErrors[0].message.length > 0) {
+                    showToast(
+                        TOAST_TYPE_OPTIONS.error,
+                        err.graphQLErrors[0].message as string
+                    );
+                }
             },
             variables: {
                 ...values,
@@ -196,26 +211,21 @@ const RegisterPage = () => {
                     btnCss={`border transition text-white hover:scale-105 hover:shadow-lg w-[20%] bg-[${NORMAL_PURPLE}] m-auto min-w-[80px] mt-5 p-3 rounded-lg hover:bg-[${DARK_PURPLE}] hover:border-[color:var(--main-blue)]`}
                 />
 
-<div className="m-auto mt-5 flex justify-center items-center">
+                <div className="m-auto mt-5 flex justify-center items-center">
                     <span className='text-gray-400 text-sm'>Already have an account?</span>
 
                     <Link href="/auth/login">
-                        <span 
+                        <span
                             className={`cursor-pointer font-bold ml-3 text-sm text-[${BLUE}]
                                 hover:scale-[1.05] transition
                             `}
                         >Login here</span>
                     </Link>
-                </div>    
+                </div>
             </div>
 
-            {
-                errors.message.length > 0 ?
-                <span className='text-red-400 mt-5 text-sm font-bold'>
-                    {errors.message}
-                </span>
-            :null}
             
+
         </div>
     );
 };

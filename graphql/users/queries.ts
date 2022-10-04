@@ -8,7 +8,24 @@ export const getAllUsersQuery = gql`
             username
             email
             librariesEnrolled
-            token
+            createdAt
+        }
+    }
+`;
+
+// GET ENROLLED LIBRARIES
+export const getEnrolledLibrariesQuery = gql`
+    query getEnrolledLibraries(
+        $libraryIds: [ID]
+    ) {
+        getEnrolledLibraries(
+            libraryIds: $libraryIds
+        ) {
+            id
+            name
+            admins
+            librarians
+            books
             createdAt
         }
     }

@@ -10,6 +10,7 @@ import Head from 'next/head';
 import jwt from 'jsonwebtoken';
 import { CustomJWTPayload } from '../types/authTypes';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -82,7 +83,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           newestOnTop={false}
           closeOnClick
           rtl={false}
-          pauseOnFocusLoss
           draggable
           pauseOnHover
         />

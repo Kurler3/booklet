@@ -7,7 +7,8 @@ import Button from '../../components/Common/Button';
 import { LOGIN_USER } from '../../graphql/users/mutations';
 import useAuthStore from '../../store/authStore';
 import { LoginState } from '../../types/authTypes';
-import { BLUE, DARK_PURPLE, NORMAL_PURPLE } from '../../utils/constants';
+import { BLUE, DARK_PURPLE, NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../utils/constants';
+import { showToast } from '../../utils/functions';
 import { useForm } from '../../utils/hooks/useForm';
 
 
@@ -52,10 +53,18 @@ const LoginPage = () => {
         {
             // EVERYTHING GOOD
             update(proxy, result) {
+                // SHOW TOAST
+                showToast(
+                    TOAST_TYPE_OPTIONS.success,
+                    "Logged in successfully!",
+                );
+
                 Router.push('/');
 
                 // CALL ADD USER FUNCTION ON ZUSTAND
                 addUser(result.data.loginUser);
+
+                
             },
             // ON ERROR
             onError(err) {
@@ -65,7 +74,14 @@ const LoginPage = () => {
                         ...prevErrors,
                         ...err.graphQLErrors[0]?.extensions,
                     }
-                })
+                });
+                
+                if(err.graphQLErrors[0]?.extensions.general) {
+                    showToast(
+                        TOAST_TYPE_OPTIONS.error,
+                        err.graphQLErrors[0]?.extensions.general as string
+                    );
+                }
             },
             // VARIABLES
             variables: {
@@ -174,14 +190,6 @@ const LoginPage = () => {
 
             </div>
 
-            {
-                errors.general ? 
-                <span
-                    className='text-red-400 mt-3 text-md font-bold'
-                >   
-                    {errors.general}
-                </span>
-            :null}
         </div>
     );
 };
