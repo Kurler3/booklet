@@ -2,6 +2,7 @@ import React, {memo, useEffect} from 'react';
 import useAuthStore from '../../store/authStore';
 import useMainStore from '../../store/mainStore';
 import { UserType } from '../../types/userTypes';
+import SelectLibrary from './SelectLibrary/SelectLibrary';
 
 
 
@@ -38,10 +39,14 @@ const MainPage:React.FC<IProps> = ({
     // RENDER //////
     ////////////////
     return (
-        <div>
+        <div className='relative w-full h-full'>
             {
                 !selectedLibrary ?
-                <div>Please select a library </div>
+
+                <SelectLibrary 
+                    loading={loading}
+                    enrolledLibraries={enrolledLibraries}
+                />
                 :
                 <span>Can see all info :D</span>
             }

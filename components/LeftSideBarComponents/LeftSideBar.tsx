@@ -1,9 +1,9 @@
 import {memo} from 'react';
-import useAuthStore from '../../../store/authStore';
-import Button from '../../Common/Button';
+import useAuthStore from '../../store/authStore';
+import Button from '../Common/Button';
 import LeftSideBarMenu from './LeftSideBarMenu';
 import Link from 'next/link';
-import useMainStore from '../../../store/mainStore';
+import useMainStore from '../../store/mainStore';
 
 
 // PROPS INTERFACE

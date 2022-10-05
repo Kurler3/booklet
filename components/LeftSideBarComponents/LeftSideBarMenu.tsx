@@ -6,8 +6,8 @@ import {
 import {
     FaExchangeAlt,
 } from 'react-icons/fa';
-import useAuthStore from '../../../store/authStore';
-import useMainStore from '../../../store/mainStore';
+import useAuthStore from '../../store/authStore';
+import useMainStore from '../../store/mainStore';
 
 
 /////////////////////////

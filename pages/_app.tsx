@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import {memo, useState, useEffect} from 'react';
 import {  ApolloProvider } from '@apollo/client';
 import apolloClient from '../utils/ApolloClient';
-import LeftSideBar from '../components/HomePage/LeftSideBarComponents/LeftSideBar';
+import LeftSideBar from '../components/LeftSideBarComponents/LeftSideBar';
 import useAuthStore from '../store/authStore';
 import { USER_TOKEN } from '../utils/constants';
 import Head from 'next/head';
