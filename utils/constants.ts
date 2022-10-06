@@ -19,6 +19,12 @@ export const NORMAL_PURPLE = "#3b4eff";
 // BLUE
 export const BLUE = "#66b5ff";
 
+// BTN BLUE
+export const BTN_BLUE = "#3f87f2";
+
+// COLOR GOOD
+export const COLOR_GOOD = "#1ac41c";
+
 // TOAST OPTIONS
 export const TOAST_TYPE_OPTIONS = {
     info: 'INFO',
@@ -44,4 +50,12 @@ export const MENU_OPTIONS = {
     home: 'HOME',
     issueRequests: 'ISSUE_REQUESTS',
     changeLibrary: 'CHANGE_LIBRARY',
+}
+
+// TOOLTIP POSITIONS
+export const TOOLTIP_POSITION = {
+    TOP: 'top',
+    BOTTOM: 'bottom',
+    LEFT: 'left',
+    RIGHT: 'right',
 }

@@ -3,6 +3,7 @@ import { Circles } from 'react-loader-spinner';
 import { ILibrary } from '../../../types/libraryTypes';
 import { NORMAL_PURPLE } from '../../../utils/constants';
 import LibraryListContainer from './LibraryListContainer';
+import SelectLibrarySideBar from './SelectLibrarySideBar';
 
 
 
@@ -33,6 +34,7 @@ const SelectLibrary:React.FC<IProps> = ({
     // FUNCTIONS //
     ///////////////
 
+    // HANDLE SEARCH VALUE CHANGE
     const handleSearchValueChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
         setState((prevState) => {
             return {
@@ -41,6 +43,19 @@ const SelectLibrary:React.FC<IProps> = ({
             }
         });
     }, []);
+
+    //TODO HANDLE ADD NEW LIBRARY
+    const handleCreateLibraryClick = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
+    }, []);
+
+    //TODO HANDLE DELETE SELECTED LIBRARIES
+    const handleDeleteLibrariesClick = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
+
+    }, []);
+
+    //TODO HANDEL SELECT LIBRARY
+    const handleSelectLibrary = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {}, []);
+
 
     ///////////////
     // MEMO ///////
@@ -72,7 +87,7 @@ const SelectLibrary:React.FC<IProps> = ({
             </div>
         :
         
-            <div className='flex h-full w-full p-10'>
+            <div className='flex h-full w-full p-10 gap-4'>
 
                 {/* LIBRARY LIST CONTAINER */}
                 <LibraryListContainer 
@@ -83,7 +98,12 @@ const SelectLibrary:React.FC<IProps> = ({
                 />
                 
                 
-
+                <SelectLibrarySideBar 
+                   selectedLibraries={state.selectedLibraries}
+                   handleCreateLibraryClick={handleCreateLibraryClick}
+                   handleDeleteLibrariesClick={handleDeleteLibrariesClick}
+                   handleSelectLibrary={handleSelectLibrary}
+                />
             </div>
         
     );
