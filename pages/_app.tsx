@@ -1,4 +1,3 @@
-import '../styles/globals.css'
 import type { AppProps } from 'next/app';
 import {memo, useState, useEffect} from 'react';
 import {  ApolloProvider } from '@apollo/client';
@@ -10,7 +9,11 @@ import Head from 'next/head';
 import jwt from 'jsonwebtoken';
 import { CustomJWTPayload } from '../types/authTypes';
 import { ToastContainer } from 'react-toastify';
+
+// STYLES
+import 'bootstrap/dist/css/bootstrap.css'
 import 'react-toastify/dist/ReactToastify.css';
+import '../styles/globals.css'
 
 
 function MyApp({ Component, pageProps }: AppProps) {

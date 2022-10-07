@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import useAuthStore from '../store/authStore';
 import { UserType } from '../types/userTypes';
 import MainPage from '../components/HomePage/MainPage';
+import ReactTooltip from 'react-tooltip';
 
 interface IProps {
   userProfile: UserType | null;
@@ -26,6 +27,11 @@ const Home: NextPage<IProps> = ({
     }
    
   }, [allUsers, fetchAllUsers]);
+
+
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  }, []);
   
   return (
     <div className='flex-1 h-full flex items-center justify-center'>

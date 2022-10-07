@@ -3,6 +3,7 @@ import { Circles } from 'react-loader-spinner';
 import { ILibrary } from '../../../types/libraryTypes';
 import { NORMAL_PURPLE } from '../../../utils/constants';
 import LibraryListContainer from './LibraryListContainer';
+import SelectLibraryCreateModal from './SelectLibraryCreateModal';
 import SelectLibrarySideBar from './SelectLibrarySideBar';
 
 
@@ -28,6 +29,7 @@ const SelectLibrary:React.FC<IProps> = ({
     const [state, setState] = useState({
         selectedLibraries: [],
         searchValue: '',
+        isShowCreateModal: false,
     });
 
     ///////////////
@@ -44,8 +46,14 @@ const SelectLibrary:React.FC<IProps> = ({
         });
     }, []);
 
-    //TODO HANDLE ADD NEW LIBRARY
+    // HANDLE ADD NEW LIBRARY
     const handleCreateLibraryClick = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                isShowCreateModal: !prevState.isShowCreateModal,
+            };
+        });
     }, []);
 
     //TODO HANDLE DELETE SELECTED LIBRARIES
@@ -56,6 +64,16 @@ const SelectLibrary:React.FC<IProps> = ({
     //TODO HANDEL SELECT LIBRARY
     const handleSelectLibrary = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {}, []);
 
+
+    // HANDLE CLOSE CREATE MODAL
+    const handleCloseCreateModal = useCallback(() => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                isShowCreateModal: false,
+            };
+        });
+    }, []);
 
     ///////////////
     // MEMO ///////
@@ -87,7 +105,7 @@ const SelectLibrary:React.FC<IProps> = ({
             </div>
         :
         
-            <div className='flex h-full w-full p-10 gap-4'>
+            <div className='flex h-full w-full p-10 gap-4 relative'>
 
                 {/* LIBRARY LIST CONTAINER */}
                 <LibraryListContainer 
@@ -104,8 +122,19 @@ const SelectLibrary:React.FC<IProps> = ({
                    handleDeleteLibrariesClick={handleDeleteLibrariesClick}
                    handleSelectLibrary={handleSelectLibrary}
                 />
+
+                {/* CREATE MODAL */}
+                {
+                    state.isShowCreateModal &&
+                    (
+                        <SelectLibraryCreateModal 
+                            handleCloseCreateModal={handleCloseCreateModal}
+                        />
+                    )
+                }
+
             </div>
-        
+
     );
 };
 

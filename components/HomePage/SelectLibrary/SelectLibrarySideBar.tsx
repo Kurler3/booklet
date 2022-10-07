@@ -33,7 +33,7 @@ const SelectLibrarySideBar:React.FC<IProps> = ({
                 iconColor="white"
                 bgColor={BTN_BLUE}
                 handleClick={handleCreateLibraryClick}
-                tooltip
+                tooltip={true}
                 tooltipId="select_library_add_btn"
                 tooltipPosition={TOOLTIP_POSITION.BOTTOM}
                 tooltipTxt="Create a new library"
@@ -45,7 +45,7 @@ const SelectLibrarySideBar:React.FC<IProps> = ({
                 iconColor="white"
                 bgColor='red'
                 handleClick={handleDeleteLibrariesClick}
-                tooltip
+                tooltip={true}
                 tooltipId="select_library_delete_btn"
                 tooltipPosition={TOOLTIP_POSITION.BOTTOM}
                 tooltipTxt="Delete selected libraries"
@@ -57,7 +57,7 @@ const SelectLibrarySideBar:React.FC<IProps> = ({
                 iconColor="white"
                 bgColor={COLOR_GOOD}
                 handleClick={handleSelectLibrary}
-                tooltip
+                tooltip={true}
                 tooltipId="select_library_select_btn"
                 tooltipPosition={TOOLTIP_POSITION.BOTTOM}
                 tooltipTxt="Select library"

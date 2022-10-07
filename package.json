@@ -13,6 +13,7 @@
     "apollo-server-core": "^3.10.2",
     "apollo-server-micro": "^3.10.2",
     "bcrypt": "^5.0.1",
+    "bootstrap": "^5.2.2",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "micro-cors": "^0.1.1",

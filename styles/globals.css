@@ -7,6 +7,7 @@
 :root {
     --dark-purple: #0d1033;
     --normal-purple: #3b4eff;
+    --modal-container-bg: #00000096;
 }
 
 body {
@@ -16,4 +17,28 @@ body {
 
 .leftSideBarBg {
     background-color: var(--dark-purple);
+}
+.tooltipCommon{
+    opacity: 0.85 !important;
+    border-radius: 5px !important;
+    max-width: 300px !important;
+    z-index: 99999 !important;
+}
+
+@keyframes fromDown {
+    from {
+        margin-top: 100vh;
+        opacity: 0;
+    }
+    to {
+        margin-top: 0px;
+        opacity: 1;
+    }
+}
+
+.fromDownAnim {
+    animation-name: fromDown;
+    animation-timing-function: ease;
+    animation-duration: 200ms;
+    animation-iteration-count: 1;
 }

@@ -1,4 +1,5 @@
 import {memo} from 'react';
+// import ReactTooltip, { Place } from 'react-tooltip';
 import Tooltip from './Tooltip';
 
 
@@ -32,7 +33,7 @@ const SideBarBtn:React.FC<IProps> = ({
     return (
         <button
             className='flex justify-center items-center
-            rounded-md hover:scale-[1.1] transition p-1 relative'
+            rounded-md hover:scale-[1.1] transition p-1 relative hover:z-10'
             onClick={handleClick}
 
             style={{
@@ -40,26 +41,29 @@ const SideBarBtn:React.FC<IProps> = ({
             }}
 
             data-tip={tooltip}
-            data-for={tooltipId ?? ""}
+            data-for={tooltipId}
+            id={tooltipId}
         >
             <span className='material-icons'
                 style={{
                     color: iconColor,
                     fontSize: '28px'
                 }}
+                
             >
                 {icon}
             </span>
 
-            {
-                tooltip &&
+            {/* {
+                    tooltip &&
 
-                <Tooltip 
-                    tooltipId={tooltipId!}
-                    tooltipPosition={tooltipPosition!}
-                    tooltipTxt={tooltipTxt!}
-                />
-            }
+                    <Tooltip 
+                        tooltipId={tooltipId!}
+                        tooltipPosition={tooltipPosition!}
+                        tooltipTxt={tooltipTxt!}
+                    />
+                }
+           */}
 
         </button>
     );

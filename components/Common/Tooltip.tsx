@@ -1,4 +1,5 @@
 import {memo} from 'react';
+import { createPortal } from 'react-dom';
 import ReactTooltip, { Place } from 'react-tooltip';
 
 interface IProps {
@@ -14,17 +15,17 @@ const Tooltip:React.FC<IProps> = ({
 }) => {
 
 
-
-    return (
-        <ReactTooltip 
-            id={tooltipId}
-            type="dark"
-            place={tooltipPosition as Place}
-            effect="solid"    
-        >
-            {tooltipTxt}
-        </ReactTooltip>
-    )
+    return (    
+            <ReactTooltip 
+                id={tooltipId}
+                type="dark"
+                place={tooltipPosition as Place}
+                effect="solid"  
+                className='tooltipCommon'  
+            >
+                {tooltipTxt}
+            </ReactTooltip>
+    );
 };
 
 export default memo(Tooltip);
