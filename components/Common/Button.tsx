@@ -12,6 +12,8 @@ interface Props {
     height?: string;
     borderRadius?: string;
     onClick:Function;
+    disabled?:boolean;
+    loading?:boolean;
 }
 
 const Button: React.FC<Props> = ({
@@ -26,6 +28,8 @@ const Button: React.FC<Props> = ({
     height,
     onClick,
     borderRadius,
+    disabled,
+    loading,
 }) => {
 
     return (
@@ -38,20 +42,24 @@ const Button: React.FC<Props> = ({
                 height: height ? height : '',
                 backgroundColor: bgColor ? bgColor : '',
                 borderRadius: borderRadius ? borderRadius : '',
+                cursor: disabled ? "not-allowed" : "",
             }}
             onClick={(e) => onClick(e)}
+            disabled={disabled ?? false}
         >
             {/* ICON */}
             {
-                icon &&
+                (icon || loading) ?
                 <div 
                     className={`material-icons 
                         ${iconCss ? iconCss : null}
+                        ${loading ? "rotating" : ""}
                     `}
+                    
                 >
-                    {icon}
+                    {loading ? "loop" : icon}
                 </div>
-            }
+            :null}
 
             {/* TXT */}
             {

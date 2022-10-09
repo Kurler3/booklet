@@ -1,8 +1,27 @@
-import {memo, useState} from 'react';
+import {memo, useCallback, useMemo, useState} from 'react';
+import { ActionMeta, MultiValue } from 'react-select';
+import { InputActionMeta } from 'react-select/dist/declarations/src';
+import Select from 'react-select';
+import Button from '../../Common/Button';
+import { IUserWithoutToken } from '../../../types/userTypes';
+import useAuthStore from '../../../store/authStore';
+import { ISelectOption } from '../../../types/inputTypes';
 
 
 interface IProps {
     handleCloseCreateModal: () => void;
+    handleConfirmCreateNewLibrary: (
+        name:string,
+        admins: ISelectOption[],
+        librarians: ISelectOption[],
+    ) => void;
+}
+
+interface IState {
+    name: string;
+    admins: ISelectOption[];
+    librarians: ISelectOption[];
+    isConfirmCancel: boolean;
 }
 
 //////////////////////////////////
@@ -11,16 +30,86 @@ interface IProps {
 
 const SelectLibraryCreateModal:React.FC<IProps> = ({
     handleCloseCreateModal,
+    handleConfirmCreateNewLibrary,
 }) => {
+    
+    // LOGGED USER AND ALL USERS
+    const {
+        userProfile,
+        allUsers,
+    } = useAuthStore();
 
     //////////////
     // STATE /////
     //////////////
-    const [state, setState] = useState({
+    const [state, setState] = useState<IState>({
         name: '',
         admins: [],
         librarians: [],
+        isConfirmCancel: false,
     });
+
+    ////////////////
+    // MEMO ////////
+    ////////////////
+
+    // SELECTABLE USERS
+    const selectableUsers = useMemo(() => {
+        return allUsers ? 
+            allUsers.filter((user) => {
+
+                const adminIndex = state.admins.findIndex((admin) => admin.value === user.id);
+                const librarianIndex = state.librarians.findIndex((librarian) => librarian.value === user.id);
+
+                return adminIndex === -1 && librarianIndex === -1 && userProfile?.id !== user.id;
+            }).map((user) => {
+                return {
+                    label: user.username,
+                    value: user.id,
+                }
+            })
+        : [];
+    }, [allUsers, state.admins, state.librarians, userProfile?.id]);
+
+
+    // CAN SAVE OR NOT
+    const canSave = useMemo(() => {
+        return state.name!=="";
+    }, [state.name]);
+
+    ////////////////
+    // FUNCTIONS ///
+    ////////////////
+
+    const handleAskConfirmCancel = useCallback(() => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                isConfirmCancel: !prevState.isConfirmCancel,
+            };
+        });
+    }, []);
+
+
+    // HANDLE CHANGE IN INPUTS
+    const handleInputChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                [e.target.name]: e.target.value,
+            }
+        });
+    }, []);
+
+    // HANDLE SELECT CHANGE
+    const handleSelectChange = useCallback((newValue: MultiValue<unknown>, actionMeta: ActionMeta<unknown>) => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                [actionMeta.name as string]: newValue,
+            }
+        });
+    }, []);
 
     //////////////
     // RENDER ////
@@ -28,7 +117,7 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
 
     return (
         <div className="h-full w-full flex justify-center items-center top-0 left-0 bg-[#00000096] fixed"
-            onClick={handleCloseCreateModal}
+            onClick={state.isConfirmCancel ? handleCloseCreateModal : handleAskConfirmCancel}
         >   
 
             {/* INNER CONTAINER */}
@@ -54,7 +143,10 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
                     </div>
                     
                     {/* CLOSE ICON */}
-                    <span className="material-icons cursor-pointer hover:text-red-600 transition">
+                    <span 
+                        className="material-icons cursor-pointer hover:text-red-600 transition"
+                        onClick={handleCloseCreateModal}
+                    >
                         close
                     </span>
                 </div>
@@ -62,7 +154,8 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
 
                 {/* BODY */}
                 <div className="w-full gap-2 p-4 flex-1 flex flex-col justify-start items-start">
-
+                    
+                    {/* NAME */}
                     <span className="text-[18px] font-semibold">Name</span>
                     <input 
                         type="text"
@@ -70,14 +163,69 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
                         name="name"
                         className='focus:outline-none border-2 border-gray-200 w-full rounded-lg p-2'
                         placeholder="Enter a name..."
-
+                        onChange={handleInputChange}
                     />
 
+                    {/* ADMINS */}
+                    <span className="text-[18px] font-semibold mt-3">
+                        Admins <span className='text-[15px] font-medium'>(can be empty)</span>
+                    </span>
+                    <Select
+                        key={`select_library_create_modal_admin_select`}
+                        isMulti={true}
+                        name="admins"
+                        value={state.admins}
+                        onChange={handleSelectChange}
+                        options={selectableUsers}
+                        inputValue={''}
+                        isClearable={true}            
+                        className="w-full" 
+                        placeholder="Select admins..."
+                    />
+
+                    {/* LIBRARIANS */}
+                    <span className="text-[18px] font-semibold mt-3">
+                        Librarians <span className='text-[15px] font-medium'>(can be empty)</span>
+                    </span>
+                    <Select
+                        key={`select_library_create_modal_librarian_select`}
+                        isMulti={true}
+                        name="librarians"
+                        value={state.librarians}
+                        onChange={handleSelectChange}
+                        options={selectableUsers}
+                        inputValue={''}
+                        isClearable={true}            
+                        className="w-full" 
+                        placeholder="Select librarians..."
+                    />
                 </div>
 
                 {/* FOOTER */}
                 <div className="p-3 border-t border-t-gray-200 w-full flex justify-end items-center">
 
+                    {/* CANCEL BTN */}
+                    <Button 
+                        onClick={state.isConfirmCancel ? handleCloseCreateModal : handleAskConfirmCancel}
+                        txt={`${state.isConfirmCancel ? "Are you sure?" : "Cancel"}`}
+                        btnCss={`bg-red-500 text-white p-2 rounded-lg hover:scale-[1.1] transition ${state.isConfirmCancel ? "font-bold" : ""}`}
+                    />
+
+                    {/* CREATE BTN */}
+                    <Button 
+                        onClick={
+                            () => canSave ? handleConfirmCreateNewLibrary(
+                                state.name,
+                                state.admins,
+                                state.librarians,
+                            ) : {}
+                        }
+                        txt="Create" 
+                        btnCss={`bg-green-500 text-white p-2 rounded-lg ml-3 font-bold hover:scale-[1.1] transition
+                            ${!canSave ? "bg-green-300 hover:scale-[1]" : ""} 
+                        `}
+                        disabled={!canSave}
+                    />
                 </div>
             </div>
 

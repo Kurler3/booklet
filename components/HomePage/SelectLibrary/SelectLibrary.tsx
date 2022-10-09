@@ -1,5 +1,7 @@
 import React, {memo, useCallback, useMemo, useState} from 'react';
 import { Circles } from 'react-loader-spinner';
+import useAppStore from '../../../store/appStore';
+import { ISelectOption } from '../../../types/inputTypes';
 import { ILibrary } from '../../../types/libraryTypes';
 import { NORMAL_PURPLE } from '../../../utils/constants';
 import LibraryListContainer from './LibraryListContainer';
@@ -22,6 +24,12 @@ const SelectLibrary:React.FC<IProps> = ({
     enrolledLibraries,
 }) => {
 
+    /////////////////
+    // SET LOADING //
+    /////////////////
+
+    const {setAppLoading} = useAppStore();
+
     ///////////////
     // STATE //////
     ///////////////
@@ -30,6 +38,7 @@ const SelectLibrary:React.FC<IProps> = ({
         selectedLibraries: [],
         searchValue: '',
         isShowCreateModal: false,
+        isLoadingCreate: false,
     });
 
     ///////////////
@@ -74,6 +83,27 @@ const SelectLibrary:React.FC<IProps> = ({
             };
         });
     }, []);
+
+    // HANDLE CREATE LIBRARY
+    const handleConfirmCreateNewLibrary = useCallback((
+        name:string,
+        admins:ISelectOption[],
+        librarians:ISelectOption[],
+    ) => {
+
+        try {
+            // SET APP STORE LOADING TO TRUE
+            setAppLoading(true);
+
+            // SET APP STORE LOADING TO FALSE
+            // setAppLoading(false);
+        } catch (error) {
+            console.log('Error creating library...', error);
+
+            // SET APP STORE LOADING TO FALSE
+            setAppLoading(false);
+        }
+    }, [setAppLoading])
 
     ///////////////
     // MEMO ///////
@@ -129,6 +159,8 @@ const SelectLibrary:React.FC<IProps> = ({
                     (
                         <SelectLibraryCreateModal 
                             handleCloseCreateModal={handleCloseCreateModal}
+                            handleConfirmCreateNewLibrary={handleConfirmCreateNewLibrary}
+                            
                         />
                     )
                 }
