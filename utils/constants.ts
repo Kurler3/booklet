@@ -2,6 +2,8 @@ import {
     AiOutlineMenu
 } from 'react-icons/ai';
 import { toast } from 'react-toastify';
+import { IDefaultLibrary } from '../types/libraryTypes';
+import { IUserWithoutToken } from '../types/userTypes';
 
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -59,3 +61,10 @@ export const TOOLTIP_POSITION = {
     LEFT: 'left',
     RIGHT: 'right',
 }
+
+// DEFUALT LIBRARY OBJECT
+export const DEFAULT_LIBRARY_OBJECT= {
+    name: '',
+    admins: [],
+    librarians: [],
+} as IDefaultLibrary;

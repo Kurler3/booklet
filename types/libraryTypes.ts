@@ -19,3 +19,17 @@ export interface ILibrary {
     librarians: IUserWithoutToken[];
     books: IBook[];
 }
+
+// LIBRARY INPUT
+export interface LibraryInput {
+    userId: string|number;
+    name: string;
+    admins: number[]|string[];
+    librarians: number[]|string[];
+}
+
+export interface IDefaultLibrary {
+    name: string;
+    admins: {value:string, label: string}[];
+    librarians: {value:string, label: string}[];
+}

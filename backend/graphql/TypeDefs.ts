@@ -52,6 +52,14 @@ const typeDefs = gql`
         email: String!
     }
 
+    # LIBRARY INPUT
+    input LibraryInput {
+        userId: ID!
+        name: String!
+        admins: [ID!]!
+        librarians: [ID!]!
+    }
+
     # QUERIES
     type Query {
         # GET ALL USERS QUERY
@@ -68,6 +76,8 @@ const typeDefs = gql`
         # LOGIN USER
         loginUser(username: String!, password: String!): User!
 
+        # CREATE LIBRARY
+        createLibrary(libraryInput: LibraryInput): Library!
     }
 `;
 

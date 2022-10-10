@@ -45,3 +45,29 @@ export const LOGIN_USER = gql`
         }
     }
 `
+
+// CREATE LIBRARY
+export const CREATE_LIBRARY = gql`
+    mutation CreateLibrary(
+        $userId: ID!
+        $name: String!
+        $admins: [ID!]!
+        $librarians: [ID!]!
+    ) {
+        createLibrary(
+            libraryInput: {
+                userId: $userId
+                name: $name
+                admins: $admins
+                librarians: $librarians
+            }
+        ) {
+            id
+            name
+            admins
+            librarians
+            books
+            createdAt
+        }
+    }
+`;

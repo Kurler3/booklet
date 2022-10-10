@@ -8,6 +8,7 @@ export interface RegisterInput {
 }
 
 export interface IUserWithoutToken {
+    value: string;
     id: string;
     username: string;
     email: string;

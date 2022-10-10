@@ -1,28 +1,18 @@
 import {memo, useCallback, useMemo, useState} from 'react';
 import { ActionMeta, MultiValue } from 'react-select';
-import { InputActionMeta } from 'react-select/dist/declarations/src';
 import Select from 'react-select';
 import Button from '../../Common/Button';
-import { IUserWithoutToken } from '../../../types/userTypes';
 import useAuthStore from '../../../store/authStore';
-import { ISelectOption } from '../../../types/inputTypes';
+import { IDefaultLibrary } from '../../../types/libraryTypes';
 
 
 interface IProps {
     handleCloseCreateModal: () => void;
-    handleConfirmCreateNewLibrary: (
-        name:string,
-        admins: ISelectOption[],
-        librarians: ISelectOption[],
-    ) => void;
-}
-
-interface IState {
-    name: string;
-    admins: ISelectOption[];
-    librarians: ISelectOption[];
-    isConfirmCancel: boolean;
-}
+    handleConfirmCreateNewLibrary: () => void;
+    newLibrary: IDefaultLibrary;
+    handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleSelectChange: (newValue: MultiValue<unknown>, actionMeta: ActionMeta<unknown>) => void;
+};
 
 //////////////////////////////////
 // SELECT LIBRARY CREATE MODAL ///
@@ -31,6 +21,9 @@ interface IState {
 const SelectLibraryCreateModal:React.FC<IProps> = ({
     handleCloseCreateModal,
     handleConfirmCreateNewLibrary,
+    newLibrary,
+    handleInputChange,
+    handleSelectChange,
 }) => {
     
     // LOGGED USER AND ALL USERS
@@ -42,10 +35,7 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
     //////////////
     // STATE /////
     //////////////
-    const [state, setState] = useState<IState>({
-        name: '',
-        admins: [],
-        librarians: [],
+    const [state, setState] = useState({
         isConfirmCancel: false,
     });
 
@@ -58,8 +48,8 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
         return allUsers ? 
             allUsers.filter((user) => {
 
-                const adminIndex = state.admins.findIndex((admin) => admin.value === user.id);
-                const librarianIndex = state.librarians.findIndex((librarian) => librarian.value === user.id);
+                const adminIndex = newLibrary.admins.findIndex((admin) => admin.value === user.id);
+                const librarianIndex = newLibrary.librarians.findIndex((librarian) => librarian.value === user.id);
 
                 return adminIndex === -1 && librarianIndex === -1 && userProfile?.id !== user.id;
             }).map((user) => {
@@ -69,13 +59,13 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
                 }
             })
         : [];
-    }, [allUsers, state.admins, state.librarians, userProfile?.id]);
+    }, [allUsers, newLibrary.admins, newLibrary.librarians, userProfile?.id]);
 
 
     // CAN SAVE OR NOT
     const canSave = useMemo(() => {
-        return state.name!=="";
-    }, [state.name]);
+        return newLibrary.name!=="";
+    }, [newLibrary.name]);
 
     ////////////////
     // FUNCTIONS ///
@@ -90,26 +80,6 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
         });
     }, []);
 
-
-    // HANDLE CHANGE IN INPUTS
-    const handleInputChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
-        setState((prevState) => {
-            return {
-                ...prevState,
-                [e.target.name]: e.target.value,
-            }
-        });
-    }, []);
-
-    // HANDLE SELECT CHANGE
-    const handleSelectChange = useCallback((newValue: MultiValue<unknown>, actionMeta: ActionMeta<unknown>) => {
-        setState((prevState) => {
-            return {
-                ...prevState,
-                [actionMeta.name as string]: newValue,
-            }
-        });
-    }, []);
 
     //////////////
     // RENDER ////
@@ -159,7 +129,7 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
                     <span className="text-[18px] font-semibold">Name</span>
                     <input 
                         type="text"
-                        value={state.name}
+                        value={newLibrary.name}
                         name="name"
                         className='focus:outline-none border-2 border-gray-200 w-full rounded-lg p-2'
                         placeholder="Enter a name..."
@@ -174,7 +144,7 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
                         key={`select_library_create_modal_admin_select`}
                         isMulti={true}
                         name="admins"
-                        value={state.admins}
+                        value={newLibrary.admins}
                         onChange={handleSelectChange}
                         options={selectableUsers}
                         inputValue={''}
@@ -191,7 +161,7 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
                         key={`select_library_create_modal_librarian_select`}
                         isMulti={true}
                         name="librarians"
-                        value={state.librarians}
+                        value={newLibrary.librarians}
                         onChange={handleSelectChange}
                         options={selectableUsers}
                         inputValue={''}
@@ -214,11 +184,7 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
                     {/* CREATE BTN */}
                     <Button 
                         onClick={
-                            () => canSave ? handleConfirmCreateNewLibrary(
-                                state.name,
-                                state.admins,
-                                state.librarians,
-                            ) : {}
+                            () => canSave ? handleConfirmCreateNewLibrary() : {}
                         }
                         txt="Create" 
                         btnCss={`bg-green-500 text-white p-2 rounded-lg ml-3 font-bold hover:scale-[1.1] transition

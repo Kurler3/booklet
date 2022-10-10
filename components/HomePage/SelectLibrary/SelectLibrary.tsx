@@ -1,9 +1,15 @@
+import { useMutation } from '@apollo/client';
 import React, {memo, useCallback, useMemo, useState} from 'react';
 import { Circles } from 'react-loader-spinner';
+import { ActionMeta, MultiValue } from 'react-select';
+import { CREATE_LIBRARY } from '../../../graphql/users/mutations';
 import useAppStore from '../../../store/appStore';
+import useAuthStore from '../../../store/authStore';
+import useMainStore from '../../../store/mainStore';
 import { ISelectOption } from '../../../types/inputTypes';
 import { ILibrary } from '../../../types/libraryTypes';
-import { NORMAL_PURPLE } from '../../../utils/constants';
+import { DEFAULT_LIBRARY_OBJECT, NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../../utils/constants';
+import { showToast } from '../../../utils/functions';
 import LibraryListContainer from './LibraryListContainer';
 import SelectLibraryCreateModal from './SelectLibraryCreateModal';
 import SelectLibrarySideBar from './SelectLibrarySideBar';
@@ -29,6 +35,8 @@ const SelectLibrary:React.FC<IProps> = ({
     /////////////////
 
     const {setAppLoading} = useAppStore();
+    const {userProfile, allUsers} = useAuthStore();
+    const {addLibrary} = useMainStore();
 
     ///////////////
     // STATE //////
@@ -39,7 +47,55 @@ const SelectLibrary:React.FC<IProps> = ({
         searchValue: '',
         isShowCreateModal: false,
         isLoadingCreate: false,
+        newLibrary: DEFAULT_LIBRARY_OBJECT,
     });
+ 
+    ////////////////
+    // MUTATION ////
+    ////////////////
+
+    const [createLibraryMutation, {}] = useMutation(
+        // CREATE LIBRARY MUTATION
+        CREATE_LIBRARY,
+        // OPTIONS
+        {
+            update(proxy, result) {
+
+                // SHOW TOAST
+                showToast(
+                    TOAST_TYPE_OPTIONS.success,
+                    "Library created!",
+                );
+
+                // ADD LIBRARY
+                addLibrary(result.data.createLibrary);
+            },
+            onError(err) {
+                // HANDLE ERRORS
+                console.log('Error creating library...', err);
+
+                showToast(
+                    TOAST_TYPE_OPTIONS.error,
+                    "Error creating library...",
+                );
+            },
+            variables: {
+                userId: userProfile?.id,
+                name: state.newLibrary.name,
+                admins: [
+                    userProfile?.id,
+                    ...state.newLibrary.admins.map((adminObj) => {
+                        return adminObj.value;
+                    }),
+                ],
+                librarians: [
+                    ...state.newLibrary.librarians.map((librarianObj) => {
+                        return librarianObj.value;
+                    }),
+                ]
+            }
+        }
+    ); 
 
     ///////////////
     // FUNCTIONS //
@@ -74,36 +130,62 @@ const SelectLibrary:React.FC<IProps> = ({
     const handleSelectLibrary = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {}, []);
 
 
+    ////////////////////////////
+    // CREATE LIBRARY MODAL ////
+    ////////////////////////////
+
+    // HANDLE INPUT TEXT CHANGE
+    const handleCreateModalInputChange = useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                newLibrary: {
+                    ...prevState.newLibrary,
+                    [e.target.name]: e.target.value,
+                },
+            };
+        });
+    }, []);
+
+    // HANDLE SELECT CHANGE
+    const handleSelectChange = useCallback((newValue: MultiValue<unknown>, actionMeta: ActionMeta<unknown>) => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                [actionMeta.name as string]: newValue,
+            };
+        });
+    }, []);
+
     // HANDLE CLOSE CREATE MODAL
     const handleCloseCreateModal = useCallback(() => {
         setState((prevState) => {
             return {
                 ...prevState,
                 isShowCreateModal: false,
+                newLibrary: DEFAULT_LIBRARY_OBJECT,
             };
         });
     }, []);
 
     // HANDLE CREATE LIBRARY
-    const handleConfirmCreateNewLibrary = useCallback((
-        name:string,
-        admins:ISelectOption[],
-        librarians:ISelectOption[],
-    ) => {
+    const handleConfirmCreateNewLibrary = useCallback(async () => {
 
         try {
             // SET APP STORE LOADING TO TRUE
             setAppLoading(true);
 
+            await createLibraryMutation();
+
             // SET APP STORE LOADING TO FALSE
-            // setAppLoading(false);
+            setAppLoading(false);
         } catch (error) {
             console.log('Error creating library...', error);
 
             // SET APP STORE LOADING TO FALSE
             setAppLoading(false);
         }
-    }, [setAppLoading])
+    }, [createLibraryMutation, setAppLoading])
 
     ///////////////
     // MEMO ///////
@@ -160,7 +242,9 @@ const SelectLibrary:React.FC<IProps> = ({
                         <SelectLibraryCreateModal 
                             handleCloseCreateModal={handleCloseCreateModal}
                             handleConfirmCreateNewLibrary={handleConfirmCreateNewLibrary}
-                            
+                            newLibrary={state.newLibrary}
+                            handleInputChange={handleCreateModalInputChange}
+                            handleSelectChange={handleSelectChange}
                         />
                     )
                 }

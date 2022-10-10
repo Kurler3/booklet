@@ -12,6 +12,7 @@ const allResolvers = {
     // MUTATIONS
     Mutation: {
         ...userResolver.Mutation,
+        ...libraryResolver.Mutation,
     },
 };
 
