@@ -37,7 +37,7 @@ const SelectLibrary:React.FC<IProps> = ({
     const {setAppLoading} = useAppStore();
     const {userProfile, allUsers} = useAuthStore();
     const {addLibrary} = useMainStore();
-
+    
     ///////////////
     // STATE //////
     ///////////////
@@ -69,6 +69,16 @@ const SelectLibrary:React.FC<IProps> = ({
 
                 // ADD LIBRARY
                 addLibrary(result.data.createLibrary);
+
+
+                // SET NEW STATE
+                setState(prevState => {
+                    return {
+                        ...prevState,
+                        isShowCreateModal: false,
+                        newLibrary: DEFAULT_LIBRARY_OBJECT,
+                    }
+                })
             },
             onError(err) {
                 // HANDLE ERRORS

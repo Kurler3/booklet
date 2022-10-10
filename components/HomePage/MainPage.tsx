@@ -30,7 +30,7 @@ const MainPage:React.FC<IProps> = ({
 
     // FETCH ENROLLED LIBRARIES IF HASN'T YET
     useEffect(() => {
-        if(!enrolledLibraries) {
+        if(enrolledLibraries === null) {
             fetchEnrolledLibraries(userProfile);    
         }
     }, [allUsers, enrolledLibraries, fetchEnrolledLibraries, userProfile]);

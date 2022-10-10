@@ -115,7 +115,7 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
                     {/* CLOSE ICON */}
                     <span 
                         className="material-icons cursor-pointer hover:text-red-600 transition"
-                        onClick={handleCloseCreateModal}
+                        onClick={state.isConfirmCancel ? handleCloseCreateModal : handleAskConfirmCancel}
                     >
                         close
                     </span>

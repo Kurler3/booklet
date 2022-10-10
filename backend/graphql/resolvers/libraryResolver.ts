@@ -1,86 +1,69 @@
-import { LibraryInput } from '../../../types/libraryTypes';
-import LibraryModel from '../../mongodb/models/Library';
-import UserModel from '../../mongodb/models/User';
-
-
+import { LibraryInput } from "../../../types/libraryTypes";
+import LibraryModel from "../../mongodb/models/Library";
+import UserModel from "../../mongodb/models/User";
 
 const libraryResolver = {
+  // QUERIES
+  Query: {
+    getEnrolledLibraries: async (
+      _: null,
+      args: { userId: string | number }
+    ) => {
+      const { userId } = args;
 
-    // QUERIES
-    Query: {
-        getEnrolledLibraries: async (_:null, args: {libraryIds: string|number[]}) => {
-            const {libraryIds} = args;
+      try {
 
-            try {
-                
-                const enrolledLibraries = await LibraryModel.find({
-                    "_id": {
-                        $in: libraryIds
-                    }
-                });
+        const userInDb = await UserModel.findById(userId);
 
-                return enrolledLibraries;
+        const enrolledLibraries = await LibraryModel.find({
+          _id: {
+            $in: userInDb.librariesEnrolled,
+          },
+        });
 
-            } catch (error) {
-                return error;
-            }
-        }
+        return enrolledLibraries;
+      } catch (error) {
+        return error;
+      }
     },
+  },
 
-    // MUTATIONS
-    Mutation: {
+  // MUTATIONS
+  Mutation: {
+    // CREATE LIBRARY
+    createLibrary: async (_: null, args: { libraryInput: LibraryInput }) => {
+      
+        // DECONSTRUCT
+        const { userId, name, admins, librarians } = args.libraryInput;
 
-        // CREATE LIBRARY
-        createLibrary: async (_:null, args: {libraryInput: LibraryInput}) => {
+        // CREATE NEW LIBRARY FROM MODEL
+        const newLibrary = new LibraryModel({
+          name,
+          admins,
+          librarians,
+          books: [],
+          createdAt: new Date().toISOString(),
+        });
 
-            // DECONSTRUCT 
-            const {
-                userId,
-                name,
-                admins,
-                librarians
-            } = args.libraryInput;
+        // SAVE
+        const result = await newLibrary.save();
 
+        // GET USER IN DB
+        const userInDb = await UserModel.findById(userId);
 
-            // CREATE NEW LIBRARY FROM MODEL
-            const newLibrary = new LibraryModel({
-                name,
-                admins,
-                librarians,
-                books: [],
-                createdAt: new Date().toISOString(),
-            });
-            
-            // SAVE
-            const result = await newLibrary.save();
+        // ADD LIBRARY ID TO USERS ENROLLED LIBRARIES
+        userInDb.librariesEnrolled.push(result._id);
 
-            // // UPDATE USER ENROLLED LIBRARIES ARRAY
-            // const userInDb = await UserModel.findById(userId);
-            // console.log('Enrolled: ', userInDb)
-            // userInDb.enrolledLibraries = [
-            //     result._id,
-            //     ...userInDb.enrolledLibraries,
-            // ];
+        // SAVE CHANGES
+        userInDb.save();
 
-            // await userInDb.save();
-
-            await UserModel.updateOne(
-                {_id: userId},
-                {
-                    $push: {
-                        "user.enrolledLibraries": result._id
-                    }
-                }
-            )
-
-            // RETURN
-            return {
-                ...result._doc,
-                id: result._id,
-            };
-        },
-
-    }
+        // RETURN
+        return {
+          ...result._doc,
+          id: result._id,
+        };
+    },
+  },
 };
 
 export default libraryResolver;

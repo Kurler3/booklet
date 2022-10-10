@@ -61,7 +61,7 @@ const userResolver = {
                 const error = userInDb.email === email ? {email: 'This email is already taken'} : {username: "This username is taken"};
 
                 throw new UserInputError('Username or email is already taken', {
-                    errors: errors,
+                    errors: error,
                 });
             }
             
@@ -81,7 +81,7 @@ const userResolver = {
             const result = await newUser.save();
 
             // CREATE JWT TOKEN
-            const token = generateToken(result._doc);
+            const token = generateToken({...result._doc, id: result._id});
 
             return {
                 ...result._doc,
@@ -122,7 +122,7 @@ const userResolver = {
             }
 
             // CREATE JWT TOKEN
-            const token = generateToken(user);
+            const token = generateToken({...user, id: user._id});
 
             // RETURN
             return {

@@ -50,13 +50,14 @@ const mainStore = (set: any):IMainStore => ({
         set({loading: true});
 
         try {
-                // FETCH LIBRARIES THAT THIS USER IS ENROLLED IN
+           
+            // FETCH LIBRARIES THAT THIS USER IS ENROLLED IN
             const {data} = await client.query({
                 // QUERY
                 query: getEnrolledLibrariesQuery,
                 // VARIABLES
                 variables: {
-                    libraryIds: loggedUser.librariesEnrolled,
+                    userId: loggedUser.id,
                 }
             });
     

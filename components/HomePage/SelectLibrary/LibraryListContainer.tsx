@@ -1,5 +1,6 @@
 import {memo} from 'react';
 import { ILibrary } from '../../../types/libraryTypes';
+import Button from '../../Common/Button';
 
 interface IProps {
     enrolledLibraries: ILibrary[];
@@ -20,16 +21,27 @@ const LibraryListContainer:React.FC<IProps> = ({
 }) => {
 
     return (
-        <div className='flex-1 flex flex-col justify-start items-start h-full border border-gray-400 rounded-lg shadow-lg bg-gray-200 p-3'>
+        <div className='flex-1 flex flex-col justify-start items-start h-full border border-gray-400 rounded-lg shadow-lg bg-gray-200'>
             
             {/* SEARCH BAR */}
-            <input 
-                type="search"
-                className="w-full focus:outline-none p-2 rounded-lg shadow-md"
-                placeholder="Search for a library name..."
-                value={searchValue}
-                onChange={handleSearchValueChange}
-            />
+
+            <div className='p-4 flex w-full justify-start items-center border-b border-b-gray-400'>
+
+                <Button 
+                    onClick={() => {}}
+                    btnCss="w-[20px] h-[20px] bg-gray-300 hover:bg-blue-400 transition hover:scale-[1.1] shadow-lg mr-2 rounded-md"
+                />
+
+                <input 
+                    type="search"
+                    className="flex-1 focus:outline-none p-2 rounded-lg shadow-md"
+                    placeholder="Search for a library name..."
+                    value={searchValue}
+                    onChange={handleSearchValueChange}
+                />
+            </div>
+
+            
 
             {/* LIST CONTAINER */}
             {

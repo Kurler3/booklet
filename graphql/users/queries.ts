@@ -16,10 +16,10 @@ export const getAllUsersQuery = gql`
 // GET ENROLLED LIBRARIES
 export const getEnrolledLibrariesQuery = gql`
     query getEnrolledLibraries(
-        $libraryIds: [ID]
+        $userId: ID
     ) {
         getEnrolledLibraries(
-            libraryIds: $libraryIds
+            userId: $userId
         ) {
             id
             name
