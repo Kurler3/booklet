@@ -13,6 +13,7 @@ import { showToast } from '../../../utils/functions';
 import LibraryListContainer from './LibraryListContainer';
 import SelectLibraryCreateModal from './SelectLibraryCreateModal';
 import SelectLibrarySideBar from './SelectLibrarySideBar';
+import lodash from 'lodash';
 
 
 
@@ -220,7 +221,7 @@ const SelectLibrary:React.FC<IProps> = ({
 
         setState((prevState) => {
 
-            let newSelected = prevState.selectedLibraries;
+            let newSelected =  lodash.cloneDeep(prevState.selectedLibraries);
 
             // IF CLICKING IN TOP MOST SELECTED THING
             if(!library) {
@@ -231,7 +232,7 @@ const SelectLibrary:React.FC<IProps> = ({
             else {
                 // TRY TO FIND INDEX
                 const findIndex =  newSelected.findIndex((selected) => selected.id === library.id);
-                console.log("Index:", findIndex)
+                
                 // IF WAS FOUND, THEN REMOVE
                 if(findIndex > -1) {
                     newSelected.splice(findIndex, 1);
@@ -250,7 +251,7 @@ const SelectLibrary:React.FC<IProps> = ({
         })
 
     }, [filteredEnrolledLibraries]);
-    console.log('Selected: ', state.selectedLibraries)
+
     ///////////////
     // RENDER /////
     ///////////////
