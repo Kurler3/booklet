@@ -32,7 +32,7 @@ const SideBarBtn:React.FC<IProps> = ({
 
     return (
         <button
-            className='flex justify-center items-center
+            className='flex justify-center items-center opacityIn
             rounded-md hover:scale-[1.1] transition p-1 relative hover:z-10'
             onClick={handleClick}
 

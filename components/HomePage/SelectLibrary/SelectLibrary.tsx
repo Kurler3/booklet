@@ -114,6 +114,13 @@ const SelectLibrary:React.FC<IProps> = ({
         }
     ); 
 
+    const [deleteLibrariesMutation, {}] = useMutation(
+        // DELETE LIBRARIES MUTATION
+
+        // OPTIONS
+        
+    );
+
     ///////////////
     // FUNCTIONS //
     ///////////////
@@ -140,7 +147,17 @@ const SelectLibrary:React.FC<IProps> = ({
 
     //TODO HANDLE DELETE SELECTED LIBRARIES
     const handleDeleteLibrariesClick = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
+        try {
+        // SET APP STORE LOADING TO TRUE
+        setAppLoading(true);
 
+
+
+        } catch (error) {
+            console.log('Error while deleting libraries...', error);
+            // SET APP STORE LOADING TO TRUE
+            setAppLoading(false);
+        }
     }, []);
 
     //TODO HANDEL SELECT LIBRARY
@@ -289,6 +306,7 @@ const SelectLibrary:React.FC<IProps> = ({
                    handleCreateLibraryClick={handleCreateLibraryClick}
                    handleDeleteLibrariesClick={handleDeleteLibrariesClick}
                    handleSelectLibrary={handleSelectLibrary}
+                   loggedUserId={userProfile?.id!}
                 />
 
                 {/* CREATE MODAL */}

@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useMemo} from 'react';
 import { ILibrary } from '../../../types/libraryTypes';
 import { BTN_BLUE, COLOR_GOOD, TOOLTIP_POSITION } from '../../../utils/constants';
 import SideBarBtn from '../../Common/SideBarBtn';
@@ -8,6 +8,7 @@ interface IProps {
     handleCreateLibraryClick: (e:React.MouseEvent<HTMLButtonElement>) => void;
     handleDeleteLibrariesClick: (e:React.MouseEvent<HTMLButtonElement>) => void;
     handleSelectLibrary: (e:React.MouseEvent<HTMLButtonElement>) => void;
+    loggedUserId: string;
 }
 
 //////////////////////////////
@@ -19,7 +20,20 @@ const SelectLibrarySideBar:React.FC<IProps> = ({
     handleDeleteLibrariesClick,
     handleSelectLibrary,
     selectedLibraries,
+    loggedUserId,
 }) => {
+
+    const canDelete = useMemo(() => {
+        if(selectedLibraries.length === 0) return false;
+
+        for(let library of selectedLibraries) {
+            if(library.admins.findIndex((userId) => userId === loggedUserId) === -1) {
+                return false;
+            }
+        }
+
+        return true;
+    }, [loggedUserId, selectedLibraries]);
 
 
     return (
@@ -40,28 +54,37 @@ const SelectLibrarySideBar:React.FC<IProps> = ({
             />
 
             {/* DELETE BTN */}
-            <SideBarBtn 
-                icon="delete"
-                iconColor="white"
-                bgColor='red'
-                handleClick={handleDeleteLibrariesClick}
-                tooltip={true}
-                tooltipId="select_library_delete_btn"
-                tooltipPosition={TOOLTIP_POSITION.BOTTOM}
-                tooltipTxt="Delete selected libraries"
-            />
+            {
+                selectedLibraries.length > 0 && canDelete && 
+                <SideBarBtn 
+                    icon="delete"
+                    iconColor="white"
+                    bgColor='red'
+                    handleClick={handleDeleteLibrariesClick}
+                    tooltip={true}
+                    tooltipId="select_library_delete_btn"
+                    tooltipPosition={TOOLTIP_POSITION.BOTTOM}
+                    tooltipTxt="Delete selected libraries"
+                />
+            }
+            
 
             {/* SELECT BTN */}
-            <SideBarBtn 
-                icon="check"
-                iconColor="white"
-                bgColor={COLOR_GOOD}
-                handleClick={handleSelectLibrary}
-                tooltip={true}
-                tooltipId="select_library_select_btn"
-                tooltipPosition={TOOLTIP_POSITION.BOTTOM}
-                tooltipTxt="Select library"
-            />
+            {
+                selectedLibraries.length === 1 &&
+
+                <SideBarBtn 
+                    icon="check"
+                    iconColor="white"
+                    bgColor={COLOR_GOOD}
+                    handleClick={handleSelectLibrary}
+                    tooltip={true}
+                    tooltipId="select_library_select_btn"
+                    tooltipPosition={TOOLTIP_POSITION.BOTTOM}
+                    tooltipTxt="Select library"
+                />
+            }
+            
         </div>
     );
 };
