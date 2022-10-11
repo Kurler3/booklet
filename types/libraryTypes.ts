@@ -5,9 +5,9 @@ export interface IBook {
     title: string;
     description: string;
     issuedAt: string | null;
-    issuedBy: IUserWithoutToken | null;
-    issuedTo: IUserWithoutToken | null; 
-    addedBy: IUserWithoutToken;
+    issuedBy: string | null;
+    issuedTo: string | null; 
+    addedBy: string;
     addedAt: string;
     returnedAt: string | null;
 }
@@ -15,8 +15,8 @@ export interface IBook {
 export interface ILibrary {
     id: string|number;
     name: string;
-    admins: IUserWithoutToken[];
-    librarians: IUserWithoutToken[];
+    admins: string[];
+    librarians: string[];
     books: IBook[];
 }
 

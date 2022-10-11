@@ -7,7 +7,7 @@ import useAppStore from '../../../store/appStore';
 import useAuthStore from '../../../store/authStore';
 import useMainStore from '../../../store/mainStore';
 import { ISelectOption } from '../../../types/inputTypes';
-import { ILibrary } from '../../../types/libraryTypes';
+import { IDefaultLibrary, ILibrary } from '../../../types/libraryTypes';
 import { DEFAULT_LIBRARY_OBJECT, NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../../utils/constants';
 import { showToast } from '../../../utils/functions';
 import LibraryListContainer from './LibraryListContainer';
@@ -20,7 +20,13 @@ interface IProps {
     loading: boolean;
     enrolledLibraries: null | ILibrary[];
 }
-
+interface IState {
+    selectedLibraries: ILibrary[];
+    searchValue:string;
+    isShowCreateModal:boolean;
+    isLoadingCreate:boolean;
+    newLibrary: IDefaultLibrary;
+}
 /////////////////////
 // SELECT LIBRARY ///
 /////////////////////
@@ -42,7 +48,7 @@ const SelectLibrary:React.FC<IProps> = ({
     // STATE //////
     ///////////////
 
-    const [state, setState] = useState({
+    const [state, setState] = useState<IState>({
         selectedLibraries: [],
         searchValue: '',
         isShowCreateModal: false,
@@ -208,6 +214,43 @@ const SelectLibrary:React.FC<IProps> = ({
         else return [];
     }, [enrolledLibraries, state.searchValue]);
 
+
+    // HANDLE CLICK LIBRARY CHECKBOX
+    const handleClickLibraryCheckbox = useCallback((library?: ILibrary) => {
+
+        setState((prevState) => {
+
+            let newSelected = prevState.selectedLibraries;
+
+            // IF CLICKING IN TOP MOST SELECTED THING
+            if(!library) {
+                if(newSelected.length > 0) newSelected = [];
+                else newSelected = filteredEnrolledLibraries;
+            }
+            // ELSE IF LIBRARY WAS PROVIDED
+            else {
+                // TRY TO FIND INDEX
+                const findIndex =  newSelected.findIndex((selected) => selected.id === library.id);
+                console.log("Index:", findIndex)
+                // IF WAS FOUND, THEN REMOVE
+                if(findIndex > -1) {
+                    newSelected.splice(findIndex, 1);
+                }   
+                // ELSE ADD
+                else {
+                    newSelected.push(library);
+                }
+            }
+
+
+            return {
+                ...prevState,
+                selectedLibraries: newSelected,
+            }
+        })
+
+    }, [filteredEnrolledLibraries]);
+    console.log('Selected: ', state.selectedLibraries)
     ///////////////
     // RENDER /////
     ///////////////
@@ -235,6 +278,8 @@ const SelectLibrary:React.FC<IProps> = ({
                     selectedLibraries={state.selectedLibraries}
                     handleSearchValueChange={handleSearchValueChange}
                     searchValue={state.searchValue}
+                    loggedUserId={userProfile?.id!}
+                    handleClickLibraryCheckbox={handleClickLibraryCheckbox}
                 />
                 
                 
