@@ -71,3 +71,16 @@ export const CREATE_LIBRARY = gql`
         }
     }
 `;
+
+// DELETE LIBRARIES
+export const DELETE_LIBRARIES = gql`
+    mutation DeleteLibraries (
+        $libraryIds: [ID!]
+    ) {
+        deleteLibraries(
+            libraryIds: $libraryIds
+        ) {
+            id
+        }
+    }
+`;

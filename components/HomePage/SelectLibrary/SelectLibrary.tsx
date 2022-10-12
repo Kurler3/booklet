@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client';
 import React, {memo, useCallback, useMemo, useState} from 'react';
 import { Circles } from 'react-loader-spinner';
 import { ActionMeta, MultiValue } from 'react-select';
-import { CREATE_LIBRARY } from '../../../graphql/users/mutations';
+import { CREATE_LIBRARY, DELETE_LIBRARIES } from '../../../graphql/users/mutations';
 import useAppStore from '../../../store/appStore';
 import useAuthStore from '../../../store/authStore';
 import useMainStore from '../../../store/mainStore';
@@ -43,7 +43,7 @@ const SelectLibrary:React.FC<IProps> = ({
 
     const {setAppLoading} = useAppStore();
     const {userProfile, allUsers} = useAuthStore();
-    const {addLibrary} = useMainStore();
+    const {addLibrary, removeLibraries} = useMainStore();
     
     ///////////////
     // STATE //////
@@ -116,9 +116,43 @@ const SelectLibrary:React.FC<IProps> = ({
 
     const [deleteLibrariesMutation, {}] = useMutation(
         // DELETE LIBRARIES MUTATION
-
+        DELETE_LIBRARIES,
         // OPTIONS
-        
+        {
+            update(proxy, result) {
+                
+                // SHOW TOAST
+                showToast(
+                    TOAST_TYPE_OPTIONS.success,
+                    "Libraries deleted!",
+                );
+
+                // DELETE LIBRARY FROM ENROLLED STATE
+                removeLibraries(
+                    state.selectedLibraries.map((library) => library.id),
+                );
+
+                // SET LOCAL STATE
+                setState((prevState) => {
+                    return {
+                        ...prevState,
+                        selectedLibraries: [],
+                    };
+                });
+            },
+            // ON ERROR
+            onError(err) {
+                console.log('Error deleting libraries...', err);
+
+                showToast(
+                    TOAST_TYPE_OPTIONS.error,
+                    "Error deleting libraries...",
+                );
+            },
+            variables: {
+                libraryIds: state.selectedLibraries.map((library) => library.id),
+            },
+        }
     );
 
     ///////////////
@@ -145,20 +179,22 @@ const SelectLibrary:React.FC<IProps> = ({
         });
     }, []);
 
-    //TODO HANDLE DELETE SELECTED LIBRARIES
-    const handleDeleteLibrariesClick = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
+    // HANDLE DELETE SELECTED LIBRARIES
+    const handleDeleteLibrariesClick = useCallback(async(e:React.MouseEvent<HTMLButtonElement>) => {
         try {
-        // SET APP STORE LOADING TO TRUE
-        setAppLoading(true);
+            // SET APP STORE LOADING TO TRUE
+            setAppLoading(true);
 
+            // CALL DELETE MUTATION
+            await deleteLibrariesMutation();
 
-
+            setAppLoading(false);
         } catch (error) {
             console.log('Error while deleting libraries...', error);
             // SET APP STORE LOADING TO TRUE
             setAppLoading(false);
         }
-    }, []);
+    }, [deleteLibrariesMutation, setAppLoading]);
 
     //TODO HANDEL SELECT LIBRARY
     const handleSelectLibrary = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {}, []);

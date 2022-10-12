@@ -1,3 +1,4 @@
+import _ from "lodash";
 import create from "zustand";
 import { getEnrolledLibrariesQuery } from "../graphql/users/queries";
 import { ILibrary } from "../types/libraryTypes";
@@ -28,6 +29,9 @@ interface IMainStore {
 
     // LOADING
     loading: boolean;
+
+    // REMOVE LIBRARIES
+    removeLibraries: any;
 }
 
 // STORE
@@ -83,6 +87,16 @@ const mainStore = (set: any):IMainStore => ({
     addLibrary: (newLibrary: ILibrary) => {
         set((state:IMainStore) => ({...state, enrolledLibraries: [newLibrary, ...state.enrolledLibraries!]}));
     },
+
+    // REMOVE LIBRARY
+    removeLibraries: (libraryIds: string[]) => {
+        let newEnrolled = _.cloneDeep(set.enrolledLibraries);
+
+        // FILTER OUT
+        newEnrolled = newEnrolled.filter((library:ILibrary) => !libraryIds.includes(library.id as string));
+
+        set({enrolledLibraries: newEnrolled});
+    }
 });
 
 const useMainStore = create(mainStore);

@@ -57,12 +57,47 @@ const libraryResolver = {
         // SAVE CHANGES
         userInDb.save();
 
+        // DO THE SAME FOR EACH OF THE USERS INSIDE ADMINS/LIBRARIANS
+        for(let adminId of newLibrary.admins) {
+          if(adminId !== userId) {
+            const adminInDb = await UserModel.findById(adminId);
+            adminInDb.librariesEnrolled.push(result._id);
+          }
+        }
+
+        // LIBRARIANS
+        for(let librarianId of newLibrary.librarians) {
+          if(librarianId!==userId) {
+            const librarianInDb = await UserModel.findById(librarianId)
+            librarianInDb.librariesEnrolled.push(result._id);
+          }
+        }
+
         // RETURN
         return {
           ...result._doc,
           id: result._id,
         };
     },
+
+    // DELETE LIBRARIES
+    deleteLibraries: async (_:null, args: {libraryIds: string[]}) => {
+
+      try {
+        const {libraryIds} = args;
+
+        // FOR EACH OF THE LIBRARIES, NEED TO REMOVE THE LIBRARY FROM THE USERS ENROLLED.
+
+        // DELETE ALL LIBRARIES WITH THOSE IDS
+        await LibraryModel.deleteMany({_id: {$in: libraryIds}});
+        
+        return true;   
+
+      } catch (error) {
+        console.log('Error deleting libraries...');
+        return false;
+      }
+    }
   },
 };
 
