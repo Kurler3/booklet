@@ -79,8 +79,6 @@ export const DELETE_LIBRARIES = gql`
     ) {
         deleteLibraries(
             libraryIds: $libraryIds
-        ) {
-            id
-        }
+        )
     }
 `;

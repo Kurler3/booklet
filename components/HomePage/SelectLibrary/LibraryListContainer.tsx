@@ -29,7 +29,7 @@ const LibraryListContainer:React.FC<IProps> = ({
     /////////////////
 
     const isEverythingSelected = useMemo(() => {
-        return selectedLibraries.length === enrolledLibraries.length;
+        return selectedLibraries.length === enrolledLibraries.length && selectedLibraries.length > 0;
     }, [enrolledLibraries.length, selectedLibraries.length]);
 
 

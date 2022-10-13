@@ -53,15 +53,23 @@ const LeftSideBar:React.FC<IProps> = () => {
             {/* LOGOUT BTN */}
             {
                 userProfile &&
+                <div className='flex flex-col items-center justify-start w-full'>
 
-                <Button 
-                    onClick={logout}
-                    txt="Logout"
-                    icon="logout"
-                    width="80%"
-                    borderRadius='8px'
-                    txtCss='font-semibold ml-3'
-                />
+                    <span
+                        className='text-white text-2xl mb-4'
+                    >
+                        Hi, <span className='font-bold'>{userProfile.username}</span>
+                    </span>
+
+                    <Button 
+                        onClick={logout}
+                        txt="Logout"
+                        icon="logout"
+                        width="80%"
+                        borderRadius='8px'
+                        txtCss='font-semibold ml-3'
+                    />
+                </div>
             }
         </div>  
     );

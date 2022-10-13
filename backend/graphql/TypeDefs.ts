@@ -80,7 +80,7 @@ const typeDefs = gql`
         createLibrary(libraryInput: LibraryInput): Library!
 
         # DELETE LIBRARIES
-        deleteLibraries(libraryIds: [ID!]): Boolean; 
+        deleteLibraries(libraryIds: [ID!]): [ID]
     }
 `;
 

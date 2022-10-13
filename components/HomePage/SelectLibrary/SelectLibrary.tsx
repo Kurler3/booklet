@@ -130,6 +130,7 @@ const SelectLibrary:React.FC<IProps> = ({
                 // DELETE LIBRARY FROM ENROLLED STATE
                 removeLibraries(
                     state.selectedLibraries.map((library) => library.id),
+                    enrolledLibraries,
                 );
 
                 // SET LOCAL STATE
@@ -219,10 +220,14 @@ const SelectLibrary:React.FC<IProps> = ({
 
     // HANDLE SELECT CHANGE
     const handleSelectChange = useCallback((newValue: MultiValue<unknown>, actionMeta: ActionMeta<unknown>) => {
+       
         setState((prevState) => {
             return {
                 ...prevState,
-                [actionMeta.name as string]: newValue,
+                newLibrary: {
+                    ...prevState.newLibrary,
+                    [actionMeta.name as string]: newValue,
+                }
             };
         });
     }, []);

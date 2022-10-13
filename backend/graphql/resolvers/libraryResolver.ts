@@ -62,6 +62,7 @@ const libraryResolver = {
           if(adminId !== userId) {
             const adminInDb = await UserModel.findById(adminId);
             adminInDb.librariesEnrolled.push(result._id);
+            adminInDb.save();
           }
         }
 
@@ -70,6 +71,7 @@ const libraryResolver = {
           if(librarianId!==userId) {
             const librarianInDb = await UserModel.findById(librarianId)
             librarianInDb.librariesEnrolled.push(result._id);
+            librarianInDb.save();
           }
         }
 
@@ -85,13 +87,41 @@ const libraryResolver = {
 
       try {
         const {libraryIds} = args;
+        
+        
 
         // FOR EACH OF THE LIBRARIES, NEED TO REMOVE THE LIBRARY FROM THE USERS ENROLLED.
+        for(let libraryId of libraryIds) {
+          // GET LIBRARY OBJECT
+          const library = await LibraryModel.findById(libraryId);
+        
+          // JOIN LIBRARIANS + ADMINS 
+          const joinArray = [
+            ...library.admins,
+            ...library.librarians,
+          ];
+
+          // LOOP THOURGH ADMINS + LIBRARIANS
+          for(let userId of joinArray) {
+            // FIND USER
+            const user = await UserModel.findById(userId);
+            
+            // FIND LIBRARY INDEX
+            const libraryIdIndex = user.librariesEnrolled?.findIndex((libraryEnrolledId:string) => libraryEnrolledId === libraryId);
+
+            // REMOVE
+            user.librariesEnrolled.splice(libraryIdIndex, 1);
+
+            // SAVE
+            user.save();
+          }
+        }
 
         // DELETE ALL LIBRARIES WITH THOSE IDS
         await LibraryModel.deleteMany({_id: {$in: libraryIds}});
         
-        return true;   
+        // RETURN REMOVED LIBRARY IDS
+        return libraryIds;   
 
       } catch (error) {
         console.log('Error deleting libraries...');

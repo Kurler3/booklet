@@ -89,8 +89,8 @@ const mainStore = (set: any):IMainStore => ({
     },
 
     // REMOVE LIBRARY
-    removeLibraries: (libraryIds: string[]) => {
-        let newEnrolled = _.cloneDeep(set.enrolledLibraries);
+    removeLibraries: (libraryIds: string[], enrolledLibraries: ILibrary[]) => {
+        let newEnrolled = _.cloneDeep(enrolledLibraries);
 
         // FILTER OUT
         newEnrolled = newEnrolled.filter((library:ILibrary) => !libraryIds.includes(library.id as string));
