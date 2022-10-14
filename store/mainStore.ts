@@ -66,7 +66,7 @@ const mainStore = (set: any):IMainStore => ({
     
             // SET ENROLLED LIBRARIES + LOADING = FALSE    
             set({
-                enrolledLibraries: data.getAllLibraries,
+                allLibraries: data.getAllLibraries,
                 loading: false,
             });
 

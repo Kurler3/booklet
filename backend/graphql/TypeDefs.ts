@@ -70,7 +70,7 @@ const typeDefs = gql`
         getEnrolledLibraries(userId: ID): [Library]
 
         # GET ALL LIBRARIES
-        getAllLibraries(): [Library]
+        getAllLibraries: [Library]
     }
 
     # MUTATIONS

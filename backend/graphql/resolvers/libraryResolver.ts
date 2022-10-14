@@ -5,6 +5,7 @@ import UserModel from "../../mongodb/models/User";
 const libraryResolver = {
   // QUERIES
   Query: {
+    // GET ENROLLED LIBRARIES GIVEN USER ID
     getEnrolledLibraries: async (
       _: null,
       args: { userId: string | number }
@@ -26,6 +27,16 @@ const libraryResolver = {
         return error;
       }
     },
+
+    // GET ALL LIBRARIES
+    getAllLibraries: async () => {
+      try { 
+        const libraries = await LibraryModel.find();
+        return libraries;
+      } catch (error) {
+        return error;
+      }
+    }
   },
 
   // MUTATIONS
@@ -41,7 +52,6 @@ const libraryResolver = {
           name,
           admins,
           librarians,
-          normalUsers: [],
           books: [],
           createdAt: new Date().toISOString(),
         });
@@ -60,8 +70,8 @@ const libraryResolver = {
 
         // JOIN ARRAY OF ADMIN IDS AND LIBRARIAN IDS
         const joinUserIdArray = [
-          ...newLibrary.admins,
-          ...newLibrary.librarians,
+          ...admins,
+          ...librarians,
         ];
 
         // LOOP JOIN ARRAY
@@ -69,27 +79,9 @@ const libraryResolver = {
           if(joinUserId!==userId) {
             const joinUserInDb = await UserModel.findById(joinUserId);
             joinUserInDb.librariesEnrolled.push(result._id);
-            await joinUserInDb.save();
+            joinUserInDb.save();
           }
         }
-
-        // // DO THE SAME FOR EACH OF THE USERS INSIDE ADMINS/LIBRARIANS
-        // for(let adminId of newLibrary.admins) {
-        //   if(adminId !== userId) {
-        //     const adminInDb = await UserModel.findById(adminId);
-        //     adminInDb.librariesEnrolled.push(result._id);
-        //     adminInDb.save();
-        //   }
-        // }
-
-        // // LIBRARIANS
-        // for(let librarianId of newLibrary.librarians) {
-        //   if(librarianId!==userId) {
-        //     const librarianInDb = await UserModel.findById(librarianId)
-        //     librarianInDb.librariesEnrolled.push(result._id);
-        //     librarianInDb.save();
-        //   }
-        // }
 
         // RETURN
         return {

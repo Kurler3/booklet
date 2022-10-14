@@ -265,7 +265,7 @@ const SelectLibrary:React.FC<IProps> = ({
     // MEMO ///////
     ///////////////
 
-    const filteredEnrolledLibraries = useMemo(() => {
+    const filteredLibraries = useMemo(() => {
         if(allLibraries) {
             return allLibraries.filter((library) => library.name.includes(state.searchValue));
         }
@@ -283,7 +283,7 @@ const SelectLibrary:React.FC<IProps> = ({
             // IF CLICKING IN TOP MOST SELECTED THING
             if(!library) {
                 if(newSelected.length > 0) newSelected = [];
-                else newSelected = filteredEnrolledLibraries;
+                else newSelected = filteredLibraries;
             }
             // ELSE IF LIBRARY WAS PROVIDED
             else {
@@ -307,7 +307,7 @@ const SelectLibrary:React.FC<IProps> = ({
             }
         })
 
-    }, [filteredEnrolledLibraries]);
+    }, [filteredLibraries]);
 
     ///////////////
     // RENDER /////
@@ -332,7 +332,7 @@ const SelectLibrary:React.FC<IProps> = ({
 
                 {/* LIBRARY LIST CONTAINER */}
                 <LibraryListContainer 
-                    enrolledLibraries={filteredEnrolledLibraries}
+                    allLibraries={filteredLibraries}
                     selectedLibraries={state.selectedLibraries}
                     handleSearchValueChange={handleSearchValueChange}
                     searchValue={state.searchValue}

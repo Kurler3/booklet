@@ -1,9 +1,10 @@
 import {memo, useMemo} from 'react';
 import { ILibrary } from '../../../types/libraryTypes';
+import { FUNC_SORT_LIBRARIES_BY_USER_ROLE } from '../../../utils/functions';
 import Button from '../../Common/Button';
 
 interface IProps {
-    enrolledLibraries: ILibrary[];
+    allLibraries: ILibrary[];
     selectedLibraries: ILibrary[];
     searchValue: string;
     handleSearchValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -16,7 +17,7 @@ interface IProps {
 //////////////////////////////
 
 const LibraryListContainer:React.FC<IProps> = ({
-    enrolledLibraries,
+    allLibraries,
     selectedLibraries,
     searchValue,
     handleSearchValueChange,
@@ -29,9 +30,14 @@ const LibraryListContainer:React.FC<IProps> = ({
     /////////////////
 
     const isEverythingSelected = useMemo(() => {
-        return selectedLibraries.length === enrolledLibraries.length && selectedLibraries.length > 0;
-    }, [enrolledLibraries.length, selectedLibraries.length]);
+        return selectedLibraries.length === allLibraries.length && selectedLibraries.length > 0;
+    }, [allLibraries.length, selectedLibraries.length]);
 
+
+    // SORTED LIBRARIES
+    const sortedLibraries = useMemo(() => {
+        return FUNC_SORT_LIBRARIES_BY_USER_ROLE(allLibraries, loggedUserId);
+    }, [allLibraries, loggedUserId]);
 
     /////////////////
     // RENDER ///////
@@ -66,11 +72,11 @@ const LibraryListContainer:React.FC<IProps> = ({
 
             {/* LIST CONTAINER */}
             {
-                enrolledLibraries.length > 0 ?
+                sortedLibraries.length > 0 ?
                 <div
                 className='w-full flex-1 flex flex-col justify-start items-start p-2'
             >
-                {enrolledLibraries.map((library, index) => {
+                {sortedLibraries.map((library, index) => {
 
                     // CHECK IF LOGGED USER IS ADMIN OF THIS LIBRARY
                     const isAdmin = library.admins.includes(loggedUserId);

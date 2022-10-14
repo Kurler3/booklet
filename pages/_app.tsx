@@ -45,7 +45,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       // IF HAS EXPIRED
       if (userData.exp < (new Date().getTime() + 1) / 1000) {
-        console.log(new Date().getTime(), userData.exp)
         // SET LOCAL STORAGE TO EMPTY
         localStorage.setItem(USER_TOKEN, '');
       }
