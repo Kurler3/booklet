@@ -1,6 +1,9 @@
 import _ from "lodash";
 import create from "zustand";
-import { getEnrolledLibrariesQuery } from "../graphql/users/queries";
+import { 
+    getAllLibrariesQuery, 
+    // getEnrolledLibrariesQuery 
+} from "../graphql/users/queries";
 import { ILibrary } from "../types/libraryTypes";
 import { UserType } from "../types/userTypes";
 import client from "../utils/ApolloClient";
@@ -16,10 +19,10 @@ interface IMainStore {
     selectedLibrary: ILibrary | null;
 
     // ALL LIBRARIES
-    enrolledLibraries: ILibrary[] | null;
+    allLibraries: ILibrary[] | null;
 
     // FETCH LIBRARIES THAT CURRENT LOGGED USER IS ENROLLED IN
-    fetchEnrolledLibraries: any;
+    fetchAllLibraries: any;
 
     // SET NEW SELECTED LIBRARY
     setNewSelectedLibrary: any;
@@ -43,13 +46,13 @@ const mainStore = (set: any):IMainStore => ({
     selectedLibrary: null,
 
     // ENROLLED LIBRARIES
-    enrolledLibraries: null,
+    allLibraries: null,
 
     // LOADING
     loading: false,
 
     // FETCH ENROLLED LIBRARIES
-    fetchEnrolledLibraries: async (loggedUser:UserType) => {
+    fetchAllLibraries: async () => {
         // SET LOADING
         set({loading: true});
 
@@ -58,25 +61,18 @@ const mainStore = (set: any):IMainStore => ({
             // FETCH LIBRARIES THAT THIS USER IS ENROLLED IN
             const {data} = await client.query({
                 // QUERY
-                query: getEnrolledLibrariesQuery,
-                // VARIABLES
-                variables: {
-                    userId: loggedUser.id,
-                }
+                query: getAllLibrariesQuery,
             });
     
             // SET ENROLLED LIBRARIES + LOADING = FALSE    
             set({
-                enrolledLibraries: data.getEnrolledLibraries,
+                enrolledLibraries: data.getAllLibraries,
                 loading: false,
             });
 
         } catch (error) {
             console.log('Error fetching enrolled libraries...', error);
         }
-        
-        
-
     },  
 
     // SET NEW SELECTED LIBRARY
@@ -85,17 +81,22 @@ const mainStore = (set: any):IMainStore => ({
     },
 
     addLibrary: (newLibrary: ILibrary) => {
-        set((state:IMainStore) => ({...state, enrolledLibraries: [newLibrary, ...state.enrolledLibraries!]}));
+        set((state:IMainStore) => ({...state, allLibraries: [newLibrary, ...state.allLibraries!]}));
     },
 
     // REMOVE LIBRARY
-    removeLibraries: (libraryIds: string[], enrolledLibraries: ILibrary[]) => {
-        let newEnrolled = _.cloneDeep(enrolledLibraries);
+    removeLibraries: (libraryIds: string[]) => {
+        set((state:IMainStore) => {
 
-        // FILTER OUT
-        newEnrolled = newEnrolled.filter((library:ILibrary) => !libraryIds.includes(library.id as string));
+            let newAllLibraries = _.cloneDeep(state.allLibraries);
 
-        set({enrolledLibraries: newEnrolled});
+            newAllLibraries = newAllLibraries!.filter((library:ILibrary) => !libraryIds.includes(library.id as string));
+
+            return {
+                ...state,
+                allLibraries: newAllLibraries,
+            };
+        });
     }
 });
 

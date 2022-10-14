@@ -23,17 +23,17 @@ const MainPage:React.FC<IProps> = ({
     // MAIN STORE
     const {
         selectedLibrary, 
-        enrolledLibraries, 
-        fetchEnrolledLibraries,
+        allLibraries, 
+        fetchAllLibraries,
         loading,
     } = useMainStore(); 
 
     // FETCH ENROLLED LIBRARIES IF HASN'T YET
     useEffect(() => {
-        if(enrolledLibraries === null) {
-            fetchEnrolledLibraries(userProfile);    
+        if(allLibraries === null) {
+            fetchAllLibraries();    
         }
-    }, [allUsers, enrolledLibraries, fetchEnrolledLibraries, userProfile]);
+    }, [allLibraries, allUsers, fetchAllLibraries, userProfile]);
     
     ////////////////
     // RENDER //////
@@ -45,7 +45,7 @@ const MainPage:React.FC<IProps> = ({
 
                 <SelectLibrary 
                     loading={loading}
-                    enrolledLibraries={enrolledLibraries}
+                    allLibraries={allLibraries}
                 />
                 :
                 <span>Can see all info :D</span>

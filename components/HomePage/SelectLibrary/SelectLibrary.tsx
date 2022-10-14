@@ -19,7 +19,7 @@ import lodash from 'lodash';
 
 interface IProps {
     loading: boolean;
-    enrolledLibraries: null | ILibrary[];
+    allLibraries: null | ILibrary[];
 }
 interface IState {
     selectedLibraries: ILibrary[];
@@ -34,7 +34,7 @@ interface IState {
 
 const SelectLibrary:React.FC<IProps> = ({
     loading,
-    enrolledLibraries,
+    allLibraries,
 }) => {
 
     /////////////////
@@ -129,8 +129,7 @@ const SelectLibrary:React.FC<IProps> = ({
 
                 // DELETE LIBRARY FROM ENROLLED STATE
                 removeLibraries(
-                    state.selectedLibraries.map((library) => library.id),
-                    enrolledLibraries,
+                    state.selectedLibraries.map((library) => library.id)
                 );
 
                 // SET LOCAL STATE
@@ -267,11 +266,11 @@ const SelectLibrary:React.FC<IProps> = ({
     ///////////////
 
     const filteredEnrolledLibraries = useMemo(() => {
-        if(enrolledLibraries) {
-            return enrolledLibraries.filter((library) => library.name.includes(state.searchValue));
+        if(allLibraries) {
+            return allLibraries.filter((library) => library.name.includes(state.searchValue));
         }
         else return [];
-    }, [enrolledLibraries, state.searchValue]);
+    }, [allLibraries, state.searchValue]);
 
 
     // HANDLE CLICK LIBRARY CHECKBOX

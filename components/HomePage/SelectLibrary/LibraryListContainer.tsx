@@ -119,7 +119,7 @@ const LibraryListContainer:React.FC<IProps> = ({
                     <span
                         className='font-bold text-[40px]'
                     >
-                        You&apos;re not enrolled in any library yet :/
+                        No libraries found
                     </span>
                 </div>
             }

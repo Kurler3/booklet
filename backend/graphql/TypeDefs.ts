@@ -40,6 +40,7 @@ const typeDefs = gql`
         # CAN'T BE NULL AND THE IDS INSIDE ALSO CAN'T BE NULL
         admins: [ID!]!
         librarians: [ID!]!
+        # normalUsers: [ID!]!
         books: [ID]
         createdAt: String
     }
@@ -67,6 +68,9 @@ const typeDefs = gql`
 
         # GET ENROLLED LIBRARIES
         getEnrolledLibraries(userId: ID): [Library]
+
+        # GET ALL LIBRARIES
+        getAllLibraries(): [Library]
     }
 
     # MUTATIONS

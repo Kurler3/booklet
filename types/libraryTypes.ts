@@ -17,6 +17,7 @@ export interface ILibrary {
     name: string;
     admins: string[];
     librarians: string[];
+    normalUsers: string[];
     books: IBook[];
 }
 

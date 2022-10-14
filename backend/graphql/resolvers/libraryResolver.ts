@@ -41,6 +41,7 @@ const libraryResolver = {
           name,
           admins,
           librarians,
+          normalUsers: [],
           books: [],
           createdAt: new Date().toISOString(),
         });
@@ -57,23 +58,38 @@ const libraryResolver = {
         // SAVE CHANGES
         userInDb.save();
 
-        // DO THE SAME FOR EACH OF THE USERS INSIDE ADMINS/LIBRARIANS
-        for(let adminId of newLibrary.admins) {
-          if(adminId !== userId) {
-            const adminInDb = await UserModel.findById(adminId);
-            adminInDb.librariesEnrolled.push(result._id);
-            adminInDb.save();
+        // JOIN ARRAY OF ADMIN IDS AND LIBRARIAN IDS
+        const joinUserIdArray = [
+          ...newLibrary.admins,
+          ...newLibrary.librarians,
+        ];
+
+        // LOOP JOIN ARRAY
+        for(let joinUserId of joinUserIdArray) {
+          if(joinUserId!==userId) {
+            const joinUserInDb = await UserModel.findById(joinUserId);
+            joinUserInDb.librariesEnrolled.push(result._id);
+            await joinUserInDb.save();
           }
         }
 
-        // LIBRARIANS
-        for(let librarianId of newLibrary.librarians) {
-          if(librarianId!==userId) {
-            const librarianInDb = await UserModel.findById(librarianId)
-            librarianInDb.librariesEnrolled.push(result._id);
-            librarianInDb.save();
-          }
-        }
+        // // DO THE SAME FOR EACH OF THE USERS INSIDE ADMINS/LIBRARIANS
+        // for(let adminId of newLibrary.admins) {
+        //   if(adminId !== userId) {
+        //     const adminInDb = await UserModel.findById(adminId);
+        //     adminInDb.librariesEnrolled.push(result._id);
+        //     adminInDb.save();
+        //   }
+        // }
+
+        // // LIBRARIANS
+        // for(let librarianId of newLibrary.librarians) {
+        //   if(librarianId!==userId) {
+        //     const librarianInDb = await UserModel.findById(librarianId)
+        //     librarianInDb.librariesEnrolled.push(result._id);
+        //     librarianInDb.save();
+        //   }
+        // }
 
         // RETURN
         return {
@@ -86,10 +102,8 @@ const libraryResolver = {
     deleteLibraries: async (_:null, args: {libraryIds: string[]}) => {
 
       try {
+        // GET LIBRARY IDS
         const {libraryIds} = args;
-        
-        
-
         // FOR EACH OF THE LIBRARIES, NEED TO REMOVE THE LIBRARY FROM THE USERS ENROLLED.
         for(let libraryId of libraryIds) {
           // GET LIBRARY OBJECT
@@ -99,6 +113,7 @@ const libraryResolver = {
           const joinArray = [
             ...library.admins,
             ...library.librarians,
+            // ...library.normalUsers
           ];
 
           // LOOP THOURGH ADMINS + LIBRARIANS

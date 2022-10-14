@@ -30,3 +30,17 @@ export const getEnrolledLibrariesQuery = gql`
         }
     }
 `;
+
+// GET ALL LIBRARIES
+export const getAllLibrariesQuery = gql`
+    query getAllLibraries {
+        getAllLibraries {
+            id
+            name
+            admins
+            librarians
+            books
+            createdAt
+        }
+    }
+`;
