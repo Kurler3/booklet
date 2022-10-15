@@ -35,6 +35,9 @@ interface IMainStore {
 
     // REMOVE LIBRARIES
     removeLibraries: any;
+
+    // CHANGE SELECTED MENU OPTION
+    changeSelectedMenuOption: any;
 }
 
 // STORE
@@ -96,6 +99,19 @@ const mainStore = (set: any):IMainStore => ({
                 ...state,
                 allLibraries: newAllLibraries,
             };
+        });
+    },
+
+    // CHANGE SELECTED MENU OPTION
+    changeSelectedMenuOption: (newOption: string) => {
+        set((prevState:IMainStore) => {
+            // IF CHOOSING NEW ONE
+            if(prevState.menuOptionSelected !== newOption) {
+                return {
+                    ...prevState,
+                    menuOptionSelected: newOption,
+                };
+            } 
         });
     }
 });

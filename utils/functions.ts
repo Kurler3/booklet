@@ -62,3 +62,14 @@ export const FUNC_SORT_LIBRARIES_BY_USER_ROLE = (
         ...notEnrolledLibraries,
     ];
 }
+
+
+// DATE TO TXT FORMAT
+export const FUNC_DATE_TO_TXT = (date:Date, separator:string) => {
+
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+
+    return `${day}${separator}${month}${separator}${year}`;
+}

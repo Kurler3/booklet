@@ -2,6 +2,7 @@ import React, {memo, useEffect} from 'react';
 import useAuthStore from '../../store/authStore';
 import useMainStore from '../../store/mainStore';
 import { UserType } from '../../types/userTypes';
+import SelectedLibrary from './SelectedLibrary/SelectedLibrary';
 import SelectLibrary from './SelectLibrary/SelectLibrary';
 
 
@@ -48,7 +49,9 @@ const MainPage:React.FC<IProps> = ({
                     allLibraries={allLibraries}
                 />
                 :
-                <span>Can see all info :D</span>
+                <SelectedLibrary 
+                    selectedLibrary={selectedLibrary}
+                />
             }
         </div>
     );

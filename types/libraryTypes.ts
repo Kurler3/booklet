@@ -19,6 +19,7 @@ export interface ILibrary {
     librarians: string[];
     normalUsers: string[];
     books: IBook[];
+    createdAt: string;
 }
 
 // LIBRARY INPUT

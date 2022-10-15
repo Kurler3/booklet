@@ -40,7 +40,6 @@ const typeDefs = gql`
         # CAN'T BE NULL AND THE IDS INSIDE ALSO CAN'T BE NULL
         admins: [ID!]!
         librarians: [ID!]!
-        # normalUsers: [ID!]!
         books: [ID]
         createdAt: String
     }

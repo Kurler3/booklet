@@ -28,7 +28,7 @@ const LeftSideBar:React.FC<IProps> = () => {
     /////////////////
     // RENDER ///////
     /////////////////
-
+    
     return (
         <div className='w-[250px] h-full leftSideBarBg flex flex-col items-center justify-between py-10 gap-10 shadow-xl'>
 
@@ -55,11 +55,17 @@ const LeftSideBar:React.FC<IProps> = () => {
                 userProfile &&
                 <div className='flex flex-col items-center justify-start w-full'>
 
-                    <span
-                        className='text-white text-2xl mb-4'
-                    >
-                        Hi, <span className='font-bold'>{userProfile.username}</span>
-                    </span>
+                    {
+                        userProfile.username &&
+                        (
+                        <span
+                            className='text-white text-2xl mb-4'
+                        >
+                            Hi, <span className='font-bold'>{userProfile.username}</span>
+                        </span>
+                        )
+                    }
+                    
 
                     <Button 
                         onClick={logout}

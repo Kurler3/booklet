@@ -6,7 +6,6 @@ import { CREATE_LIBRARY, DELETE_LIBRARIES } from '../../../graphql/users/mutatio
 import useAppStore from '../../../store/appStore';
 import useAuthStore from '../../../store/authStore';
 import useMainStore from '../../../store/mainStore';
-import { ISelectOption } from '../../../types/inputTypes';
 import { IDefaultLibrary, ILibrary } from '../../../types/libraryTypes';
 import { DEFAULT_LIBRARY_OBJECT, NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../../utils/constants';
 import { showToast } from '../../../utils/functions';
@@ -42,8 +41,8 @@ const SelectLibrary:React.FC<IProps> = ({
     /////////////////
 
     const {setAppLoading} = useAppStore();
-    const {userProfile, allUsers} = useAuthStore();
-    const {addLibrary, removeLibraries} = useMainStore();
+    const {userProfile} = useAuthStore();
+    const {addLibrary, removeLibraries, setNewSelectedLibrary} = useMainStore();
     
     ///////////////
     // STATE //////
@@ -196,8 +195,10 @@ const SelectLibrary:React.FC<IProps> = ({
         }
     }, [deleteLibrariesMutation, setAppLoading]);
 
-    //TODO HANDEL SELECT LIBRARY
-    const handleSelectLibrary = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {}, []);
+    // HANDLE SELECT LIBRARY
+    const handleSelectLibrary = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
+        setNewSelectedLibrary(state.selectedLibraries[0]);
+    }, [state.selectedLibraries]);
 
 
     ////////////////////////////
