@@ -14,6 +14,7 @@ const typeDefs = gql`
 
     # BOOK
     type Book {
+        libraryId: ID
         id: ID
         title: String!
         description: String!
@@ -70,6 +71,9 @@ const typeDefs = gql`
 
         # GET ALL LIBRARIES
         getAllLibraries: [Library]
+
+        # GET ALL BOOKS
+        getAllBooks: [Book]
     }
 
     # MUTATIONS

@@ -1,10 +1,11 @@
 import _ from "lodash";
 import create from "zustand";
 import { 
+    GetAllBooksQuery,
     getAllLibrariesQuery, 
     // getEnrolledLibrariesQuery 
 } from "../graphql/users/queries";
-import { ILibrary } from "../types/libraryTypes";
+import { IBook, ILibrary } from "../types/libraryTypes";
 import { UserType } from "../types/userTypes";
 import client from "../utils/ApolloClient";
 import { MENU_OPTIONS } from "../utils/constants";
@@ -21,8 +22,14 @@ interface IMainStore {
     // ALL LIBRARIES
     allLibraries: ILibrary[] | null;
 
+    // ALL BOOKS
+    allBooks: IBook[] | null;
+
     // FETCH LIBRARIES THAT CURRENT LOGGED USER IS ENROLLED IN
     fetchAllLibraries: any;
+
+    // FETCH ALL BOOKS
+    fetchAllBooks: any;
 
     // SET NEW SELECTED LIBRARY
     setNewSelectedLibrary: any;
@@ -48,8 +55,11 @@ const mainStore = (set: any):IMainStore => ({
     // SELECTED LIBRARY
     selectedLibrary: null,
 
-    // ENROLLED LIBRARIES
+    // ALL LIBRARIES
     allLibraries: null,
+
+    // ALL BOOKS
+    allBooks: null,
 
     // LOADING
     loading: false,
@@ -77,6 +87,27 @@ const mainStore = (set: any):IMainStore => ({
             console.log('Error fetching enrolled libraries...', error);
         }
     },  
+
+    // FETCH ALL BOOKS
+    fetchAllBooks: async () => {
+
+        try {
+        
+            // FETCH LIBRARIES THAT THIS USER IS ENROLLED IN
+            const {data} = await client.query({
+                // QUERY
+                query: GetAllBooksQuery,
+            });
+
+            // SET ENROLLED LIBRARIES + LOADING = FALSE    
+            set({
+                allBooks: data.getAllBooks,
+            });
+
+        } catch (error) {
+            console.log('Error fetching enrolled libraries...', error);
+        }
+    },
 
     // SET NEW SELECTED LIBRARY
     setNewSelectedLibrary: (newLibrary: ILibrary) => {

@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import useMainStore from '../../../store/mainStore';
 import { ILibrary } from '../../../types/libraryTypes';
 import { MENU_OPTIONS } from '../../../utils/constants';
@@ -26,7 +26,19 @@ const SelectedLibrary:React.FC<IProps> = ({
     // MAIN STORE ////
     //////////////////
 
-    const {menuOptionSelected} = useMainStore();
+    const {
+        menuOptionSelected,
+        allBooks,
+        fetchAllBooks,
+    } = useMainStore();
+
+
+    // FETCH BOOKS
+    useEffect(() => {
+        if(!allBooks) {
+            fetchAllBooks();    
+        }
+    }, [allBooks, fetchAllBooks]);
 
     /////////////
     // RENDER ///
@@ -63,6 +75,7 @@ const SelectedLibrary:React.FC<IProps> = ({
                 (
                     <SelectedHome 
                         selectedLibrary={selectedLibrary}
+                        allBooks={allBooks}
                     />
                 )
                 :

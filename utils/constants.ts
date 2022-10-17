@@ -68,3 +68,11 @@ export const DEFAULT_LIBRARY_OBJECT= {
     admins: [],
     librarians: [],
 } as IDefaultLibrary;
+
+// TAB OPTIONS
+export const TAB_OPTIONS = {
+    // BOOKS
+    books: 'BOOKS',
+    // USERS
+    users: 'USERS',
+}

@@ -1,6 +1,7 @@
 import { IUserWithoutToken } from "./userTypes";
 
 export interface IBook {
+    libraryId: number|string|null;
     id: number|string;
     title: string;
     description: string;

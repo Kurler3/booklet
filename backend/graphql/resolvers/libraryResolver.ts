@@ -36,7 +36,7 @@ const libraryResolver = {
       } catch (error) {
         return error;
       }
-    }
+    },
   },
 
   // MUTATIONS
