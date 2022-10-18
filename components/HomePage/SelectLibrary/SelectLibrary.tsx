@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client';
 import React, {memo, useCallback, useMemo, useState} from 'react';
 import { Circles } from 'react-loader-spinner';
 import { ActionMeta, MultiValue } from 'react-select';
-import { CREATE_LIBRARY, DELETE_LIBRARIES } from '../../../graphql/users/mutations';
+import { CREATE_LIBRARY, DELETE_LIBRARIES } from '../../../graphql/libraries/mutations';
 import useAppStore from '../../../store/appStore';
 import useAuthStore from '../../../store/authStore';
 import useMainStore from '../../../store/mainStore';

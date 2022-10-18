@@ -88,6 +88,14 @@ const typeDefs = gql`
 
         # DELETE LIBRARIES
         deleteLibraries(libraryIds: [ID!]): [ID]
+
+        # CREATE BOOK
+        createBook(
+            libraryId: ID!,
+            userId: ID!,
+            title: String!,
+            description: String!
+        ): Book!
     }
 `;
 

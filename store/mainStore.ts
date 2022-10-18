@@ -1,10 +1,7 @@
 import _ from "lodash";
 import create from "zustand";
-import { 
-    GetAllBooksQuery,
-    getAllLibrariesQuery, 
-    // getEnrolledLibrariesQuery 
-} from "../graphql/users/queries";
+import { GetAllBooksQuery } from "../graphql/books/queries";
+import { getAllLibrariesQuery } from "../graphql/libraries/queries";
 import { IBook, ILibrary } from "../types/libraryTypes";
 import { UserType } from "../types/userTypes";
 import client from "../utils/ApolloClient";
@@ -36,6 +33,9 @@ interface IMainStore {
 
     // ADD LIBRARY
     addLibrary: any;
+
+    // ADD BOOK
+    addBook: any;
 
     // LOADING
     loading: boolean;
@@ -116,6 +116,23 @@ const mainStore = (set: any):IMainStore => ({
 
     addLibrary: (newLibrary: ILibrary) => {
         set((state:IMainStore) => ({...state, allLibraries: [newLibrary, ...state.allLibraries!]}));
+    },
+
+    // ADD BOOK
+    addBook: (newBook: IBook) => {
+
+        // ADD IT TO ALL BOOKS + ADD IT'S ID TO THE SELECTED LIBRARY BOOK IDS ARRAY
+        set((state:IMainStore) => ({
+            ...state,
+            allBooks: [...state.allBooks!, newBook],
+            selectedLibrary: {
+                ...state.selectedLibrary!,
+                books: [
+                    newBook.id,
+                    ...state.selectedLibrary?.books!,
+                ]
+            }
+        }));
     },
 
     // REMOVE LIBRARY

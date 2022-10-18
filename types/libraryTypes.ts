@@ -2,7 +2,7 @@ import { IUserWithoutToken } from "./userTypes";
 
 export interface IBook {
     libraryId: number|string|null;
-    id: number|string;
+    id: string;
     title: string;
     description: string;
     issuedAt: string | null;
@@ -19,7 +19,7 @@ export interface ILibrary {
     admins: string[];
     librarians: string[];
     normalUsers: string[];
-    books: IBook[];
+    books: string[];
     createdAt: string;
 }
 

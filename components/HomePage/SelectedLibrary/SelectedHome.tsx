@@ -84,6 +84,7 @@ const SelectedHome:React.FC<IProps> = ({
                     (
                         <SelectedHomeBooks 
                             allBooks={allBooks}
+                            selectedLibrary={selectedLibrary}
                         />
                     )
                     :
