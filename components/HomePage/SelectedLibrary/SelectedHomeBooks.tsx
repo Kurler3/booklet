@@ -7,7 +7,7 @@ import useAuthStore from '../../../store/authStore';
 import useMainStore from '../../../store/mainStore';
 import { IBook, ILibrary } from '../../../types/libraryTypes';
 import { NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../../utils/constants';
-import { showToast } from '../../../utils/functions';
+import { FUNC_DATE_TO_TXT, showToast } from '../../../utils/functions';
 import SelectedHomeBooksCreateModal from './SelectedHomeBooksCreateModal';
 
 
@@ -44,7 +44,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
     // ZUSTAND ///
     //////////////
     
-    const {userProfile} = useAuthStore();
+    const {userProfile, allUsers} = useAuthStore();
     const {addBook} = useMainStore();
     const {appLoading, setAppLoading} = useAppStore();
 
@@ -244,13 +244,35 @@ const SelectedHomeBooks: React.FC<IProps> = ({
                 <div className='flex-1 w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-2 gap-2'>
                     {
                       filteredBooks.length > 0 ?  filteredBooks.map((book, index) => {
+                        console.log('Book: ', book)
+
+                            const creator = allUsers?.find((user) => user.id === book.addedBy);
 
                             return (
                                 <div 
-                                    className='flex items-center justify-start w-full bg-gray-300'
+                                    className='flex items-center justify-start w-full bg-gray-200 p-3 rounded-lg shadow-md'
                                     key={`selected_home_book_${book.id}_${index}`}
                                 >
-                                    {book.title}
+                                    <div className="flex flex-col items-start justify-start">
+                                        <span className="font-bold">
+                                            {book.title}
+                                        </span>
+                                        {
+                                            creator &&
+                                            <span className="text-[12px] text-gray-400">
+                                                Added by: 
+                                                <span className='font-bold ml-1'>
+                                                    {creator.username}
+                                                </span>
+                                                
+                                            </span>
+                                        }
+                                        <span className='text-[12px] text-gray-400'>
+                                            Added at: <span className='font-bold'>{FUNC_DATE_TO_TXT(new Date(book.addedAt), '/')}</span>
+                                        </span>
+                                    </div>
+                                    
+                                    
                                 </div>
                             )
                         })
