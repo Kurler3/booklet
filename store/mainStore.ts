@@ -42,6 +42,9 @@ interface IMainStore {
 
     // REMOVE LIBRARIES
     removeLibraries: any;
+    
+    // REMOVE BOOK 
+    removeBook: any;
 
     // CHANGE SELECTED MENU OPTION
     changeSelectedMenuOption: any;
@@ -133,6 +136,26 @@ const mainStore = (set: any):IMainStore => ({
                 ]
             }
         }));
+    },
+
+    // REMOVE BOOK
+    removeBook: (bookIdToDelete: string) => {
+
+        set((state:IMainStore) => {
+
+            let newSelectedLibraryBooks = _.cloneDeep(state.selectedLibrary!.books);
+
+            newSelectedLibraryBooks = newSelectedLibraryBooks.filter((bookId: string) => bookId !== bookIdToDelete);
+
+            return {
+                ...state,
+                selectedLibrary: {
+                    ...state.selectedLibrary!,
+                    books: newSelectedLibraryBooks,
+                }
+            };
+        });
+
     },
 
     // REMOVE LIBRARY

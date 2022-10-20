@@ -1,7 +1,7 @@
 import {memo, useCallback, useState} from 'react';
 import { IBook, ILibrary } from '../../../types/libraryTypes';
 import { TAB_OPTIONS } from '../../../utils/constants';
-import SelectedHomeBooks from './SelectedHomeBooks';
+import SelectedHomeBooks from './Books/SelectedHomeBooks';
 
 
 // PROPS INTERFACE

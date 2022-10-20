@@ -6,6 +6,7 @@ interface Props {
     bgColor?: string;
     txtColor?: string;
     iconCss?: string;
+    iconColor?:string;
     txtCss?: string;
     btnCss?: string;
     width?: string;
@@ -22,6 +23,7 @@ const Button: React.FC<Props> = ({
     bgColor,
     txtColor,
     iconCss,
+    iconColor,
     txtCss,
     btnCss,
     width,
@@ -55,7 +57,9 @@ const Button: React.FC<Props> = ({
                         ${iconCss ? iconCss : null}
                         ${loading ? "rotating" : ""}
                     `}
-                    
+                    style={{
+                        color: iconColor ?? '',
+                    }}
                 >
                     {loading ? "loop" : icon}
                 </div>

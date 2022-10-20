@@ -88,6 +88,33 @@ const bookResolver = {
                 return error;
             }
 
+        },
+
+        // REMOVE BOOK
+        removeBook: async (_:any, args: {
+            libraryId: string;
+            bookId: string;
+        }) => {
+            try {
+                
+                // FIND BOOK IN DB
+                
+
+                // SET SOME PROPERTIES TO NULL
+
+                // SAVE BOOK
+
+                // FIND LIBRARY IN DB
+
+                // REMOVE BOOK ID FROM LIBRARY'S books PROPERTY
+
+                // SAVE LIBRARY
+
+                // RETURN BOOK ID
+
+            } catch (error) {
+                return error;
+            }
         }
     }
 };

@@ -27,3 +27,18 @@ export const CreateBookMutation = gql`
         }
     }
 `;
+
+// REMOVE BOOK
+export const RemoveBookMutation = gql`
+    mutation RemoveBook(
+        $libraryId: ID!
+        $bookId: ID!
+    ) {
+        removeBook(
+            libraryId: $libraryId
+            bookId: $bookId
+        ) {
+            id
+        }
+    }
+`;

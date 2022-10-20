@@ -96,6 +96,12 @@ const typeDefs = gql`
             title: String!,
             description: String!
         ): Book!
+
+        # REMOVE BOOK
+        removeBook(
+            libraryId: ID!,
+            bookId: ID!,
+        ):ID
     }
 `;
 

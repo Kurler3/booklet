@@ -1,5 +1,5 @@
 import { memo, useState, useCallback, useMemo } from 'react';
-import Modal from '../../Common/Modal';
+import Modal from '../../../Common/Modal';
 
 
 // PROPS INTERFACE

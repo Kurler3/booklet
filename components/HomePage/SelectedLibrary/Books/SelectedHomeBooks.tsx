@@ -1,14 +1,16 @@
 import { useMutation } from '@apollo/client';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { Circles } from 'react-loader-spinner';
-import { CreateBookMutation } from '../../../graphql/books/mutations';
-import useAppStore from '../../../store/appStore';
-import useAuthStore from '../../../store/authStore';
-import useMainStore from '../../../store/mainStore';
-import { IBook, ILibrary } from '../../../types/libraryTypes';
-import { NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../../utils/constants';
-import { FUNC_DATE_TO_TXT, showToast } from '../../../utils/functions';
+import { CreateBookMutation } from '../../../../graphql/books/mutations';
+import useAppStore from '../../../../store/appStore';
+import useAuthStore from '../../../../store/authStore';
+import useMainStore from '../../../../store/mainStore';
+import { IBook, ILibrary } from '../../../../types/libraryTypes';
+import { NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../../../utils/constants';
+import { FUNC_DATE_TO_TXT, showToast } from '../../../../utils/functions';
+import Button from '../../../Common/Button';
 import SelectedHomeBooksCreateModal from './SelectedHomeBooksCreateModal';
+import SelectedHomeBooksList from './SelectedHomeBooksList';
 
 
 
@@ -46,7 +48,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
     
     const {userProfile, allUsers} = useAuthStore();
     const {addBook} = useMainStore();
-    const {appLoading, setAppLoading} = useAppStore();
+    const {setAppLoading} = useAppStore();
 
 
     //////////////
@@ -171,6 +173,23 @@ const SelectedHomeBooks: React.FC<IProps> = ({
         });
     }, []);
 
+    // HANDLE DELETE BOOK
+    const handleDeleteBook = useCallback((bookId:string) => {
+        try {
+            // SET APP LOADING
+            setAppLoading(true);
+
+            // CALL DELETE BOOK MUTATION
+
+            // SET APP LOADING
+            setAppLoading(false);
+        } catch (error) {
+            console.log("Error removing book from library...");
+             // SET APP LOADING
+             setAppLoading(false);
+        }
+    }, [setAppLoading]);
+
     //////////////
     // MEMO //////
     //////////////
@@ -185,7 +204,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
     }, [allBooks, selectedLibrary.books]);
 
     // IF CURRENT USER HAS PERMISSION TO ADD/CREATE A BOOK
-    const canUserAdd = useMemo(() => {
+    const canUserEditLibrary = useMemo(() => {
 
         const wholeStaffIds = [
             ...selectedLibrary.admins,
@@ -241,53 +260,15 @@ const SelectedHomeBooks: React.FC<IProps> = ({
                 </div>
 
                 {/* LIST OF BOOKS */}
-                <div className='flex-1 w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-2 gap-2'>
-                    {
-                      filteredBooks.length > 0 ?  filteredBooks.map((book, index) => {
-                        console.log('Book: ', book)
-
-                            const creator = allUsers?.find((user) => user.id === book.addedBy);
-
-                            return (
-                                <div 
-                                    className='flex items-center justify-start w-full bg-gray-200 p-3 rounded-lg shadow-md'
-                                    key={`selected_home_book_${book.id}_${index}`}
-                                >
-                                    <div className="flex flex-col items-start justify-start">
-                                        <span className="font-bold">
-                                            {book.title}
-                                        </span>
-                                        {
-                                            creator &&
-                                            <span className="text-[12px] text-gray-400">
-                                                Added by: 
-                                                <span className='font-bold ml-1'>
-                                                    {creator.username}
-                                                </span>
-                                                
-                                            </span>
-                                        }
-                                        <span className='text-[12px] text-gray-400'>
-                                            Added at: <span className='font-bold'>{FUNC_DATE_TO_TXT(new Date(book.addedAt), '/')}</span>
-                                        </span>
-                                    </div>
-                                    
-                                    
-                                </div>
-                            )
-                        })
-
-                        :
-                        <div className='w-full h-full items-center justify-center flex'>
-                            <span className='text-[35px] font-bold'>No Books Yet</span>
-                        </div>
-                    }
-                    
-                </div>  
+                <SelectedHomeBooksList 
+                    filteredBooks={filteredBooks}
+                    allUsers={allUsers}
+                    canUserEditLibrary={canUserEditLibrary}
+                /> 
 
                 {/* CREATE/ADD BOOK (IF ADMIN/LIBRARIAN) */}
                 {
-                    canUserAdd &&
+                    canUserEditLibrary &&
                     <div 
                         className='flex items-center justify-start w-full p-2 gap-3' 
                     >
