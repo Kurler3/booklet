@@ -1,6 +1,7 @@
 import BookModel from '../../mongodb/models/Book';
 import LibraryModel from '../../mongodb/models/Library';
 import {GraphQLError} from 'graphql';
+import _ from 'lodash';
 
 const bookResolver = {
 
@@ -96,22 +97,39 @@ const bookResolver = {
             bookId: string;
         }) => {
             try {
-                
+
+                // GET PARAMS
+                const {
+                    bookId,
+                    libraryId,
+                } = args;
+
                 // FIND BOOK IN DB
-                
+                const bookInDb = await BookModel.findById(bookId);
 
                 // SET SOME PROPERTIES TO NULL
+                bookInDb.libraryId = null;
+                bookInDb.issuedAt = null;
+                bookInDb.issuedBy = null;
+                bookInDb.addedBy = null;
+                bookInDb.addedAt = null;
+                bookInDb.returnedAt = null;
 
                 // SAVE BOOK
+                bookInDb.save();
 
                 // FIND LIBRARY IN DB
+                const libraryInDb = await LibraryModel.findById(libraryId);
 
                 // REMOVE BOOK ID FROM LIBRARY'S books PROPERTY
-
-                // SAVE LIBRARY
+                const bookIndex = libraryInDb.books.findIndex((id:string) => bookId === id);
+                if(bookIndex !== -1) {
+                    libraryInDb.books.splice(bookIndex, 1);
+                    await libraryInDb.save();
+                }
 
                 // RETURN BOOK ID
-
+                return bookId;
             } catch (error) {
                 return error;
             }

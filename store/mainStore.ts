@@ -147,12 +147,25 @@ const mainStore = (set: any):IMainStore => ({
 
             newSelectedLibraryBooks = newSelectedLibraryBooks.filter((bookId: string) => bookId !== bookIdToDelete);
 
+            // NEW ALL BOOKS
+            let newAllBooks = _.cloneDeep(state.allBooks);
+
+            const findIndex = newAllBooks?.findIndex((book) => book.id === bookIdToDelete);
+            if(findIndex && findIndex > -1) {
+                newAllBooks![findIndex] = {
+                    ...newAllBooks![findIndex],
+                    libraryId: null,
+                };
+            }
+            
+
             return {
                 ...state,
                 selectedLibrary: {
                     ...state.selectedLibrary!,
                     books: newSelectedLibraryBooks,
-                }
+                },
+                allBooks: newAllBooks,
             };
         });
 

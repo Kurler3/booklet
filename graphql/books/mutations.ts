@@ -37,8 +37,6 @@ export const RemoveBookMutation = gql`
         removeBook(
             libraryId: $libraryId
             bookId: $bookId
-        ) {
-            id
-        }
+        ) 
     }
 `;

@@ -58,6 +58,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
     const [state, setState] = useState({
         optionBtnOption: OPTION_BTN_OPTIONS.available,
         isShowCreateBookModal: false,
+        isShowAddExistingBooksModal: false,
 
         // NEW BOOK PROPERTIES
         title: '',
@@ -173,22 +174,13 @@ const SelectedHomeBooks: React.FC<IProps> = ({
         });
     }, []);
 
-    // HANDLE DELETE BOOK
-    const handleDeleteBook = useCallback((bookId:string) => {
-        try {
-            // SET APP LOADING
-            setAppLoading(true);
 
-            // CALL DELETE BOOK MUTATION
+    // SHOW/HIDE ADD EXISTING BOOKS MODAL
+    const handleShowHideAddExistingBooksModal = useCallback(() => {
 
-            // SET APP LOADING
-            setAppLoading(false);
-        } catch (error) {
-            console.log("Error removing book from library...");
-             // SET APP LOADING
-             setAppLoading(false);
-        }
-    }, [setAppLoading]);
+        
+
+    }, []);
 
     //////////////
     // MEMO //////
@@ -197,11 +189,20 @@ const SelectedHomeBooks: React.FC<IProps> = ({
     // FILTER BOOKS ACCORDING TO THE TAB CHOSEN
     const filteredBooks = useMemo(() => {
         // FILTER BOOKS OF THIS LIBRARY
-        let currentLibraryBooks = allBooks?.filter((book) => selectedLibrary.books.includes(book.id));
+        let currentLibraryBooks = allBooks?.filter((book) => book.libraryId && book.libraryId === selectedLibrary.id);
+
+        // FILTER BY AVAILABLE 
+        if(state.optionBtnOption === OPTION_BTN_OPTIONS.available) {
+            currentLibraryBooks = currentLibraryBooks?.filter((book) => book.issuedBy === null);
+        }
+        // FILTER BY ISSUED
+        else {
+            currentLibraryBooks = currentLibraryBooks?.filter((book) => book.issuedBy !== null);
+        }
 
         // RETURN
         return currentLibraryBooks ?? [];
-    }, [allBooks, selectedLibrary.books]);
+    }, [allBooks, selectedLibrary.id, state.optionBtnOption]);
 
     // IF CURRENT USER HAS PERMISSION TO ADD/CREATE A BOOK
     const canUserEditLibrary = useMemo(() => {
@@ -217,7 +218,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
     //////////////
     // RENDER ////
     //////////////
-
+    
     return (
         !allBooks ?
 
@@ -255,7 +256,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
 
                     {/* LENGTH */}
                     <span className='font-semibold'>
-                        Number of books: <span className='text-gray-400'>{allBooks.length}</span>
+                        Number of books: <span className='text-gray-400'>{selectedLibrary.books?.length}</span>
                     </span>
                 </div>
 
@@ -284,7 +285,9 @@ const SelectedHomeBooks: React.FC<IProps> = ({
                         </div>
 
                         {/* ADD EXISTING BOOK BTN */}
-                        <div className='flex items-center justify-start bg-green-400 text-white p-2 rounded-lg cursor-pointer font-bold hover:scale-[1.1] transition'>
+                        <div className='flex items-center justify-start bg-green-400 text-white p-2 rounded-lg cursor-pointer font-bold hover:scale-[1.1] transition'
+                            onClick={handleShowHideAddExistingBooksModal}
+                        >
                             <span className='material-icons'>
                                 list
                             </span>

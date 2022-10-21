@@ -45,9 +45,9 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
                     TOAST_TYPE_OPTIONS.success,
                     "Book removed!",
                 );
-
+                
                 // UPDATE MAIN STORE STATE
-                removeBook(result.data.removeBook.id);
+                removeBook(result.data.removeBook);
             },
             // ON ERROR
             onError(error) {

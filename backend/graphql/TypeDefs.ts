@@ -27,8 +27,8 @@ const typeDefs = gql`
         issuedTo: ID
 
         # ADDED FIELDS
-        addedBy: ID!
-        addedAt: String!
+        addedBy: ID
+        addedAt: String
 
         # RETURNED FIELDS
         returnedAt: String
