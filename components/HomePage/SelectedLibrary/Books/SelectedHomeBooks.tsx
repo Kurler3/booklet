@@ -11,6 +11,7 @@ import { FUNC_DATE_TO_TXT, showToast } from '../../../../utils/functions';
 import Button from '../../../Common/Button';
 import SelectedHomeBooksCreateModal from './SelectedHomeBooksCreateModal';
 import SelectedHomeBooksList from './SelectedHomeBooksList';
+import SelectedHomeExistingBooksModal from './SelectedHomeExistingBooksModal';
 
 
 
@@ -174,12 +175,14 @@ const SelectedHomeBooks: React.FC<IProps> = ({
         });
     }, []);
 
-
     // SHOW/HIDE ADD EXISTING BOOKS MODAL
     const handleShowHideAddExistingBooksModal = useCallback(() => {
-
-        
-
+        setState((prevState) => {
+            return {
+                ...prevState,
+                isShowAddExistingBooksModal: !prevState.isShowAddExistingBooksModal,
+            };
+        });
     }, []);
 
     //////////////
@@ -203,6 +206,11 @@ const SelectedHomeBooks: React.FC<IProps> = ({
         // RETURN
         return currentLibraryBooks ?? [];
     }, [allBooks, selectedLibrary.id, state.optionBtnOption]);
+
+    // AVAILABLE BOOKS TO ADD
+    const availableBooksToAdd = useMemo(() => {
+        return allBooks ? allBooks.filter((book) => book.libraryId === null) : [];
+    }, [allBooks]);
 
     // IF CURRENT USER HAS PERMISSION TO ADD/CREATE A BOOK
     const canUserEditLibrary = useMemo(() => {
@@ -306,6 +314,17 @@ const SelectedHomeBooks: React.FC<IProps> = ({
                         title={state.title}
                         description={state.description}
                     />
+                }
+
+                {/* IF SHOWING ADD EXISTING BOOKS MODAL */}
+                {
+                    state.isShowAddExistingBooksModal &&
+
+                    (
+                        <SelectedHomeExistingBooksModal 
+                            availableBooksToAdd={availableBooksToAdd}
+                        />
+                    )
                 }
             </div>
 
