@@ -40,3 +40,23 @@ export const RemoveBookMutation = gql`
         ) 
     }
 `;
+
+// ADD EXISTING BOOKS 
+export const AddExistingBooksMutation = gql`
+    mutation AddExistingBooks(
+        $bookIds: [ID!]!
+        $libraryId: ID!
+        $userId: ID!
+    ) {
+        addExistingBooks(
+            bookIds: $bookIds
+            libraryId: $libraryId
+            userId: $userId
+        ) {
+            id
+            libraryId
+            addedAt
+            addedBy
+        }
+    }
+`;

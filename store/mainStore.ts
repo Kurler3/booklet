@@ -3,7 +3,6 @@ import create from "zustand";
 import { GetAllBooksQuery } from "../graphql/books/queries";
 import { getAllLibrariesQuery } from "../graphql/libraries/queries";
 import { IBook, ILibrary } from "../types/libraryTypes";
-import { UserType } from "../types/userTypes";
 import client from "../utils/ApolloClient";
 import { MENU_OPTIONS } from "../utils/constants";
 
@@ -36,6 +35,9 @@ interface IMainStore {
 
     // ADD BOOK
     addBook: any;
+
+    // ADD EXISTING BOOKS
+    addExistingBooks: any;
 
     // LOADING
     loading: boolean;
@@ -136,6 +138,38 @@ const mainStore = (set: any):IMainStore => ({
                 ]
             }
         }));
+    },
+
+    // ADD EXISTING BOOKS
+    addExistingBooks: (booksToAdd: IBook[]) => {
+        set((state:IMainStore) => {
+            let newAllBooks = _.cloneDeep(state.allBooks);
+
+            for(let book of booksToAdd) {
+                const findIndex = newAllBooks?.findIndex((bookFromState) => bookFromState.id === book.id);
+
+                if(findIndex && findIndex > -1) {
+                    newAllBooks![findIndex] = {
+                        ...newAllBooks![findIndex],
+                        libraryId: book.libraryId,
+                        addedAt: book.addedAt,
+                        addedBy: book.addedBy,
+                    }
+                }
+            }
+
+            return {
+                ...state,
+                allBooks: newAllBooks,
+                seelctedLibrary: {
+                    ...state.selectedLibrary,
+                    books: [
+                        ...state.selectedLibrary?.books!,
+                        ...booksToAdd.map((book) => book.id),
+                    ],
+                }
+            };
+        });
     },
 
     // REMOVE BOOK

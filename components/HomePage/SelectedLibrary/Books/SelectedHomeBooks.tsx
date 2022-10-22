@@ -323,6 +323,9 @@ const SelectedHomeBooks: React.FC<IProps> = ({
                     (
                         <SelectedHomeExistingBooksModal 
                             availableBooksToAdd={availableBooksToAdd}
+                            handleShowHideAddExistingBooksModal={handleShowHideAddExistingBooksModal}
+                            selectedLibraryId={selectedLibrary.id}
+                            loggedUserId={userProfile?.id!}
                         />
                     )
                 }
