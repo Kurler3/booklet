@@ -27,6 +27,9 @@ const MainPage:React.FC<IProps> = ({
         allLibraries, 
         fetchAllLibraries,
         loading,
+        fetchAllBooks,
+        allBooks,
+        menuOptionSelected,
     } = useMainStore(); 
 
     // FETCH ENROLLED LIBRARIES IF HASN'T YET
@@ -47,10 +50,17 @@ const MainPage:React.FC<IProps> = ({
                 <SelectLibrary 
                     loading={loading}
                     allLibraries={allLibraries}
+                    userProfile={userProfile}
+                    allUsers={allUsers}
                 />
                 :
                 <SelectedLibrary 
                     selectedLibrary={selectedLibrary}
+                    fetchAllBooks={fetchAllBooks}
+                    allBooks={allBooks}
+                    menuOptionSelected={menuOptionSelected}
+                    userProfile={userProfile}
+                    allUsers={allUsers}
                 />
             }
         </div>

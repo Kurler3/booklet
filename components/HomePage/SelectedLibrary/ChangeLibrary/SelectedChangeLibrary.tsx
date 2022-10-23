@@ -1,5 +1,5 @@
 import {memo} from 'react';
-import { ILibrary } from '../../../types/libraryTypes';
+import { ILibrary } from '../../../../types/libraryTypes';
 
 // PROPS INTERFACE 
 interface IProps {

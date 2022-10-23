@@ -1,8 +1,8 @@
 import {memo} from 'react';
-import { IBook } from '../../../../types/libraryTypes';
-import { UserType } from '../../../../types/userTypes';
-import { FUNC_DATE_TO_TXT } from '../../../../utils/functions';
-import Button from '../../../Common/Button';
+import { IBook } from '../../../../../types/libraryTypes';
+import { UserType } from '../../../../../types/userTypes';
+import { FUNC_DATE_TO_TXT } from '../../../../../utils/functions';
+import Button from '../../../../Common/Button';
 import SelectedHomeBooksListItem from './SelectedHomeBooksListItem';
 
 

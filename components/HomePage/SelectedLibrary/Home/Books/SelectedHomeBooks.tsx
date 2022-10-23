@@ -1,14 +1,15 @@
 import { useMutation } from '@apollo/client';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { Circles } from 'react-loader-spinner';
-import { CreateBookMutation } from '../../../../graphql/books/mutations';
-import useAppStore from '../../../../store/appStore';
-import useAuthStore from '../../../../store/authStore';
-import useMainStore from '../../../../store/mainStore';
-import { IBook, ILibrary } from '../../../../types/libraryTypes';
-import { NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../../../utils/constants';
-import { FUNC_DATE_TO_TXT, showToast } from '../../../../utils/functions';
-import Button from '../../../Common/Button';
+import { CreateBookMutation } from '../../../../../graphql/books/mutations';
+import useAppStore from '../../../../../store/appStore';
+import useAuthStore from '../../../../../store/authStore';
+import useMainStore from '../../../../../store/mainStore';
+import { IBook, ILibrary } from '../../../../../types/libraryTypes';
+import { UserType } from '../../../../../types/userTypes';
+import { NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../../../../utils/constants';
+import { FUNC_DATE_TO_TXT, showToast } from '../../../../../utils/functions';
+import Button from '../../../../Common/Button';
 import SelectedHomeBooksCreateModal from './SelectedHomeBooksCreateModal';
 import SelectedHomeBooksList from './SelectedHomeBooksList';
 import SelectedHomeExistingBooksModal from './SelectedHomeExistingBooksModal';
@@ -19,13 +20,15 @@ import SelectedHomeExistingBooksModal from './SelectedHomeExistingBooksModal';
 interface IProps {
     allBooks: IBook[] | null;
     selectedLibrary: ILibrary;
+    allUsers: UserType[]|null;
+    userProfile: UserType;
 }
 
 // NORMAL OTPION BTN STYLE
-const normalOptionBtnStyle = "w-[20px] h-[20px] bg-gray-300 rounded-full mr-2 hover:bg-blue-400 transition cursor-pointer";
+export const normalOptionBtnStyle = "w-[20px] h-[20px] bg-gray-300 rounded-full mr-2 hover:bg-blue-400 transition cursor-pointer";
 
 // SELECTED OPTION BTN STYLE
-const selectedOptionBtnStyle = "w-[20px] h-[20px] rounded-full mr-2 bg-blue-400 cursor-default ";
+export const selectedOptionBtnStyle = "w-[20px] h-[20px] rounded-full mr-2 bg-blue-400 cursor-default ";
 
 // OPTION BTN OPTIONS
 const OPTION_BTN_OPTIONS = {
@@ -41,13 +44,14 @@ const OPTION_BTN_OPTIONS = {
 const SelectedHomeBooks: React.FC<IProps> = ({
     allBooks,
     selectedLibrary,
+    allUsers,
+    userProfile,
 }) => {
     
     //////////////
     // ZUSTAND ///
     //////////////
-    
-    const {userProfile, allUsers} = useAuthStore();
+
     const {addBook} = useMainStore();
     const {setAppLoading} = useAppStore();
 

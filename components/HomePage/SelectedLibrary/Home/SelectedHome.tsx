@@ -1,13 +1,17 @@
 import {memo, useCallback, useState} from 'react';
-import { IBook, ILibrary } from '../../../types/libraryTypes';
-import { TAB_OPTIONS } from '../../../utils/constants';
+import { IBook, ILibrary } from '../../../../types/libraryTypes';
+import { UserType } from '../../../../types/userTypes';
+import { TAB_OPTIONS } from '../../../../utils/constants';
 import SelectedHomeBooks from './Books/SelectedHomeBooks';
+import SelectedHomeUsers from './Users/SelectedHomeUsers';
 
 
 // PROPS INTERFACE
 interface IProps {
     selectedLibrary: ILibrary;
     allBooks: IBook[] | null;
+    userProfile: UserType;
+    allUsers: UserType[]|null;
 }
 
 /////////////////////
@@ -16,8 +20,10 @@ interface IProps {
 const SelectedHome:React.FC<IProps> = ({
     selectedLibrary,
     allBooks,
+    userProfile,
+    allUsers,
 }) => {
-
+    console.log(selectedLibrary)
     ////////////
     // STATE ///
     ////////////
@@ -85,13 +91,17 @@ const SelectedHome:React.FC<IProps> = ({
                         <SelectedHomeBooks 
                             allBooks={allBooks}
                             selectedLibrary={selectedLibrary}
+                            userProfile={userProfile}
+                            allUsers={allUsers}
                         />
                     )
                     :
                     (
-                        <div>
-                            Users
-                        </div>
+                        <SelectedHomeUsers 
+                            userProfile={userProfile}
+                            allUsers={allUsers!}
+                            selectedLibrary={selectedLibrary}
+                        />
                     )
                 }
 

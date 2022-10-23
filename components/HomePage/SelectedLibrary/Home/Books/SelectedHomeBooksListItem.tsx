@@ -1,13 +1,13 @@
 import { useMutation } from '@apollo/client';
 import { memo, useCallback } from 'react';
-import { RemoveBookMutation } from '../../../../graphql/books/mutations';
-import useAppStore from '../../../../store/appStore';
-import useMainStore from '../../../../store/mainStore';
-import { IBook } from '../../../../types/libraryTypes';
-import { UserType } from '../../../../types/userTypes';
-import { TOAST_TYPE_OPTIONS } from '../../../../utils/constants';
-import { FUNC_DATE_TO_TXT, showToast } from '../../../../utils/functions';
-import Button from '../../../Common/Button';
+import { RemoveBookMutation } from '../../../../../graphql/books/mutations';
+import useAppStore from '../../../../../store/appStore';
+import useMainStore from '../../../../../store/mainStore';
+import { IBook } from '../../../../../types/libraryTypes';
+import { UserType } from '../../../../../types/userTypes';
+import { TOAST_TYPE_OPTIONS } from '../../../../../utils/constants';
+import { FUNC_DATE_TO_TXT, showToast } from '../../../../../utils/functions';
+import Button from '../../../../Common/Button';
 
 // PROPS INTERFACE
 interface IProps {

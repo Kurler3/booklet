@@ -13,12 +13,15 @@ import LibraryListContainer from './LibraryListContainer';
 import SelectLibraryCreateModal from './SelectLibraryCreateModal';
 import SelectLibrarySideBar from './SelectLibrarySideBar';
 import lodash from 'lodash';
+import { UserType } from '../../../types/userTypes';
 
 
 
 interface IProps {
     loading: boolean;
     allLibraries: null | ILibrary[];
+    userProfile: UserType;
+    allUsers: UserType[] | null;
 }
 interface IState {
     selectedLibraries: ILibrary[];
@@ -34,6 +37,8 @@ interface IState {
 const SelectLibrary:React.FC<IProps> = ({
     loading,
     allLibraries,
+    userProfile,
+    allUsers,
 }) => {
 
     /////////////////
@@ -41,7 +46,6 @@ const SelectLibrary:React.FC<IProps> = ({
     /////////////////
 
     const {setAppLoading} = useAppStore();
-    const {userProfile} = useAuthStore();
     const {addLibrary, removeLibraries, setNewSelectedLibrary} = useMainStore();
     
     ///////////////
@@ -198,7 +202,7 @@ const SelectLibrary:React.FC<IProps> = ({
     // HANDLE SELECT LIBRARY
     const handleSelectLibrary = useCallback((e:React.MouseEvent<HTMLButtonElement>) => {
         setNewSelectedLibrary(state.selectedLibraries[0]);
-    }, [state.selectedLibraries]);
+    }, [setNewSelectedLibrary, state.selectedLibraries]);
 
 
     ////////////////////////////
@@ -360,6 +364,8 @@ const SelectLibrary:React.FC<IProps> = ({
                             newLibrary={state.newLibrary}
                             handleInputChange={handleCreateModalInputChange}
                             handleSelectChange={handleSelectChange}
+                            allUsers={allUsers}
+                            userProfile={userProfile}
                         />
                     )
                 }

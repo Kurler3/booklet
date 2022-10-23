@@ -1,17 +1,23 @@
 import {memo, useEffect} from 'react';
 import useMainStore from '../../../store/mainStore';
-import { ILibrary } from '../../../types/libraryTypes';
+import { IBook, ILibrary } from '../../../types/libraryTypes';
+import { UserType } from '../../../types/userTypes';
 import { MENU_OPTIONS } from '../../../utils/constants';
 import { FUNC_DATE_TO_TXT } from '../../../utils/functions';
-import SelectedChangeLibrary from './SelectedChangeLibrary';
-import SelectedHome from './SelectedHome';
-import SelectedIssueRequests from './SelectedIssueRequests';
+import SelectedChangeLibrary from './ChangeLibrary/SelectedChangeLibrary';
+import SelectedHome from './Home/SelectedHome';
+import SelectedIssueRequests from './IssueRequests/SelectedIssueRequests';
 
 
 
 // PROPS INTERFACE
 interface IProps {
     selectedLibrary: ILibrary;
+    fetchAllBooks: any;
+    allBooks: IBook[] | null;
+    menuOptionSelected: string;
+    userProfile: UserType;
+    allUsers: UserType[]|null;
 }
 
 /////////////////////////
@@ -20,17 +26,16 @@ interface IProps {
 
 const SelectedLibrary:React.FC<IProps> = ({
     selectedLibrary,
+    fetchAllBooks,
+    allBooks,
+    menuOptionSelected,
+    userProfile,
+    allUsers,
 }) => {
 
     //////////////////
     // MAIN STORE ////
     //////////////////
-
-    const {
-        menuOptionSelected,
-        allBooks,
-        fetchAllBooks,
-    } = useMainStore();
 
 
     // FETCH BOOKS
@@ -76,6 +81,8 @@ const SelectedLibrary:React.FC<IProps> = ({
                     <SelectedHome 
                         selectedLibrary={selectedLibrary}
                         allBooks={allBooks}
+                        userProfile={userProfile}
+                        allUsers={allUsers}
                     />
                 )
                 :

@@ -4,6 +4,7 @@ import Select from 'react-select';
 import Button from '../../Common/Button';
 import useAuthStore from '../../../store/authStore';
 import { IDefaultLibrary } from '../../../types/libraryTypes';
+import { UserType } from '../../../types/userTypes';
 
 
 interface IProps {
@@ -12,6 +13,8 @@ interface IProps {
     newLibrary: IDefaultLibrary;
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleSelectChange: (newValue: MultiValue<unknown>, actionMeta: ActionMeta<unknown>) => void;
+    userProfile: UserType;
+    allUsers: UserType[]|null;
 };
 
 //////////////////////////////////
@@ -24,13 +27,9 @@ const SelectLibraryCreateModal:React.FC<IProps> = ({
     newLibrary,
     handleInputChange,
     handleSelectChange,
+    userProfile,
+    allUsers,
 }) => {
-    
-    // LOGGED USER AND ALL USERS
-    const {
-        userProfile,
-        allUsers,
-    } = useAuthStore();
 
     //////////////
     // STATE /////
