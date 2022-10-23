@@ -42,7 +42,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
     allBooks,
     selectedLibrary,
 }) => {
-
+    
     //////////////
     // ZUSTAND ///
     //////////////
@@ -206,7 +206,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
         // RETURN
         return currentLibraryBooks ?? [];
     }, [allBooks, selectedLibrary.id, state.optionBtnOption]);
-
+    
     // AVAILABLE BOOKS TO ADD
     const availableBooksToAdd = useMemo(() => {
         return allBooks ? allBooks.filter((book) => book.libraryId === null) : [];

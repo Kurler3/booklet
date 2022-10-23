@@ -148,9 +148,9 @@ const mainStore = (set: any):IMainStore => ({
             for(let book of booksToAdd) {
                 const findIndex = newAllBooks?.findIndex((bookFromState) => bookFromState.id === book.id);
 
-                if(findIndex && findIndex > -1) {
-                    newAllBooks![findIndex] = {
-                        ...newAllBooks![findIndex],
+                if(findIndex!==-1) {
+                    newAllBooks![findIndex!] = {
+                        ...newAllBooks![findIndex!],
                         libraryId: book.libraryId,
                         addedAt: book.addedAt,
                         addedBy: book.addedBy,
@@ -185,9 +185,9 @@ const mainStore = (set: any):IMainStore => ({
             let newAllBooks = _.cloneDeep(state.allBooks);
 
             const findIndex = newAllBooks?.findIndex((book) => book.id === bookIdToDelete);
-            if(findIndex && findIndex > -1) {
-                newAllBooks![findIndex] = {
-                    ...newAllBooks![findIndex],
+            if(findIndex!==-1) {
+                newAllBooks![findIndex!] = {
+                    ...newAllBooks![findIndex!],
                     libraryId: null,
                 };
             }

@@ -102,6 +102,13 @@ const typeDefs = gql`
             libraryId: ID!,
             bookId: ID!,
         ):ID
+
+        # ADD EXISTING BOOKS
+        addExistingBooks(
+            libraryId: ID!,
+            bookIds: [ID!]!,
+            userId: ID!
+        ):[Book] 
     }
 `;
 

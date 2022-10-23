@@ -133,6 +133,55 @@ const bookResolver = {
             } catch (error) {
                 return error;
             }
+        },
+
+        // ADD EXISTING BOOKS
+        addExistingBooks: async (_:any, args: {
+            libraryId: string;
+            userId: string;
+            bookIds: string[];
+        }) => {
+            try {
+                // GET PARAMS
+                const {
+                    libraryId,
+                    userId,
+                    bookIds,
+                } = args;
+
+                let newBooks = [];
+
+                // FOR EACH OF THE SELECTED BOOK ID, ADD THE SELECTED LIBRAY ID AS THE LIBRARY ID AND THE   OTHER PROPERTIES NECESSARY TOO.
+
+                // LAUNCH ALL REQUESTS AT ONCE
+                for(let bookId of bookIds) {
+                    const book = await BookModel.findById(bookId);
+
+                    book.libraryId = libraryId;
+                    book.addedAt = new Date().toISOString();
+                    book.addedBy = userId;
+                    
+                    await book.save();
+
+                    newBooks.push(book);
+                }
+
+                // NEED TO ADD ALL THESE BOOK IDS TO THE SELECTED LIBRARY "books" PROPERTY
+                const library = await LibraryModel.findById(libraryId);
+
+                // PUSH ALL NEW BOOK IDS
+                library.books.push(...bookIds);
+
+                // SAVE
+                await library.save();
+                
+                // RETURN LIST OF NEW BOOKS.
+                return newBooks;
+            } catch (error) {
+                throw new GraphQLError(
+                    error as string,
+                );
+            }
         }
     }
 };

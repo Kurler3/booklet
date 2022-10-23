@@ -29,6 +29,9 @@ export const showToast = (
                 TOAST_SECOND_ARGUMENT,
             );
     }
+
+    // CLEAR WAITING QUEUE
+    toast.clearWaitingQueue();
 }
 
 

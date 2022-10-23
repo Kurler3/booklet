@@ -81,7 +81,7 @@ const SelectedHomeExistingBooksModal: React.FC<IProps> = ({
                     // SUCCESS TYPE
                     TOAST_TYPE_OPTIONS.success,
                     // MESSAGE
-                    `Book${state.selectedBooks.length > 1 ? "s" : ""}added!`,
+                    `Book${state.selectedBooks.length > 1 ? "s" : ""} added!`,
                 );
 
                 // UPDATE MAIN STORE
