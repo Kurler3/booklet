@@ -1,6 +1,7 @@
-import {memo, useState, useCallback, useMemo} from 'react';
+import { memo, useState, useCallback, useMemo } from 'react';
 import { ILibrary } from '../../../../../types/libraryTypes';
 import { UserType } from '../../../../../types/userTypes';
+import Button from '../../../../Common/Button';
 import { normalOptionBtnStyle, selectedOptionBtnStyle } from '../Books/SelectedHomeBooks';
 
 
@@ -21,12 +22,12 @@ const RADIO_OPTIONS = {
 // SELECTED HOME USERS ///////////
 //////////////////////////////////
 
-const SelectedHomeUsers:React.FC<IProps> = ({
+const SelectedHomeUsers: React.FC<IProps> = ({
     allUsers,
     userProfile,
     selectedLibrary,
 }) => {
-   
+
     /////////////////
     // STATE ////////
     /////////////////
@@ -40,9 +41,9 @@ const SelectedHomeUsers:React.FC<IProps> = ({
 
     const filteredUsers = useMemo(() => {
 
-        let staffIds:string[] = [];
+        let staffIds: string[] = [];
 
-        switch(state.radioOption) {
+        switch (state.radioOption) {
             case RADIO_OPTIONS.all:
                 staffIds = [
                     ...selectedLibrary.admins,
@@ -52,7 +53,7 @@ const SelectedHomeUsers:React.FC<IProps> = ({
             case RADIO_OPTIONS.admins:
                 staffIds = selectedLibrary.admins;
                 break;
-            default: 
+            default:
                 staffIds = selectedLibrary.librarians;
                 break;
         };
@@ -60,13 +61,18 @@ const SelectedHomeUsers:React.FC<IProps> = ({
         return allUsers.filter((user) => staffIds.includes(user.id));
     }, [allUsers, selectedLibrary.admins, selectedLibrary.librarians, state.radioOption]);
 
+    // IS CURRENT USER ADMIN OF THIS LIBRARY
+    const isCurrentUserAdmin = useMemo(() => {
+        return selectedLibrary.admins.includes(userProfile.id);
+    }, [selectedLibrary.admins, userProfile.id]);
+
     /////////////////
     // FUNCTIONS ////
     /////////////////
 
     // HANDLE CLICK ON RADIO OPTION
     const handleSelectOption = useCallback((newOption: string) => {
-        if(newOption !== state.radioOption) {
+        if (newOption !== state.radioOption) {
             setState((prevState) => {
                 return {
                     ...prevState,
@@ -75,6 +81,11 @@ const SelectedHomeUsers:React.FC<IProps> = ({
             })
         }
     }, [state.radioOption]);
+
+    // HANDLE SHOW/HIDE ADD USERS MODAL
+    const handleShowHideAddUsersModal = useCallback(() => { }, []);
+
+
 
     /////////////////
     // RENDER ///////
@@ -114,46 +125,82 @@ const SelectedHomeUsers:React.FC<IProps> = ({
                         <span className={state.radioOption === RADIO_OPTIONS.librarians ? selectedOptionBtnStyle : normalOptionBtnStyle}></span>
                         <span className='font-medium'>Librarians</span>
                     </div>
-                    
+
                 </div>
             </div>
 
             {/* LIST CONTAINER */}
             <div className='flex-1 flex flex-col w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-2 gap-4'>
                 {
-                    filteredUsers.length > 0 ? 
-                     filteredUsers.map((user, index) => {
-                        
-                        return (
-                            <div
-                                key={`selected_home_user_item_${user.id}_${index}`}
-                                className="flex items-center justify-between w-full bg-gray-200 p-3 rounded-lg shadow-md"
-                            >   
-                                {/* USERNAME + EMAIL */}
+                    filteredUsers.length > 0 ?
+                        filteredUsers.map((user, index) => {
+
+                            // CHECK IF USER IS ADMIN OR LIBRARIAN
+                            const isAdmin = selectedLibrary.admins.includes(user.id);
+
+                            return (
                                 <div
-                                    className='flex flex-col'
+                                    key={`selected_home_user_item_${user.id}_${index}`}
+                                    className="flex items-center justify-between w-full bg-gray-200 p-3 rounded-lg shadow-md"
                                 >
-                                    <span className='text-capitalize font-bold text-lg'>
-                                        {user.username} 
+                                    {/* USERNAME + EMAIL */}
+                                    <div
+                                        className='flex flex-col'
+                                    >
+                                        <span className='text-capitalize font-bold text-lg'>
+                                            {user.username}
                                             <span className='ml-1 font-medium text-sm text-gray-500'>
                                                 {user.id === userProfile.id ? "(you)" : ""}
                                             </span>
-                                    </span>
-                                    <span className='text-gray-400 text-sm'>
-                                        {user.email}
-                                    </span>
-                                </div>
+                                        </span>
+                                        <span className='text-gray-400 text-sm'>
+                                            {user.email}
+                                        </span>
+                                    </div>
 
-                                {/* ADMINS/LIBRARIAN TAG */}
-                            </div>
-                        )
-                     })
-                    :
-                    <div className='w-full h-full items-center justify-center flex'>
-                        <span className='text-[35px] font-bold'>No users for this option!</span>
-                    </div>
+                                    {/* ADMINS/LIBRARIAN TAG */}
+                                    <div className='flex justify-start items-center'>
+                                        {/* DELETE BTN (IF ADMIN AND NOT THIS USER) */}
+
+                                        {/* TAG */}
+                                        <div
+                                            className={`
+                                        p-2 ${isAdmin ? "bg-purple-500" : "bg-blue-400"} text-white font-bold rounded-md
+                                         `}
+                                        >
+                                            {
+                                                isAdmin ? "Admin" : "Librarian"
+                                            }
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            )
+                        })
+                        :
+                        <div className='w-full h-full items-center justify-center flex'>
+                            <span className='text-[35px] font-bold'>No users for this option!</span>
+                        </div>
                 }
             </div>
+
+            {/* ADD USERS TO LIBRARY (IF ADMIN) */}
+            {
+                isCurrentUserAdmin &&
+                <div
+                    className='flex justify-start items-center p-2 w-full'
+                >
+                    {/* ADD USERS BTN */}
+                    <Button
+                        onClick={handleShowHideAddUsersModal}
+                        txt="Add users"
+                        icon="add"
+                        btnCss='p-2 border bg-green-400 text-white cursor-pointer rounded-md transition hover:shadow-lg hover:bg-green-500 w-full font-bold text-xl'
+                    />
+                </div>
+            }
         </div>
     );
 };
