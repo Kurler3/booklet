@@ -3,6 +3,7 @@ import { ILibrary } from '../../../../../types/libraryTypes';
 import { UserType } from '../../../../../types/userTypes';
 import Button from '../../../../Common/Button';
 import { normalOptionBtnStyle, selectedOptionBtnStyle } from '../Books/SelectedHomeBooks';
+import SelectedHomeAddUsersModal from './SelectedHomeAddUsersModal';
 
 
 interface IProps {
@@ -33,12 +34,14 @@ const SelectedHomeUsers: React.FC<IProps> = ({
     /////////////////
     const [state, setState] = useState({
         radioOption: RADIO_OPTIONS.all,
+        isShowAddUsersModal: false,
     });
 
     /////////////////
     // MEMO /////////
     /////////////////
 
+    // ARRAY OF USERS THAT ARE EITHER ADMINS OR LIBRARIANS OF THIS LIBRARY
     const filteredUsers = useMemo(() => {
 
         let staffIds: string[] = [];
@@ -60,6 +63,15 @@ const SelectedHomeUsers: React.FC<IProps> = ({
 
         return allUsers.filter((user) => staffIds.includes(user.id));
     }, [allUsers, selectedLibrary.admins, selectedLibrary.librarians, state.radioOption]);
+
+    // ARRAY OF USERS THAT ARE NOT STAFF IN THIS LIBRARY
+    const availableUsers = useMemo(() => {
+        const staffIds = [
+            ...selectedLibrary.admins,
+            ...selectedLibrary.librarians,
+        ];
+        return allUsers.filter((user) => !staffIds.includes(user.id));
+    }, [allUsers, selectedLibrary.admins, selectedLibrary.librarians]);
 
     // IS CURRENT USER ADMIN OF THIS LIBRARY
     const isCurrentUserAdmin = useMemo(() => {
@@ -83,7 +95,19 @@ const SelectedHomeUsers: React.FC<IProps> = ({
     }, [state.radioOption]);
 
     // HANDLE SHOW/HIDE ADD USERS MODAL
-    const handleShowHideAddUsersModal = useCallback(() => { }, []);
+    const handleShowHideAddUsersModal = useCallback(() => { 
+        setState((prevState) => {
+            return {
+                ...prevState,
+                isShowAddUsersModal: !prevState.isShowAddUsersModal,
+            }
+        })
+    }, []);
+
+    // HANDLE REMOVE USER
+    const handleRemoveUser = useCallback((userIdToRemove:string) => {
+
+    }, []);
 
 
 
@@ -127,6 +151,18 @@ const SelectedHomeUsers: React.FC<IProps> = ({
                     </div>
 
                 </div>
+
+                {/* NUM USERS */}
+                <span
+                    className='font-semibold'
+                >
+                    Number of users: 
+                    <span
+                        className='text-gray-400 ml-1'
+                    >
+                        {filteredUsers.length}
+                    </span>
+                </span>
             </div>
 
             {/* LIST CONTAINER */}
@@ -137,6 +173,9 @@ const SelectedHomeUsers: React.FC<IProps> = ({
 
                             // CHECK IF USER IS ADMIN OR LIBRARIAN
                             const isAdmin = selectedLibrary.admins.includes(user.id);
+
+                            // CHECK IF LOGGED USER IS ADMIN
+                            const isLoggedUserAdmin = selectedLibrary.admins.includes(userProfile.id);
 
                             return (
                                 <div
@@ -159,8 +198,19 @@ const SelectedHomeUsers: React.FC<IProps> = ({
                                     </div>
 
                                     {/* ADMINS/LIBRARIAN TAG */}
-                                    <div className='flex justify-start items-center'>
+                                    <div className='flex justify-start items-center gap-3'>
                                         {/* DELETE BTN (IF ADMIN AND NOT THIS USER) */}
+                                        {
+                                            isLoggedUserAdmin && !isAdmin && user.id !== userProfile.id ?
+                                            (
+                                                <Button 
+                                                    onClick={() => handleRemoveUser(user.id)}
+                                                    icon="delete"
+                                                    borderRadius="12px"
+                                                    iconColor="red"
+                                                />
+                                            )
+                                        :null}
 
                                         {/* TAG */}
                                         <div
@@ -173,8 +223,6 @@ const SelectedHomeUsers: React.FC<IProps> = ({
                                             }
                                         </div>
                                     </div>
-
-
 
                                 </div>
                             )
@@ -200,6 +248,17 @@ const SelectedHomeUsers: React.FC<IProps> = ({
                         btnCss='p-2 border bg-green-400 text-white cursor-pointer rounded-md transition hover:shadow-lg hover:bg-green-500 w-full font-bold text-xl'
                     />
                 </div>
+            }
+
+            {/* ADD USERS MODAL */}
+            {
+                state.isShowAddUsersModal &&
+                (
+                    <SelectedHomeAddUsersModal 
+                        handleShowHideAddUsersModal={handleShowHideAddUsersModal}
+                        availableUsers={availableUsers}
+                    />
+                )
             }
         </div>
     );

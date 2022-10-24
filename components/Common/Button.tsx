@@ -15,6 +15,7 @@ interface Props {
     onClick:Function;
     disabled?:boolean;
     loading?:boolean;
+    margin?:string;
 }
 
 const Button: React.FC<Props> = ({
@@ -32,6 +33,7 @@ const Button: React.FC<Props> = ({
     borderRadius,
     disabled,
     loading,
+    margin,
 }) => {
 
     return (
@@ -45,6 +47,7 @@ const Button: React.FC<Props> = ({
                 backgroundColor: bgColor ? bgColor : '',
                 borderRadius: borderRadius ? borderRadius : '',
                 cursor: disabled ? "not-allowed" : "",
+                margin: margin ?? '',
             }}
             onClick={(e) => onClick(e)}
             disabled={disabled ?? false}
