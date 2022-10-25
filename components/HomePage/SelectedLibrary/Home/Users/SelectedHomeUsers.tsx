@@ -1,6 +1,13 @@
+import { useMutation } from '@apollo/client';
 import { memo, useState, useCallback, useMemo } from 'react';
+import { REMOVE_USER_FROM_LIBRARY } from '../../../../../graphql/libraries/mutations';
+import useAppStore from '../../../../../store/appStore';
+import useAuthStore from '../../../../../store/authStore';
+import useMainStore from '../../../../../store/mainStore';
 import { ILibrary } from '../../../../../types/libraryTypes';
 import { UserType } from '../../../../../types/userTypes';
+import { TOAST_TYPE_OPTIONS } from '../../../../../utils/constants';
+import { showToast } from '../../../../../utils/functions';
 import Button from '../../../../Common/Button';
 import { normalOptionBtnStyle, selectedOptionBtnStyle } from '../Books/SelectedHomeBooks';
 import SelectedHomeAddUsersModal from './SelectedHomeAddUsersModal';
@@ -10,6 +17,12 @@ interface IProps {
     allUsers: UserType[];
     userProfile: UserType;
     selectedLibrary: ILibrary;
+}
+
+interface IState {
+    radioOption:string;
+    isShowAddUsersModal: boolean;
+    userIdToRemove: string|null;
 }
 
 // RADIO OPTIONS
@@ -30,12 +43,66 @@ const SelectedHomeUsers: React.FC<IProps> = ({
 }) => {
 
     /////////////////
+    // ZUSTAND //////
+    /////////////////
+    
+    const {setAppLoading} = useAppStore();
+    const {removeUserFromSelectedLibrary} = useMainStore();
+    const {removeLibraryFromUser} = useAuthStore();
+
+    /////////////////
     // STATE ////////
     /////////////////
-    const [state, setState] = useState({
+    const [state, setState] = useState<IState>({
         radioOption: RADIO_OPTIONS.all,
         isShowAddUsersModal: false,
+        userIdToRemove: null,
     });
+
+    /////////////////
+    // MUTATION /////
+    /////////////////
+
+    const [removeUserFromLibraryMutation, {}] = useMutation(
+        // MUTATION STRING
+        REMOVE_USER_FROM_LIBRARY,
+        // OPTIONS
+        {
+            update(_, result) {
+                
+                // CALL MAIN STORE 
+                removeUserFromSelectedLibrary(result.data.removeUserFromLibrary);
+
+
+                // CALL AUTH STORE TO UPDATE "ALL USERS" 
+                removeLibraryFromUser(
+                    // USER ID
+                    result.data.removeUserFromLibrary,
+                    // LIBRARY ID  
+                    selectedLibrary.id,
+                );
+
+                // SHOW SUCCESS TOAST
+                showToast(
+                    TOAST_TYPE_OPTIONS.success,
+                    "Removed user from library successfully!"
+                );
+
+            },
+            onError(error) {
+                console.log("Error removing user from library...", error);
+                showToast(
+                    TOAST_TYPE_OPTIONS.error,
+                    "Error removing user from library..."
+                );
+            },
+            // variables: {
+            //     userId: userProfile.id,
+            //     libraryId: selectedLibrary.id,
+            //     userIdToRemove: state.userIdToRemove,
+            // }
+        }
+    );
 
     /////////////////
     // MEMO /////////
@@ -105,9 +172,28 @@ const SelectedHomeUsers: React.FC<IProps> = ({
     }, []);
 
     // HANDLE REMOVE USER
-    const handleRemoveUser = useCallback((userIdToRemove:string) => {
+    const handleRemoveUser = useCallback(async (userIdToRemove:string) => {
+        try {   
+            setAppLoading(true);
 
-    }, []);
+            setState((prevState) => ({...prevState, userIdToRemove: userIdToRemove}));
+
+            await removeUserFromLibraryMutation({
+                variables: {
+                    userId: userProfile.id,
+                    libraryId: selectedLibrary.id,
+                    userIdToRemove: userIdToRemove,
+                }
+            });
+
+            setState((prevState) => ({...prevState, userIdToRemove: null}));
+
+            setAppLoading(false);
+        } catch (error) {
+            console.log('Error removing user from library...', error);
+            setAppLoading(false);
+        }
+    }, [removeUserFromLibraryMutation, selectedLibrary.id, setAppLoading, userProfile.id]);
 
 
 

@@ -23,6 +23,7 @@ export interface IAuth {
   // FETCH ALL USERS FUNCTION
   fetchAllUsers: any;
   updateUsersLibraryEnrolled: any;
+  removeLibraryFromUser: any;
 }
 
 export interface CustomJWTPayload {

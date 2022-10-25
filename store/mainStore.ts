@@ -53,6 +53,9 @@ interface IMainStore {
 
   // ADD USERS TO SELECTED LIBRARY
   addUsersToSelectedLibrary: any;
+
+  // REMOVE USER FROM SELECTED LIBRARY
+  removeUserFromSelectedLibrary: any;
 }
 
 // STORE
@@ -254,6 +257,35 @@ const mainStore = (set: any): IMainStore => ({
       }
     });
   },
+
+  // REMOVE USER FROM SELECTED LIBRARY
+  removeUserFromSelectedLibrary: (
+    // USER ID TO REMOVE
+    userIdToRemove:string,
+  ) => {
+    set((state:IMainStore) => {
+
+      let newSelectedLibrary = _.cloneDeep(state.selectedLibrary);
+
+      const findIndex = newSelectedLibrary!.librarians.findIndex((librarianId) => librarianId === userIdToRemove);
+
+      newSelectedLibrary!.librarians.splice(findIndex, 1);
+
+      // FROM ALL LIBRARIES NOW
+      let newAllLibraries = _.cloneDeep(state.allLibraries);
+
+      const globalIndex = newAllLibraries!.findIndex((library) => library.id === newSelectedLibrary!.id);
+
+      newAllLibraries![globalIndex!] = newSelectedLibrary!;
+
+      return {
+        ...state,
+        allLibraries: newAllLibraries,
+        selectedLibrary: newSelectedLibrary,
+      }
+
+    })
+  }
 });
 
 const useMainStore = create(mainStore);

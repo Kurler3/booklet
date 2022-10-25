@@ -117,6 +117,13 @@ const typeDefs = gql`
             librarians: [ID!]!,
             userId: ID!
         ):Library!
+
+        # REMOVE USER FROM LIBRARY
+        removeUserFromLibrary(
+            userId: ID!,
+            libraryId: ID!,
+            userIdToRemove: ID!,
+        ):ID!
     }
 `;
 

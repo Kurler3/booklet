@@ -66,6 +66,36 @@ const authStore = (set:any):IAuth => ({
         })
     },
 
+    // REMOVE LIBRARY FROM USER ENROLLED LIBRARIES
+    removeLibraryFromUser: async (
+        userId: string,
+        libraryId: string,
+    ) => {
+
+        set((state: IAuth) => {
+
+            let newAllUsers = _.cloneDeep(state.allUsers);
+
+            // FIND INDEX
+            const findIndex = newAllUsers!.findIndex((user) => user.id === userId);
+
+            let user = _.cloneDeep(newAllUsers![findIndex]);
+
+            // REMOVE LIBRARY ID    
+            const libraryIdIndex = user.librariesEnrolled.findIndex((enrolledLibraryId) => enrolledLibraryId === libraryId);
+
+            user.librariesEnrolled.splice(libraryIdIndex, 1);
+
+            newAllUsers![findIndex] = user;
+
+            return {
+                ...state,
+                allUsers: newAllUsers,
+            }
+
+        })
+
+    }
 });
 
 // CREATE PERSISTENT STORE HOOK

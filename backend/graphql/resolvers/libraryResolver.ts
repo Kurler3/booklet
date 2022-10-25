@@ -205,6 +205,75 @@ const libraryResolver = {
         throw new GraphQLError(error as string);
       }
     },
+
+    // REMOVE USER FROM LIBRARY
+    removeUserFromLibrary: async (_:null, args: {
+      userId: string;
+      libraryId: string;
+      userIdToRemove: string;
+    }) => {
+      try {
+
+        // DECONSTRUCT PARAMS
+        const {
+          userId,
+          libraryId,
+          userIdToRemove,
+        } = args;
+
+        if(!userId || !libraryId || !userIdToRemove) {
+          throw new GraphQLError("Missing params");
+        } 
+
+        // FIND LIBRARY
+        const library = await LibraryModel.findById(libraryId);
+
+        // CHECK IF FOUND
+        if(library) {
+
+          // FIND IF USER ID IS IN ADMINS
+          if(!library.admins.includes(userId)) {
+            throw new GraphQLError("Not Authorized!");
+          }
+
+          // REMOVE USER ID TO REMOVE FROM LIBRARY
+          const findUserIdIndex = library.librarians.findIndex((librarianId:string) => librarianId === userIdToRemove);
+
+          // IF FOUND INDEX
+          if(findUserIdIndex > -1) {
+
+            // REMOVE AND SAVE 
+            library.librarians.splice(findUserIdIndex, 1);
+
+            await library.save();
+            
+            // FIND USER BY ID
+            const user = await UserModel.findById(userIdToRemove);
+
+            // FIND LIBRARY ID 
+            const libraryIdIndex = user.librariesEnrolled.findIndex((enrolledLibraryId:string) => enrolledLibraryId === libraryId); 
+            
+            // REMOVE LIBRARY ID FROM librariesEnrolled
+            user.librariesEnrolled.splice(libraryIdIndex, 1);
+        
+            // SAVE USER
+            await user.save();
+
+            return userId;
+          }
+          else {
+            throw new GraphQLError("User not found in librarian!");
+          }
+
+        }
+        else {
+          throw new GraphQLError("Library not found!");
+        }
+
+      } catch (error) {
+        throw new GraphQLError(error as string);
+      }
+    }
   },
 };
 

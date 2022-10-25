@@ -56,3 +56,18 @@ export const ADD_USERS_TO_LIBRARY = gql`
         }
     }
 `;
+
+// REMOVE USER FROM LIBRARY
+export const REMOVE_USER_FROM_LIBRARY = gql`
+    mutation RemoveUserFromLibrary(
+        $userId: ID!
+        $libraryId: ID!
+        $userIdToRemove: ID!
+    ) {
+        removeUserFromLibrary (
+            userId: $userId
+            libraryId: $libraryId
+            userIdToRemove: $userIdToRemove
+        )
+    }
+`;
