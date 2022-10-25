@@ -23,7 +23,7 @@ const SelectedHome:React.FC<IProps> = ({
     userProfile,
     allUsers,
 }) => {
-    console.log(selectedLibrary)
+ 
     ////////////
     // STATE ///
     ////////////

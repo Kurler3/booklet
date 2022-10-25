@@ -2,6 +2,8 @@ import { useMutation } from '@apollo/client';
 import {memo, useCallback, useState, useMemo} from 'react';
 import Select, { ActionMeta, MultiValue } from 'react-select';
 import { ADD_USERS_TO_LIBRARY } from '../../../../../graphql/libraries/mutations';
+import useAppStore from '../../../../../store/appStore';
+import useAuthStore from '../../../../../store/authStore';
 import useMainStore from '../../../../../store/mainStore';
 import { UserType } from '../../../../../types/userTypes';
 import { TOAST_TYPE_OPTIONS } from '../../../../../utils/constants';
@@ -43,6 +45,8 @@ const SelectedHomeAddUsersModal:React.FC<IProps> = ({
     // ZUSTAND /////
     ////////////////
     const {addUsersToSelectedLibrary} = useMainStore();
+    const {updateUsersLibraryEnrolled} = useAuthStore();
+    const {setAppLoading} = useAppStore();
 
     ////////////////
     // STATE ///////
@@ -65,7 +69,7 @@ const SelectedHomeAddUsersModal:React.FC<IProps> = ({
                 ...state.librarians,
             ];
 
-            return stateStaff.findIndex((staff) => staff.value === user.id) !== -1;
+            return stateStaff.find((staffObj) => staffObj.value === user.id) === undefined;
         }).map((user) => {
             return {
                 label: user.username,
@@ -92,8 +96,18 @@ const SelectedHomeAddUsersModal:React.FC<IProps> = ({
                     "Users added to library!",
                 );
 
+                    
                 // ADD USERS TO SELECTED LIBRARY IN MAIN STORE
                 addUsersToSelectedLibrary(result.data.addUsersToLibrary.admins, result.data.addUsersToLibrary.librarians);
+
+                // AUTH STORE
+                updateUsersLibraryEnrolled(
+                    [
+                        ...state.admins.map((adminObj) => adminObj.value),
+                        ...state.librarians.map((librarianObj) => librarianObj.value),
+                    ],
+                    selectedLibraryId,
+                );
 
                 // HIDE MODAL   
                 handleShowHideAddUsersModal();
@@ -121,10 +135,19 @@ const SelectedHomeAddUsersModal:React.FC<IProps> = ({
     /////////////////
 
     const handleConfirm = useCallback(
-      () => {
-        
+      async () => {
+        try {
+            setAppLoading(true);
+
+            await addUsersToLibraryMutation();
+
+            setAppLoading(false);
+        } catch (error) {
+            console.log("Error adding users...", error);
+            setAppLoading(false);
+        }
       },
-      [],
+      [addUsersToLibraryMutation, setAppLoading],
     )
     
      // HANDLE SELECT CHANGE

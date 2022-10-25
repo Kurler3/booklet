@@ -22,6 +22,7 @@ export interface IAuth {
   logout: any;
   // FETCH ALL USERS FUNCTION
   fetchAllUsers: any;
+  updateUsersLibraryEnrolled: any;
 }
 
 export interface CustomJWTPayload {

@@ -111,6 +111,12 @@ const typeDefs = gql`
         ):[Book]
 
         # ADD USERS
+        addUsersToLibrary(
+            libraryId: ID!,
+            admins: [ID!]!,
+            librarians: [ID!]!,
+            userId: ID!
+        ):Library!
     }
 `;
 

@@ -248,33 +248,9 @@ const mainStore = (set: any): IMainStore => ({
       newSelectedLibrary!.admins = newAdmins;
       newSelectedLibrary!.librarians = newLibrarians;
 
-      // ADD LIBRARY ID TO librariesEnrolled for each user.
-      let newAllUsers = _.cloneDeep(set.allUsers);
-
-      // GET USERS ARE BEING ADDED
-
-      const jointArray = [...newAdmins, ...newLibrarians];
-      const oldArray  = [...state.selectedLibrary!.admins, ...state.selectedLibrary!.librarians];
-
-      const usersBeingAdded = jointArray.filter((userId) => !oldArray.includes(userId));
-
-      // FOR EACH OF THE USER ID BEING ADDED, ADD THE LIBRARY ID TO THE librariesEnrolled
-      for(let userBeingAdded of usersBeingAdded) {
-        const findIndex = newAllUsers.findIndex((user:UserType) => user.id === userBeingAdded);
-        
-        newAllUsers[findIndex] = {
-          ...newAllUsers[findIndex],
-          enrolledLibraries: [
-            ...newAllUsers[findIndex].enrolledLibraries,
-            state.selectedLibrary!.id,
-          ]
-        }
-      }
-
       return {
         ...state,
         selectedLibrary: newSelectedLibrary,
-        allUsers: newAllUsers
       }
     });
   },
