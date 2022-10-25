@@ -108,7 +108,9 @@ const typeDefs = gql`
             libraryId: ID!,
             bookIds: [ID!]!,
             userId: ID!
-        ):[Book] 
+        ):[Book]
+
+        # ADD USERS
     }
 `;
 

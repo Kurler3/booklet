@@ -36,3 +36,23 @@ export const DELETE_LIBRARIES = gql`
         )
     }
 `;
+
+// ADD USERS TO LIBRARY
+export const ADD_USERS_TO_LIBRARY = gql`
+    mutation AddUsersToLibrary (
+        $libraryId: ID!
+        $admins: [ID!]!
+        $librarians: [ID!]!
+        $userId: ID!
+    ) {
+        addUsersToLibrary (
+            libraryId: $libraryId
+            admins: $admins
+            librarians: $librarians
+            userId: $userId
+        ) {
+            admins
+            librarians
+        }
+    }
+`;

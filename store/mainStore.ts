@@ -3,6 +3,7 @@ import create from "zustand";
 import { GetAllBooksQuery } from "../graphql/books/queries";
 import { getAllLibrariesQuery } from "../graphql/libraries/queries";
 import { IBook, ILibrary } from "../types/libraryTypes";
+import { UserType } from "../types/userTypes";
 import client from "../utils/ApolloClient";
 import { MENU_OPTIONS } from "../utils/constants";
 
@@ -49,6 +50,9 @@ interface IMainStore {
 
   // CHANGE SELECTED MENU OPTION
   changeSelectedMenuOption: any;
+
+  // ADD USERS TO SELECTED LIBRARY
+  addUsersToSelectedLibrary: any;
 }
 
 // STORE
@@ -228,6 +232,50 @@ const mainStore = (set: any): IMainStore => ({
             ? newOption
             : prevState.menuOptionSelected,
       };
+    });
+  },
+
+  // ADD USERS TO SELECTED LIBRARY
+  addUsersToSelectedLibrary: (
+    newAdmins: string[],
+    newLibrarians: string[],
+  ) => {
+
+    set((state:IMainStore) => {
+
+      let newSelectedLibrary = _.cloneDeep(state.selectedLibrary);
+
+      newSelectedLibrary!.admins = newAdmins;
+      newSelectedLibrary!.librarians = newLibrarians;
+
+      // ADD LIBRARY ID TO librariesEnrolled for each user.
+      let newAllUsers = _.cloneDeep(set.allUsers);
+
+      // GET USERS ARE BEING ADDED
+
+      const jointArray = [...newAdmins, ...newLibrarians];
+      const oldArray  = [...state.selectedLibrary!.admins, ...state.selectedLibrary!.librarians];
+
+      const usersBeingAdded = jointArray.filter((userId) => !oldArray.includes(userId));
+
+      // FOR EACH OF THE USER ID BEING ADDED, ADD THE LIBRARY ID TO THE librariesEnrolled
+      for(let userBeingAdded of usersBeingAdded) {
+        const findIndex = newAllUsers.findIndex((user:UserType) => user.id === userBeingAdded);
+        
+        newAllUsers[findIndex] = {
+          ...newAllUsers[findIndex],
+          enrolledLibraries: [
+            ...newAllUsers[findIndex].enrolledLibraries,
+            state.selectedLibrary!.id,
+          ]
+        }
+      }
+
+      return {
+        ...state,
+        selectedLibrary: newSelectedLibrary,
+        allUsers: newAllUsers
+      }
     });
   },
 });

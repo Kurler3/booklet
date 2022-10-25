@@ -257,6 +257,8 @@ const SelectedHomeUsers: React.FC<IProps> = ({
                     <SelectedHomeAddUsersModal 
                         handleShowHideAddUsersModal={handleShowHideAddUsersModal}
                         availableUsers={availableUsers}
+                        selectedLibraryId={selectedLibrary.id as string}
+                        loggedUserId={userProfile.id}
                     />
                 )
             }

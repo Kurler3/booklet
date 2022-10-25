@@ -1,12 +1,19 @@
+import { useMutation } from '@apollo/client';
 import {memo, useCallback, useState, useMemo} from 'react';
 import Select, { ActionMeta, MultiValue } from 'react-select';
+import { ADD_USERS_TO_LIBRARY } from '../../../../../graphql/libraries/mutations';
+import useMainStore from '../../../../../store/mainStore';
 import { UserType } from '../../../../../types/userTypes';
+import { TOAST_TYPE_OPTIONS } from '../../../../../utils/constants';
+import { showToast } from '../../../../../utils/functions';
 import Modal from '../../../../Common/Modal';
 
 // PROPS INTERFACE
 interface IProps {
     handleShowHideAddUsersModal: () => void;
     availableUsers: UserType[];
+    selectedLibraryId: string;
+    loggedUserId: string;
 }
 
 // STATE INTERFACE
@@ -28,7 +35,14 @@ interface IState {
 const SelectedHomeAddUsersModal:React.FC<IProps> = ({
     handleShowHideAddUsersModal,
     availableUsers,
+    selectedLibraryId,
+    loggedUserId,
 }) => {
+
+    ////////////////
+    // ZUSTAND /////
+    ////////////////
+    const {addUsersToSelectedLibrary} = useMainStore();
 
     ////////////////
     // STATE ///////
@@ -60,13 +74,55 @@ const SelectedHomeAddUsersModal:React.FC<IProps> = ({
         });
     }, [availableUsers, state.admins, state.librarians]);
 
-    ////////////////
-    // FUNCTIONS ///
-    ////////////////
+    /////////////////
+    // MUTATION /////
+    /////////////////
+
+    // ADD USERS TO LIBRARY MUTATION HOOK
+    const [addUsersToLibraryMutation, {}] = useMutation(
+        // MUTATION STRING
+        ADD_USERS_TO_LIBRARY,
+        // OPTIONS
+        {
+            update(_, result) {
+                showToast(
+                    // SUCCESS TYPE
+                    TOAST_TYPE_OPTIONS.success,
+                    // MESSAGE
+                    "Users added to library!",
+                );
+
+                // ADD USERS TO SELECTED LIBRARY IN MAIN STORE
+                addUsersToSelectedLibrary(result.data.addUsersToLibrary.admins, result.data.addUsersToLibrary.librarians);
+
+                // HIDE MODAL   
+                handleShowHideAddUsersModal();
+            },
+            onError(error) {
+                // LOG ERROR
+                console.log("Error while adding users to library...", error);
+                // SHOW TOAST
+                showToast(
+                    TOAST_TYPE_OPTIONS.error,
+                    "Error adding users to library...",
+                );
+            },
+            variables: {
+                libraryId: selectedLibraryId,
+                admins: state.admins.map((adminObj) => adminObj.value),
+                librarians: state.librarians.map((librarianObj) => librarianObj.value),
+                userId: loggedUserId,
+            }
+        }
+    );
+
+    /////////////////
+    // FUNCTIONS ////
+    /////////////////
 
     const handleConfirm = useCallback(
       () => {
- 
+        
       },
       [],
     )
