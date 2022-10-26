@@ -1,9 +1,13 @@
 import { useMutation } from '@apollo/client';
 import {memo, useCallback} from 'react';
 import { CreateIssueRequest } from '../../../../../graphql/issueRequests/mutations';
+import useAppStore from '../../../../../store/appStore';
+import useMainStore from '../../../../../store/mainStore';
 import { IIssueRequest } from '../../../../../types/issueRequestTypes';
-import { IBook } from '../../../../../types/libraryTypes';
+import { IBook, ILibrary } from '../../../../../types/libraryTypes';
 import { UserType } from '../../../../../types/userTypes';
+import { TOAST_TYPE_OPTIONS } from '../../../../../utils/constants';
+import { showToast } from '../../../../../utils/functions';
 import SelectedHomeBooksListItem from './SelectedHomeBooksListItem';
 
 
@@ -14,6 +18,7 @@ interface IProps {
     canUserEditLibrary: boolean;
     selectedLibraryIssueRequests: IIssueRequest[];
     userProfile: UserType;
+    selectedLibrary: ILibrary;
 }
 
 ////////////////////////////////
@@ -26,42 +31,84 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
     canUserEditLibrary,
     selectedLibraryIssueRequests,
     userProfile,
+    selectedLibrary,
 }) => {
+
+    ////////////////
+    // ZUSTAND /////
+    ////////////////
     
+    const {setAppLoading} = useAppStore();
+    const {updateIssueRequest} = useMainStore(); 
+
     ////////////////
     // MUTATION ////
     ////////////////
 
-    // const [createIssueRequest, {}] = useMutation(
-    //     // MUTATION STRING
-    //     CreateIssueRequest,
-    //     // OPTIONS
-    //     {
-    //         update(_, result)
-    //     }
-    // );
+    const [createIssueRequest, {}] = useMutation(
+        // MUTATION STRING
+        CreateIssueRequest,
+        // OPTIONS
+        {   
+            // SUCCESS
+            update(_, result) {
+
+                // UPDATE MAIN STORE STATE
+                updateIssueRequest(result.data.createLibraryIssueRequest);
+
+                // SHOW TOAST   
+                showToast(
+                    TOAST_TYPE_OPTIONS.success,
+                    "Issue request was created successfully!",
+                );
+            },
+            // ON ERROR
+            onError(error) {
+                // LOG ERROR
+                console.log("Error while creating issue request...", error);
+
+                // SHOW ERROR TOAST
+                showToast(
+                    // ERROR TYPE
+                    TOAST_TYPE_OPTIONS.error,
+                    // MESSAGE
+                    "Error creating issue request...",
+                );
+            }
+        }
+    );
 
     ////////////////
     // FUNCTIONS ///
     ////////////////
     
-    const handleRequestIssue = useCallback((bookId: string) => {    
+    const handleRequestIssue = useCallback(async (bookId: string) => {    
         try {
-            
+            setAppLoading(true);
+
+            await createIssueRequest(
+                {
+                    variables: {
+                        libraryId: selectedLibrary.id,
+                        userId: userProfile.id,
+                        bookId: bookId,
+                    }
+                }
+            );
+            setAppLoading(false);
         } catch (error) {
             console.log('Error requesting book issue...', error);
         }
-    }, []);
+    }, [createIssueRequest, selectedLibrary.id, setAppLoading, userProfile.id]);
     
     // HANDLE CLOSE ISSUE REQUEST 
     const handleRemoveIssueRequest = useCallback((issueRequestId:string) => {
         try {
-            
         } catch (error) {
             console.log('Error closing issue request...', error);
         }
     },[]);
-
+    console.log(selectedLibraryIssueRequests)
     //////////////
     // RENDER ////
     //////////////

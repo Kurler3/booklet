@@ -282,6 +282,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
                     canUserEditLibrary={canUserEditLibrary}
                     selectedLibraryIssueRequests={selectedLibraryIssueRequests}
                     userProfile={userProfile}
+                    selectedLibrary={selectedLibrary}
                 /> 
 
                 {/* CREATE/ADD BOOK (IF ADMIN/LIBRARIAN) */}

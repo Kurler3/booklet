@@ -63,6 +63,9 @@ interface IMainStore {
   // REMOVE USER FROM SELECTED LIBRARY
   removeUserFromSelectedLibrary: any;
 
+  // UPDATE ISSUE REQUEST
+  updateIssueRequest: any;
+
   // RESET MAIN STORE STATE FUNCTION
   resetMainStoreState: any;
 }
@@ -306,6 +309,29 @@ const mainStore = (set: any): IMainStore => ({
       }
 
     })
+  },
+
+  // UPDATE ISSUE REQUEST
+  updateIssueRequest: async (newIssueRequest:IIssueRequest) => {
+    set((state:IMainStore) => {
+
+      let newSelectedLibraryIssueRequests = _.cloneDeep(state.selectedLibraryIssueRequests!);
+
+      // FIND INDEX
+      const findIndex = newSelectedLibraryIssueRequests.findIndex((issueRequest) => issueRequest.id === newIssueRequest.id);
+
+      if(findIndex !== -1) {
+        newSelectedLibraryIssueRequests[findIndex] = newIssueRequest;
+      }
+      else {
+        newSelectedLibraryIssueRequests.push(newIssueRequest);
+      }
+
+      return {
+        ...state,
+        selectedLibraryIssueRequests: newSelectedLibraryIssueRequests,
+      };
+    });
   },
 
   // RESET MAIN STORE STATE

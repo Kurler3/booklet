@@ -41,6 +41,7 @@ const typeDefs = gql`
         # IDS
         id: ID!
         libraryId: ID!
+        bookId: ID!
         requestingUserId: ID!
         createdAt: String!
     }
@@ -140,6 +141,13 @@ const typeDefs = gql`
             libraryId: ID!,
             userIdToRemove: ID!,
         ):ID!
+
+        # CREATE ISSUE REQUEST
+        createLibraryIssueRequest(
+            libraryId: ID!,
+            userId: ID!,
+            bookId: ID!
+        ): IssueRequest!
     }
 `;
 

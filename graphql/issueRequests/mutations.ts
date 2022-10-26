@@ -8,7 +8,9 @@ export const CreateIssueRequest = gql`
         $bookId: ID!
     ) {
         createLibraryIssueRequest(
-
+            libraryId: $libraryId
+            userId: $userId
+            bookId: $bookId
         ) {
             id
             libraryId
