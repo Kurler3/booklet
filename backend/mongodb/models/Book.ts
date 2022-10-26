@@ -9,6 +9,8 @@ const bookSchema = new Schema({
     description: String,
     // ISSUED AT
     issuedAt: String,
+    // DUE DATE FOR THE LEASE
+    issueDueDate: String,
     // ISSUED BY 
     issuedBy: String,
     // ISSUED TO

@@ -14,6 +14,7 @@ interface IProps {
     creator: UserType | undefined;
     book: IBook;
     canUserEditLibrary: boolean;
+    handleRequestIssue: (bookId:string) => void;
 }
 
 //////////////////////////////////////////
@@ -24,6 +25,7 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
     creator,
     book,
     canUserEditLibrary,
+    handleRequestIssue,
 }) => {
     
     const {setAppLoading} = useAppStore();
@@ -85,8 +87,7 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
             setAppLoading(false);
         }
     }, [removeBookMutation, setAppLoading]);
-
-
+   
     //////////////////
     // RENDER ////////
     //////////////////
@@ -112,6 +113,18 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
                     Added at: <span className='font-bold'>{FUNC_DATE_TO_TXT(new Date(book.addedAt), '/')}</span>
                 </span>
             </div>
+            {/* IF LOGGED USER IS NOT STAFF AND BOOK HAS NOT BEEN ISSUED TO SOMEONE YET */}
+            {
+                !canUserEditLibrary && book.issuedTo === null ?
+
+                <Button 
+                    icon="download"
+                    onClick={() => handleRequestIssue(book.id)}
+                    borderRadius="10px"
+                    iconCss="text-green-400"
+                />
+
+            :null}
 
             {/* IF LOGGED USER IS ADMIN/LIBRARIAN */}
             {

@@ -1,5 +1,6 @@
 import BookModel from '../../mongodb/models/Book';
 import LibraryModel from '../../mongodb/models/Library';
+import IssueRequestModel from '../../mongodb/models/IssueRequest';
 import {GraphQLError} from 'graphql';
 import _ from 'lodash';
 
@@ -62,6 +63,7 @@ const bookResolver = {
                     
                     // ISSUING PROPERTIES 
                     issuedAt: null,
+                    issueDueDate: null,
                     issuedBy: null,
                     issuedTo: null,
                     returnedAt: null,
@@ -110,13 +112,17 @@ const bookResolver = {
                 // SET SOME PROPERTIES TO NULL
                 bookInDb.libraryId = null;
                 bookInDb.issuedAt = null;
+                bookInDb.issueDueDate = null;
                 bookInDb.issuedBy = null;
                 bookInDb.addedBy = null;
                 bookInDb.addedAt = null;
                 bookInDb.returnedAt = null;
 
                 // SAVE BOOK
-                bookInDb.save();
+                await bookInDb.save();
+
+                // TRY TO DELETE ISSUE REQUESTS FROM THAT BOOK
+                await IssueRequestModel.deleteMany({bookId: bookId});
 
                 // FIND LIBRARY IN DB
                 const libraryInDb = await LibraryModel.findById(libraryId);

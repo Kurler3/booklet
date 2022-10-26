@@ -22,6 +22,7 @@ interface IProps {
     allLibraries: null | ILibrary[];
     userProfile: UserType;
     allUsers: UserType[] | null;
+    padding?:string;
 }
 interface IState {
     selectedLibraries: ILibrary[];
@@ -39,6 +40,7 @@ const SelectLibrary:React.FC<IProps> = ({
     allLibraries,
     userProfile,
     allUsers,
+    padding,
 }) => {
 
     /////////////////
@@ -333,7 +335,11 @@ const SelectLibrary:React.FC<IProps> = ({
             </div>
         :
         
-            <div className='flex h-full w-full p-10 gap-4 relative'>
+            <div className='flex h-full w-full p-10 gap-4 relative'
+                style={{
+                    padding: padding ?? "",
+                }}
+            >
 
                 {/* LIBRARY LIST CONTAINER */}
                 <LibraryListContainer 

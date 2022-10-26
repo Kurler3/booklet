@@ -9,8 +9,9 @@ export const GetAllBooksQuery = gql`
             title
             description
             issuedAt
-            issuedBy
             issuedTo
+            issueDueDate
+            issuedBy
             addedBy
             addedAt
             returnedAt

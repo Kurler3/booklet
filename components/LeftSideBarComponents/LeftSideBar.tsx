@@ -23,7 +23,7 @@ const LeftSideBar:React.FC<IProps> = () => {
 
     const {logout, userProfile} = useAuthStore();
 
-    const {selectedLibrary} = useMainStore();
+    const {selectedLibrary, resetMainStoreState} = useMainStore();
 
     /////////////////
     // RENDER ///////
@@ -71,7 +71,12 @@ const LeftSideBar:React.FC<IProps> = () => {
                     
 
                     <Button 
-                        onClick={logout}
+                        onClick={() => {
+                            // LOGOUT AUTH STORE
+                            logout();
+                            // CLEAN MAIN STORE
+                            resetMainStoreState();
+                        }}
                         txt="Logout"
                         icon="logout"
                         width="80%"

@@ -68,13 +68,11 @@ const LibraryListContainer:React.FC<IProps> = ({
                 />
             </div>
 
-            
-
             {/* LIST CONTAINER */}
             {
                 sortedLibraries.length > 0 ?
                 <div
-                className='w-full flex-1 flex flex-col justify-start items-start p-2'
+                className='w-full flex-1 flex flex-col justify-start items-start p-2 '
             >
                 {sortedLibraries.map((library, index) => {
 
@@ -89,7 +87,7 @@ const LibraryListContainer:React.FC<IProps> = ({
                     return (
                         <div
                             key={`library_list_container_${library.id}_${index}`}
-                            className="p-2 flex items-center w-full bg-white mt-2 border-b border-b-gray-400 rounded-md"
+                            className="p-2 flex items-center w-full bg-white mt-2 shadow-md border-b-gray-400 rounded-md"
                         >
                             <Button 
                                 onClick={() => handleClickLibraryCheckbox(library)}

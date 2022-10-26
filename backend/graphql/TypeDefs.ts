@@ -21,6 +21,8 @@ const typeDefs = gql`
         
         # ISSUED FIELDS
         issuedAt: String
+        # DUE DATE OF THE LEASE
+        issueDueDate: String
         # THE ID OF THE LIBRARIAN/ADMIN THAT ALLOWED THE BOOK TO BE ISSUED
         issuedBy: ID
         # TO WHOM IT IS BEING BORROWED
@@ -32,6 +34,15 @@ const typeDefs = gql`
 
         # RETURNED FIELDS
         returnedAt: String
+    }
+
+    # ISSUE REQUEST
+    type IssueRequest {
+        # IDS
+        id: ID!
+        libraryId: ID!
+        requestingUserId: ID!
+        createdAt: String!
     }
 
     # LIBRARY
@@ -74,6 +85,11 @@ const typeDefs = gql`
 
         # GET ALL BOOKS
         getAllBooks: [Book]
+
+        # GET ISSUE REQUESTS FROM A GIVEN LIBRARY 
+        getLibraryIssueRequests(
+            libraryId: ID!
+        ): [IssueRequest]
     }
 
     # MUTATIONS

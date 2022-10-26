@@ -1,7 +1,10 @@
+import { ApolloClient } from "@apollo/client";
 import _ from "lodash";
 import create from "zustand";
 import { GetAllBooksQuery } from "../graphql/books/queries";
+import { GetLibraryIssueRequests } from "../graphql/issueRequests/queries";
 import { getAllLibrariesQuery } from "../graphql/libraries/queries";
+import { IIssueRequest } from "../types/issueRequestTypes";
 import { IBook, ILibrary } from "../types/libraryTypes";
 import { UserType } from "../types/userTypes";
 import client from "../utils/ApolloClient";
@@ -14,6 +17,9 @@ interface IMainStore {
 
   // SELECTED LIBRARY
   selectedLibrary: ILibrary | null;
+
+  // SELECTED LIBRARY ISSUE REQUESTS
+  selectedLibraryIssueRequests: IIssueRequest[]|null;
 
   // ALL LIBRARIES
   allLibraries: ILibrary[] | null;
@@ -56,6 +62,9 @@ interface IMainStore {
 
   // REMOVE USER FROM SELECTED LIBRARY
   removeUserFromSelectedLibrary: any;
+
+  // RESET MAIN STORE STATE FUNCTION
+  resetMainStoreState: any;
 }
 
 // STORE
@@ -65,6 +74,9 @@ const mainStore = (set: any): IMainStore => ({
 
   // SELECTED LIBRARY
   selectedLibrary: null,
+
+  // SELECTED LIBRARY ISSUE REQUESTS
+  selectedLibraryIssueRequests: null,
 
   // ALL LIBRARIES
   allLibraries: null,
@@ -116,8 +128,17 @@ const mainStore = (set: any): IMainStore => ({
   },
 
   // SET NEW SELECTED LIBRARY
-  setNewSelectedLibrary: (newLibrary: ILibrary) => {
-    set({ selectedLibrary: newLibrary, menuOptionSelected: MENU_OPTIONS.home });
+  setNewSelectedLibrary: async (newLibrary: ILibrary) => {
+
+    // FETCH ISSUE REQUESTS RELATED TO THE SELECTED LIBRARY
+    const issueRequestResult = await client.query({
+      query: GetLibraryIssueRequests,
+      variables: {
+        libraryId: newLibrary.id,
+      }
+    });
+
+    set({ selectedLibrary: newLibrary, menuOptionSelected: MENU_OPTIONS.home, selectedLibraryIssueRequests: issueRequestResult.data.getLibraryIssueRequests ?? []});
   },
 
   addLibrary: (newLibrary: ILibrary) => {
@@ -284,6 +305,18 @@ const mainStore = (set: any): IMainStore => ({
         selectedLibrary: newSelectedLibrary,
       }
 
+    })
+  },
+
+  // RESET MAIN STORE STATE
+  resetMainStoreState: () => {
+    set((state: IMainStore) => {
+      return {
+        ...state,
+        menuOptionSelected: MENU_OPTIONS.home,
+        selectedLibrary: null,
+        loading: false,
+      }
     })
   }
 });

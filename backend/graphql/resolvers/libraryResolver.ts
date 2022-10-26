@@ -127,6 +127,7 @@ const libraryResolver = {
             // SET SOME PROPERTIES TO NULL
             bookInDb.libraryId = null;
             bookInDb.issuedAt = null;
+            bookInDb.issueDueDate = null;
             bookInDb.issuedBy = null;
             bookInDb.addedBy = null;
             bookInDb.addedAt = null;

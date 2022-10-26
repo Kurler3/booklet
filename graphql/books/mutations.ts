@@ -19,8 +19,9 @@ export const CreateBookMutation = gql`
             title
             description
             issuedAt
-            issuedBy
             issuedTo
+            issueDueDate
+            issuedBy
             addedBy
             addedAt
             returnedAt

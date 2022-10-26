@@ -6,8 +6,9 @@ export interface IBook {
     title: string;
     description: string;
     issuedAt: string | null;
+    issuedTo: string|null;
+    issueDueDate: string|null;
     issuedBy: string | null;
-    issuedTo: string | null; 
     addedBy: string;
     addedAt: string;
     returnedAt: string | null;

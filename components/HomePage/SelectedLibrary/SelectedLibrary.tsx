@@ -99,7 +99,8 @@ const SelectedLibrary:React.FC<IProps> = ({
                     <SelectedChangeLibrary 
                         selectedLibrary={selectedLibrary}
                         allLibraries={allLibraries}
-                        loggedUserId={userProfile.id}
+                        userProfile={userProfile}
+                        allUsers={allUsers}
                     />
                 )
                 

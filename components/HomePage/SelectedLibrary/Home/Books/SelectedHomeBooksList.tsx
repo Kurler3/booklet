@@ -1,8 +1,6 @@
-import {memo} from 'react';
+import {memo, useCallback} from 'react';
 import { IBook } from '../../../../../types/libraryTypes';
 import { UserType } from '../../../../../types/userTypes';
-import { FUNC_DATE_TO_TXT } from '../../../../../utils/functions';
-import Button from '../../../../Common/Button';
 import SelectedHomeBooksListItem from './SelectedHomeBooksListItem';
 
 
@@ -23,6 +21,18 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
     canUserEditLibrary,
 }) => {
     
+    ////////////////
+    // FUNCTIONS ///
+    ////////////////
+    
+    const handleRequestIssue = useCallback((bookId: string) => {    
+        try {
+            
+        } catch (error) {
+            console.log('Error requesting book issue...', error);
+        }
+    }, []);
+ 
 
     //////////////
     // RENDER ////
@@ -41,6 +51,7 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
                                     creator={creator}
                                     book={book}
                                     canUserEditLibrary={canUserEditLibrary}
+                                    handleRequestIssue={handleRequestIssue}
                                 />
                             )
                         })
