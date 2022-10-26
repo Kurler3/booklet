@@ -43,7 +43,10 @@ const LeftSideBar:React.FC<IProps> = () => {
             {/* SHOW MENU IF LOGGED IN */}
             {
                 userProfile && selectedLibrary ?
-                <LeftSideBarMenu />
+                <LeftSideBarMenu 
+                    selectedLibrary={selectedLibrary}
+                    loggedUserId={userProfile.id}
+                />
                 :
                 <div className='text-white'>{!userProfile ? "Not Logged :/" : "Select a library!"}</div>
             }

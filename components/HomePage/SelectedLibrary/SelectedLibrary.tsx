@@ -18,6 +18,7 @@ interface IProps {
     menuOptionSelected: string;
     userProfile: UserType;
     allUsers: UserType[]|null;
+    allLibraries: ILibrary[];
 }
 
 /////////////////////////
@@ -31,6 +32,7 @@ const SelectedLibrary:React.FC<IProps> = ({
     menuOptionSelected,
     userProfile,
     allUsers,
+    allLibraries,
 }) => {
 
     //////////////////
@@ -96,6 +98,8 @@ const SelectedLibrary:React.FC<IProps> = ({
                 (
                     <SelectedChangeLibrary 
                         selectedLibrary={selectedLibrary}
+                        allLibraries={allLibraries}
+                        loggedUserId={userProfile.id}
                     />
                 )
                 

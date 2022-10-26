@@ -61,6 +61,7 @@ const MainPage:React.FC<IProps> = ({
                     menuOptionSelected={menuOptionSelected}
                     userProfile={userProfile}
                     allUsers={allUsers}
+                    allLibraries={allLibraries!}
                 />
             }
         </div>
