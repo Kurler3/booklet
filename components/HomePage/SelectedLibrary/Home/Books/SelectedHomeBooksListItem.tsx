@@ -15,6 +15,8 @@ interface IProps {
     book: IBook;
     canUserEditLibrary: boolean;
     handleRequestIssue: (bookId:string) => void;
+    issueRequestId: string|null;
+    handleRemoveIssueRequest: (issueRequestId: string) => void;
 }
 
 //////////////////////////////////////////
@@ -26,6 +28,8 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
     book,
     canUserEditLibrary,
     handleRequestIssue,
+    issueRequestId,
+    handleRemoveIssueRequest,
 }) => {
     
     const {setAppLoading} = useAppStore();
@@ -117,11 +121,18 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
             {
                 !canUserEditLibrary && book.issuedTo === null ?
 
+                !issueRequestId ?
                 <Button 
                     icon="download"
                     onClick={() => handleRequestIssue(book.id)}
                     borderRadius="10px"
                     iconCss="text-green-400"
+                />
+                :
+                <Button 
+                    txt="Remove issue request"
+                    onClick={() => handleRemoveIssueRequest(issueRequestId)}
+                    borderRadius="10px"
                 />
 
             :null}

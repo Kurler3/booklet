@@ -5,6 +5,7 @@ import { CreateBookMutation } from '../../../../../graphql/books/mutations';
 import useAppStore from '../../../../../store/appStore';
 import useAuthStore from '../../../../../store/authStore';
 import useMainStore from '../../../../../store/mainStore';
+import { IIssueRequest } from '../../../../../types/issueRequestTypes';
 import { IBook, ILibrary } from '../../../../../types/libraryTypes';
 import { UserType } from '../../../../../types/userTypes';
 import { NORMAL_PURPLE, TOAST_TYPE_OPTIONS } from '../../../../../utils/constants';
@@ -22,6 +23,7 @@ interface IProps {
     selectedLibrary: ILibrary;
     allUsers: UserType[]|null;
     userProfile: UserType;
+    selectedLibraryIssueRequests: IIssueRequest[];
 }
 
 // NORMAL OTPION BTN STYLE
@@ -46,6 +48,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
     selectedLibrary,
     allUsers,
     userProfile,
+    selectedLibraryIssueRequests,
 }) => {
     
     //////////////
@@ -277,6 +280,8 @@ const SelectedHomeBooks: React.FC<IProps> = ({
                     filteredBooks={filteredBooks}
                     allUsers={allUsers}
                     canUserEditLibrary={canUserEditLibrary}
+                    selectedLibraryIssueRequests={selectedLibraryIssueRequests}
+                    userProfile={userProfile}
                 /> 
 
                 {/* CREATE/ADD BOOK (IF ADMIN/LIBRARIAN) */}

@@ -1,4 +1,5 @@
 import {memo, useCallback, useState} from 'react';
+import { IIssueRequest } from '../../../../types/issueRequestTypes';
 import { IBook, ILibrary } from '../../../../types/libraryTypes';
 import { UserType } from '../../../../types/userTypes';
 import { TAB_OPTIONS } from '../../../../utils/constants';
@@ -12,6 +13,7 @@ interface IProps {
     allBooks: IBook[] | null;
     userProfile: UserType;
     allUsers: UserType[]|null;
+    selectedLibraryIssueRequests: IIssueRequest[];
 }
 
 /////////////////////
@@ -22,6 +24,7 @@ const SelectedHome:React.FC<IProps> = ({
     allBooks,
     userProfile,
     allUsers,
+    selectedLibraryIssueRequests,
 }) => {
  
     ////////////
@@ -93,6 +96,7 @@ const SelectedHome:React.FC<IProps> = ({
                             selectedLibrary={selectedLibrary}
                             userProfile={userProfile}
                             allUsers={allUsers}
+                            selectedLibraryIssueRequests={selectedLibraryIssueRequests}
                         />
                     )
                     :

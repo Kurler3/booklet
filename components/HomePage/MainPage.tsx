@@ -30,6 +30,7 @@ const MainPage:React.FC<IProps> = ({
         fetchAllBooks,
         allBooks,
         menuOptionSelected,
+        selectedLibraryIssueRequests,
     } = useMainStore(); 
 
     // FETCH ENROLLED LIBRARIES IF HASN'T YET
@@ -38,6 +39,7 @@ const MainPage:React.FC<IProps> = ({
             fetchAllLibraries();    
         }
     }, [allLibraries, allUsers, fetchAllLibraries, userProfile]);
+
     
     ////////////////
     // RENDER //////
@@ -62,6 +64,7 @@ const MainPage:React.FC<IProps> = ({
                     userProfile={userProfile}
                     allUsers={allUsers}
                     allLibraries={allLibraries!}
+                    selectedLibraryIssueRequests={selectedLibraryIssueRequests!}
                 />
             }
         </div>

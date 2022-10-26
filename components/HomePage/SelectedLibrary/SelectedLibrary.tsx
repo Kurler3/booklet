@@ -1,5 +1,6 @@
 import {memo, useEffect} from 'react';
 import useMainStore from '../../../store/mainStore';
+import { IIssueRequest } from '../../../types/issueRequestTypes';
 import { IBook, ILibrary } from '../../../types/libraryTypes';
 import { UserType } from '../../../types/userTypes';
 import { MENU_OPTIONS } from '../../../utils/constants';
@@ -19,6 +20,7 @@ interface IProps {
     userProfile: UserType;
     allUsers: UserType[]|null;
     allLibraries: ILibrary[];
+    selectedLibraryIssueRequests: IIssueRequest[];
 }
 
 /////////////////////////
@@ -33,6 +35,7 @@ const SelectedLibrary:React.FC<IProps> = ({
     userProfile,
     allUsers,
     allLibraries,
+    selectedLibraryIssueRequests,
 }) => {
 
     //////////////////
@@ -85,6 +88,7 @@ const SelectedLibrary:React.FC<IProps> = ({
                         allBooks={allBooks}
                         userProfile={userProfile}
                         allUsers={allUsers}
+                        selectedLibraryIssueRequests={selectedLibraryIssueRequests}
                     />
                 )
                 :
