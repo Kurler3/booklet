@@ -61,7 +61,7 @@ const SelectedHome:React.FC<IProps> = ({
     //////////////
     // RENDER ////
     //////////////
-
+    
     return (
         <div className='w-full flex-1 flex flex-col mt-3'>
 

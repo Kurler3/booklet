@@ -3,6 +3,7 @@ import { memo, useCallback } from 'react';
 import { RemoveBookMutation } from '../../../../../graphql/books/mutations';
 import useAppStore from '../../../../../store/appStore';
 import useMainStore from '../../../../../store/mainStore';
+import { IIssueRequest } from '../../../../../types/issueRequestTypes';
 import { IBook } from '../../../../../types/libraryTypes';
 import { UserType } from '../../../../../types/userTypes';
 import { TOAST_TYPE_OPTIONS } from '../../../../../utils/constants';
@@ -15,8 +16,8 @@ interface IProps {
     book: IBook;
     canUserEditLibrary: boolean;
     handleRequestIssue: (bookId:string) => void;
-    issueRequestId: string|null;
-    handleRemoveIssueRequest: (issueRequestId: string) => void;
+    issueRequest: IIssueRequest|null;
+    handleRemoveIssueRequest: (issueRequest: IIssueRequest) => void;
 }
 
 //////////////////////////////////////////
@@ -28,7 +29,7 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
     book,
     canUserEditLibrary,
     handleRequestIssue,
-    issueRequestId,
+    issueRequest,
     handleRemoveIssueRequest,
 }) => {
     
@@ -121,7 +122,7 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
             {
                 !canUserEditLibrary && book.issuedTo === null ?
 
-                !issueRequestId ?
+                !issueRequest ?
                 <Button 
                     icon="download"
                     onClick={() => handleRequestIssue(book.id)}
@@ -131,8 +132,9 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
                 :
                 <Button 
                     txt="Remove issue request"
-                    onClick={() => handleRemoveIssueRequest(issueRequestId)}
+                    onClick={() => handleRemoveIssueRequest(issueRequest)}
                     borderRadius="10px"
+                    btnCss='w-fit p-2 text-[14px] font-bold bg-red-300 text-white hover:bg-red-400 transition hover:scale-[1.1]'
                 />
 
             :null}

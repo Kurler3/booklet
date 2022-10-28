@@ -16,6 +16,24 @@ export const CreateIssueRequest = gql`
             libraryId
             requestingUserId
             createdAt
+            bookId
         }
     }
 `;
+
+// DELETE ISSUE REQUEST
+export const DeleteIssueRequest = gql`
+    mutation DeleteLibraryIssueRequest(
+        $issueRequestId: ID!
+        $userId: ID!
+        $issueRequestCreatorId: ID!
+    ) {
+        deleteLibraryIssueRequest(
+            issueRequestId: $issueRequestId
+            userId: $userId
+            issueRequestCreatorId: $issueRequestCreatorId
+        ) {
+            id
+        }
+    }
+`

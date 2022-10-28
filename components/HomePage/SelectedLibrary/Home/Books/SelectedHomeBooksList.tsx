@@ -45,6 +45,7 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
     // MUTATION ////
     ////////////////
 
+    // CREATE ISSUE REQUEST MUTATION HOOK
     const [createIssueRequest, {}] = useMutation(
         // MUTATION STRING
         CreateIssueRequest,
@@ -78,6 +79,9 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
         }
     );
 
+    // DELETE ISSUE REQUEST MUTATION HOOK
+
+
     ////////////////
     // FUNCTIONS ///
     ////////////////
@@ -102,8 +106,11 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
     }, [createIssueRequest, selectedLibrary.id, setAppLoading, userProfile.id]);
     
     // HANDLE CLOSE ISSUE REQUEST 
-    const handleRemoveIssueRequest = useCallback((issueRequestId:string) => {
+    const handleRemoveIssueRequest = useCallback((issueRequest:IIssueRequest) => {
         try {
+            
+            console.log(issueRequest)
+
         } catch (error) {
             console.log('Error closing issue request...', error);
         }
@@ -129,7 +136,7 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
                                     book={book}
                                     canUserEditLibrary={canUserEditLibrary}
                                     handleRequestIssue={handleRequestIssue}
-                                    issueRequestId={issueRequest ? issueRequest.id : null}
+                                    issueRequest={issueRequest ?? null}
                                     handleRemoveIssueRequest={handleRemoveIssueRequest}
                                 />
                             )

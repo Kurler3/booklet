@@ -12,6 +12,7 @@ export const GetLibraryIssueRequests = gql`
             libraryId
             requestingUserId
             createdAt
+            bookId
         }
     }
 `;
