@@ -43,7 +43,7 @@ const LibraryListContainer:React.FC<IProps> = ({
     // RENDER ///////
     /////////////////
     return (
-        <div className='flex-1 flex flex-col justify-start items-start h-full border border-gray-400 rounded-lg shadow-lg bg-gray-200'>
+        <div className='flex-1 flex flex-col justify-start items-start border border-gray-400 rounded-lg shadow-lg bg-gray-200'>
             
             {/* SEARCH BAR */}
 
@@ -72,7 +72,7 @@ const LibraryListContainer:React.FC<IProps> = ({
             {
                 sortedLibraries.length > 0 ?
                 <div
-                className='w-full flex-1 flex flex-col justify-start items-start p-2 '
+                className='w-full h-[90%] overflow-auto overflow-x-hidden flex flex-col justify-start items-start p-2 '
             >
                 {sortedLibraries.map((library, index) => {
 

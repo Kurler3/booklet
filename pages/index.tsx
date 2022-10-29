@@ -34,7 +34,7 @@ const Home: NextPage<IProps> = ({
   }, []);
   
   return (
-    <div className='flex-1 h-full flex items-center justify-center'>
+    <div className='h-full flex items-center justify-center'>
 
       {
         !userProfile ?

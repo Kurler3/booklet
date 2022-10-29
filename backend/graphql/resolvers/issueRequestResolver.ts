@@ -63,7 +63,44 @@ const issueRequestResolver = {
             } catch(error) {
                 throw new GraphQLError(error as string);
             }
-        }
+        },
+
+        // DELETE ISSUE REQUEST
+        deleteLibraryIssueRequest: async (_:null, args: {
+            issueRequestId: string;
+            userId: string;
+            issueRequestCreatorId: string;
+        }) => {
+            try {
+
+                // GET ARGUMENTS
+                const {
+                    issueRequestId,
+                    userId,
+                    issueRequestCreatorId,
+                } = args;
+
+                // IF ONE OF THEM WAS NOT PASSED
+                if(!userId || !issueRequestCreatorId || !issueRequestId) {
+                    throw new GraphQLError(
+                        'Missing params'
+                    );
+                }
+
+                // IF USER ID IS NOT THE SAME AS THE CREATOR OF THE ISSUE REQUEST
+                if(userId !== issueRequestCreatorId) {
+                    throw new GraphQLError('Not authorized');
+                }
+
+                // DELETE ISSUE REQUEST
+                await IssueRequestModel.deleteOne({_id: issueRequestId});
+
+                return issueRequestId;
+
+            } catch (error) {
+                throw new GraphQLError(error as string);
+            }
+        },
     },
 };
 

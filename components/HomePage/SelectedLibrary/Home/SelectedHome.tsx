@@ -63,10 +63,10 @@ const SelectedHome:React.FC<IProps> = ({
     //////////////
     
     return (
-        <div className='w-full flex-1 flex flex-col mt-3'>
+        <div className='w-full flex flex-col mt-3 h-[85%]'>
 
             {/* BOOKS / USERS TAB OPTIONS */}
-            <div className='w-full flex justify-center items-center gap-[100px] py-3'>
+            <div className='w-full h-[10%] flex justify-center items-center gap-[100px] py-3'>
                 {/* BOOKS TAB */}
                 <div 
                     className={state.selectedTab === TAB_OPTIONS.books ? selectedTabBtnStyle : normalTabBtnStyle}
@@ -85,7 +85,7 @@ const SelectedHome:React.FC<IProps> = ({
             </div>
 
             {/* BOOKS/USERS CONTENT */}
-            <div className='flex-1 w-full relative'>
+            <div className='w-full relative h-[90%]'>
                 
                 {
                     state.selectedTab === TAB_OPTIONS.books ?

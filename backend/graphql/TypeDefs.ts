@@ -148,6 +148,13 @@ const typeDefs = gql`
             userId: ID!,
             bookId: ID!
         ): IssueRequest!
+
+        # DELETE ISSUE REQUEST
+        deleteLibraryIssueRequest(
+            issueRequestId: ID!,
+            userId: ID!,
+            issueRequestCreatorId: ID!,
+        ): ID!
     }
 `;
 

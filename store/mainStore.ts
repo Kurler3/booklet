@@ -68,6 +68,9 @@ interface IMainStore {
 
   // RESET MAIN STORE STATE FUNCTION
   resetMainStoreState: any;
+
+  // DELETE ISSUE REQUEST
+  deleteIssueRequest: any;
 }
 
 // STORE
@@ -344,7 +347,24 @@ const mainStore = (set: any): IMainStore => ({
         loading: false,
       }
     })
-  }
+  },
+
+  // DELETE ISSUE REQUEST
+  deleteIssueRequest: (issueRequestId: string) => {
+    set((state: IMainStore) => {
+
+      let newSelectedLibraryIssueRequests = _.cloneDeep(state.selectedLibraryIssueRequests);
+
+      const findIndex = newSelectedLibraryIssueRequests!.findIndex((issueRequest) => issueRequest.id === issueRequestId);
+
+      newSelectedLibraryIssueRequests!.splice(findIndex, 1);
+
+      return {
+        ...state,
+        selectedLibraryIssueRequests: newSelectedLibraryIssueRequests,
+      };
+    })
+  },
 });
 
 const useMainStore = create(mainStore);

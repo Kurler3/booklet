@@ -252,7 +252,7 @@ const SelectedHomeUsers: React.FC<IProps> = ({
             </div>
 
             {/* LIST CONTAINER */}
-            <div className='flex-1 flex flex-col w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-2 gap-4'>
+            <div className='flex flex-col w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-2 gap-4'>
                 {
                     filteredUsers.length > 0 ?
                         filteredUsers.map((user, index) => {

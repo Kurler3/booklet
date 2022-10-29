@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import {memo, useCallback} from 'react';
-import { CreateIssueRequest } from '../../../../../graphql/issueRequests/mutations';
+import { CreateIssueRequest, DeleteIssueRequest } from '../../../../../graphql/issueRequests/mutations';
 import useAppStore from '../../../../../store/appStore';
 import useMainStore from '../../../../../store/mainStore';
 import { IIssueRequest } from '../../../../../types/issueRequestTypes';
@@ -39,7 +39,7 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
     ////////////////
     
     const {setAppLoading} = useAppStore();
-    const {updateIssueRequest} = useMainStore(); 
+    const {updateIssueRequest, deleteIssueRequest} = useMainStore(); 
 
     ////////////////
     // MUTATION ////
@@ -80,7 +80,32 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
     );
 
     // DELETE ISSUE REQUEST MUTATION HOOK
+    const [deleteIssueRequestMutation, {}] = useMutation(
+        // MUTATION STRING
+        DeleteIssueRequest,
+        // OPTIONS
+        {
+            update(_, result) {
+                // UPDATE MAIN STORE 
+                deleteIssueRequest(result.data.deleteLibraryIssueRequest);
 
+                // SHOW SUCCESS TOAST
+                showToast(
+                    TOAST_TYPE_OPTIONS.success,
+                    "Issue request closed!"
+                );
+            },
+            onError(error) {
+                // LOG
+                console.log("Error closing issue request...", error);
+                // SHOW TOAST
+                showToast(
+                    TOAST_TYPE_OPTIONS.error,
+                    "Error closing issue request..."
+                );
+            }
+        }
+    );
 
     ////////////////
     // FUNCTIONS ///
@@ -106,21 +131,32 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
     }, [createIssueRequest, selectedLibrary.id, setAppLoading, userProfile.id]);
     
     // HANDLE CLOSE ISSUE REQUEST 
-    const handleRemoveIssueRequest = useCallback((issueRequest:IIssueRequest) => {
+    const handleRemoveIssueRequest = useCallback(async (issueRequest:IIssueRequest) => {
         try {
-            
-            console.log(issueRequest)
+            setAppLoading(true);
 
-        } catch (error) {
+            await deleteIssueRequestMutation(
+                {
+                    variables: {
+                        issueRequestId: issueRequest.id,
+                        userId: userProfile.id,
+                        issueRequestCreatorId: issueRequest.requestingUserId,
+                    }
+                }
+            );
+
+            setAppLoading(false);
+        } catch (error) {   
             console.log('Error closing issue request...', error);
+            setAppLoading(false);
         }
-    },[]);
-    console.log(selectedLibraryIssueRequests)
+    },[deleteIssueRequestMutation, setAppLoading, userProfile.id]);
+    
     //////////////
     // RENDER ////
     //////////////
     return (
-        <div className='flex-1 w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-2 gap-4 flex flex-col'>
+        <div className='w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-2 gap-4 flex flex-col'>
                     {
                       filteredBooks.length > 0 ?  filteredBooks.map((book, index) => {
                             

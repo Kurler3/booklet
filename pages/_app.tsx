@@ -69,12 +69,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>Booklet</title>
       </Head>
 
-      <div className='relative w-screen h-screen flex items-center justify-start'>
+      <div className='relative w-screen h-screen flex items-center justify-start min-h-[600px]'>
 
         {/* LEFT SIDE BAR */}
         <LeftSideBar />
 
-        <div className='flex-1 h-full'>
+        <div className='w-full h-full'>
           {/* MAIN CONTENT */}
           <Component
             userProfile={userProfile}

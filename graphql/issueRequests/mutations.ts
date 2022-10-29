@@ -32,8 +32,6 @@ export const DeleteIssueRequest = gql`
             issueRequestId: $issueRequestId
             userId: $userId
             issueRequestCreatorId: $issueRequestCreatorId
-        ) {
-            id
-        }
+        )
     }
 `

@@ -30,7 +30,7 @@ const LeftSideBar:React.FC<IProps> = () => {
     /////////////////
     
     return (
-        <div className='w-[250px] h-full leftSideBarBg flex flex-col items-center justify-between py-10 gap-10 shadow-xl'>
+        <div className='w-[250px] min-h-[600px] h-full leftSideBarBg flex flex-col items-center justify-between py-10 gap-10 shadow-xl'>
 
             {/* APP TITLE */}
             <Link href="/">

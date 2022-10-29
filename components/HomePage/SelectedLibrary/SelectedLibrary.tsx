@@ -57,7 +57,7 @@ const SelectedLibrary:React.FC<IProps> = ({
     return (
         <div className='w-full h-full flex flex-col justify-start items-center'>
 
-            <div className='border-b border-b-gray-500 p-10 pb-4 flex flex-col justify-start items-center w-full'>
+            <div className='h-[15%] border-b border-b-gray-500 p-10 pb-4 flex flex-col justify-start items-center w-full'>
 
                 {/* LIBRARY NAME */}
                 <span
