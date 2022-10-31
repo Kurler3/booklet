@@ -96,6 +96,10 @@ const SelectedLibrary:React.FC<IProps> = ({
                 (
                     <SelectedIssueRequests 
                         selectedLibrary={selectedLibrary}
+                        selectedLibraryIssueRequests={selectedLibraryIssueRequests}
+                        allBooks={allBooks}
+                        allUsers={allUsers}
+                        userProfile={userProfile}
                     />
                 )
                 :

@@ -238,10 +238,28 @@ const mainStore = (set: any): IMainStore => ({
   removeLibraries: (libraryIds: string[]) => {
     set((state: IMainStore) => {
       let newAllLibraries = _.cloneDeep(state.allLibraries);
+      let newAllBooks = _.cloneDeep(state.allBooks);
 
       newAllLibraries = newAllLibraries!.filter(
         (library: ILibrary) => !libraryIds.includes(library.id as string)
       );
+      
+      if(newAllBooks) {
+        for(let i = 0, len = newAllBooks.length; i < len; i++){
+          if(libraryIds.includes(newAllBooks[i].libraryId as string)) {
+            newAllBooks[i] = {
+              ...newAllBooks[i],
+              libraryId: null,
+              issuedAt: null,
+              issueDueDate: null,
+              issuedBy: null,
+              addedBy: null,
+              addedAt: null,
+              returnedAt: null,
+            }
+          }
+        }      
+      }
 
       return {
         ...state,

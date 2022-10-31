@@ -140,7 +140,7 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
                     variables: {
                         issueRequestId: issueRequest.id,
                         userId: userProfile.id,
-                        issueRequestCreatorId: issueRequest.requestingUserId,
+                        isAccepting: false,
                     }
                 }
             );
@@ -156,7 +156,7 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
     // RENDER ////
     //////////////
     return (
-        <div className='w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-2 gap-4 flex flex-col'>
+        <div className='w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-1 max-h-[90%] gap-4 flex flex-col'>
                     {
                       filteredBooks.length > 0 ?  filteredBooks.map((book, index) => {
                             

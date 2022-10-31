@@ -9,8 +9,8 @@ export interface IBook {
     issuedTo: string|null;
     issueDueDate: string|null;
     issuedBy: string | null;
-    addedBy: string;
-    addedAt: string;
+    addedBy: string|null;
+    addedAt: string|null;
     returnedAt: string | null;
 }
 

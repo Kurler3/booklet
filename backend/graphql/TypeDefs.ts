@@ -153,7 +153,7 @@ const typeDefs = gql`
         deleteLibraryIssueRequest(
             issueRequestId: ID!,
             userId: ID!,
-            issueRequestCreatorId: ID!,
+            isAccepting: Boolean!,
         ): ID!
     }
 `;

@@ -115,7 +115,7 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
                     </span>
                 }
                 <span className='text-[12px] text-gray-400'>
-                    Added at: <span className='font-bold'>{FUNC_DATE_TO_TXT(new Date(book.addedAt), '/')}</span>
+                    Added at: <span className='font-bold'>{FUNC_DATE_TO_TXT(new Date(book.addedAt!), '/')}</span>
                 </span>
             </div>
             {/* IF LOGGED USER IS NOT STAFF AND BOOK HAS NOT BEEN ISSUED TO SOMEONE YET */}

@@ -35,6 +35,12 @@ const bookResolver = {
                     description
                 } = args;
 
+                const existingBook = await BookModel.findOne({title: title});
+
+                if(existingBook) {
+                    throw new GraphQLError("Book title already taken");
+                }
+
                 // FETCH THE LIBRARY 
                 const library = await LibraryModel.findById(libraryId);
 

@@ -26,12 +26,12 @@ export const DeleteIssueRequest = gql`
     mutation DeleteLibraryIssueRequest(
         $issueRequestId: ID!
         $userId: ID!
-        $issueRequestCreatorId: ID!
+        $isAccepting: Boolean!
     ) {
         deleteLibraryIssueRequest(
             issueRequestId: $issueRequestId
             userId: $userId
-            issueRequestCreatorId: $issueRequestCreatorId
+            isAccepting: $isAccepting
         )
     }
 `

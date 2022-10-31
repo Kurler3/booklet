@@ -2,6 +2,7 @@ import { LibraryInput } from "../../../types/libraryTypes";
 import LibraryModel from "../../mongodb/models/Library";
 import UserModel from "../../mongodb/models/User";
 import BookModel from "../../mongodb/models/Book";
+import IssueRequestModel from '../../mongodb/models/IssueRequest';
 import { GraphQLError } from "graphql";
 
 const libraryResolver = {
@@ -46,6 +47,12 @@ const libraryResolver = {
     createLibrary: async (_: null, args: { libraryInput: LibraryInput }) => {
       // DECONSTRUCT
       const { userId, name, admins, librarians } = args.libraryInput;
+
+      const existingLibrary = await LibraryModel.findOne({name: name});
+
+      if(existingLibrary) {
+        throw new GraphQLError("Library name is taken");
+      }
 
       // CREATE NEW LIBRARY FROM MODEL
       const newLibrary = new LibraryModel({
@@ -118,7 +125,7 @@ const libraryResolver = {
             user.librariesEnrolled.splice(libraryIdIndex, 1);
 
             // SAVE
-            user.save();
+            await user.save();
           }
 
           // LOOP THROUGH BOOKS
@@ -135,6 +142,10 @@ const libraryResolver = {
             // SAVE BOOK
             await bookInDb.save();
           }
+
+          // DELETE ISSUE REQUESTS
+          await IssueRequestModel.deleteMany({libraryId: libraryId});
+        
         }
 
         // DELETE ALL LIBRARIES WITH THOSE IDS
