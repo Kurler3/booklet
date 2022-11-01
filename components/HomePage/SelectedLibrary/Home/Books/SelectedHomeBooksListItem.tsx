@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { memo, useCallback } from 'react';
-import { RemoveBookMutation } from '../../../../../graphql/books/mutations';
+import { RemoveBookMutation, ReturnBookMutation } from '../../../../../graphql/books/mutations';
 import useAppStore from '../../../../../store/appStore';
 import useMainStore from '../../../../../store/mainStore';
 import { IIssueRequest } from '../../../../../types/issueRequestTypes';
@@ -18,6 +18,7 @@ interface IProps {
     handleRequestIssue: (bookId:string) => void;
     issueRequest: IIssueRequest|null;
     handleRemoveIssueRequest: (issueRequest: IIssueRequest) => void;
+    userProfile: UserType;
 }
 
 //////////////////////////////////////////
@@ -31,10 +32,11 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
     handleRequestIssue,
     issueRequest,
     handleRemoveIssueRequest,
+    userProfile,
 }) => {
     
     const {setAppLoading} = useAppStore();
-    const {removeBook} = useMainStore();
+    const {removeBook, returnBookFromMainStore} = useMainStore();
 
     //////////////////
     // MUTATION //////
@@ -71,7 +73,35 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
         }
     );
 
+    // RETURN BOOK MUTATION
+    const [returnBookMutation, {}] = useMutation(
+        // MUTATION QUERY
+        ReturnBookMutation,
+        // OPTIONS
+        {
+            update(_, result) {
 
+                // UPDATE MAIN STORE
+                returnBookFromMainStore(result.data.returnBook);
+
+                // SHOW SUCCESS TOAST
+                showToast(
+                    TOAST_TYPE_OPTIONS.success,
+                    "Book returned successfully!",
+                )
+            },
+            onError(error) {
+                console.log("Error returning book mutation...", error);
+                showToast(
+                    TOAST_TYPE_OPTIONS.error,
+                    "Error returning book...",
+                );
+            },
+            variables: {
+                bookId: book.id,
+            }
+        }
+    );
     //////////////////
     // FUNCTIONS /////
     //////////////////
@@ -92,7 +122,21 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
             setAppLoading(false);
         }
     }, [removeBookMutation, setAppLoading]);
-   
+
+    // HANDLE RETURN BOOK
+    const handleReturnBook = useCallback(async () => {
+        try {
+            setAppLoading(true);
+
+            await returnBookMutation();
+
+            setAppLoading(false);
+        } catch (error) {
+            console.log('Error returning book...', error);
+            setAppLoading(false);
+        }
+    }, [returnBookMutation, setAppLoading]);
+
     //////////////////
     // RENDER ////////
     //////////////////
@@ -137,6 +181,15 @@ const SelectedHomeBooksListItem: React.FC<IProps> = ({
                     btnCss='w-fit p-2 text-[14px] font-bold bg-red-300 text-white hover:bg-red-400 transition hover:scale-[1.1]'
                 />
 
+            :null}
+
+            {
+                book.issuedTo && book.issuedTo === userProfile.id ?
+                <Button 
+                    onClick={handleReturnBook}
+                    txt="Return Book"
+                    btnCss='w-fit p-2 rounded-lg font-bold shadow-md hover:scale-[1.1] transition bg-red-300 text-white'
+                />
             :null}
 
             {/* IF LOGGED USER IS ADMIN/LIBRARIAN */}

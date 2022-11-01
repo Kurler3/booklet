@@ -61,3 +61,26 @@ export const AddExistingBooksMutation = gql`
         }
     }
 `;
+
+// RETURN BOOK
+export const ReturnBookMutation = gql`
+    mutation ReturnBook(
+        $bookId: ID!
+    ) {
+        returnBook(
+            bookId: $bookId
+        ) {
+            id
+            libraryId
+            title
+            description
+            issuedAt
+            issueDueDate
+            issuedBy
+            issuedTo
+            addedBy
+            addedAt
+            returnedAt
+        }
+    }
+`;

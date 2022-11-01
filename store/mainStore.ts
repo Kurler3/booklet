@@ -71,6 +71,10 @@ interface IMainStore {
 
   // DELETE ISSUE REQUEST
   deleteIssueRequest: any;
+
+  fetchSelectedLibraryIssueRequests: any;
+
+  returnBookFromMainStore: any;
 }
 
 // STORE
@@ -133,18 +137,30 @@ const mainStore = (set: any): IMainStore => ({
     }
   },
 
+  // FETCH ISSUE REQUESTS
+  fetchSelectedLibraryIssueRequests: async (libraryId: string) => {
+    try {
+       // FETCH ISSUE REQUESTS RELATED TO THE SELECTED LIBRARY
+        const issueRequestResult = await client.query({
+          query: GetLibraryIssueRequests,
+          variables: {
+            libraryId: libraryId,
+          }
+        });
+
+      // SET ENROLLED LIBRARIES + LOADING = FALSE
+      set({
+        selectedLibraryIssueRequests: issueRequestResult.data.getLibraryIssueRequests,
+      });
+    } catch (error) {
+      console.log("Error fetching enrolled libraries...", error);
+    }
+  },
+
   // SET NEW SELECTED LIBRARY
   setNewSelectedLibrary: async (newLibrary: ILibrary) => {
 
-    // FETCH ISSUE REQUESTS RELATED TO THE SELECTED LIBRARY
-    const issueRequestResult = await client.query({
-      query: GetLibraryIssueRequests,
-      variables: {
-        libraryId: newLibrary.id,
-      }
-    });
-
-    set({ selectedLibrary: newLibrary, menuOptionSelected: MENU_OPTIONS.home, selectedLibraryIssueRequests: issueRequestResult.data.getLibraryIssueRequests ?? []});
+    set({ selectedLibrary: newLibrary, menuOptionSelected: MENU_OPTIONS.home,});
   },
 
   addLibrary: (newLibrary: ILibrary) => {
@@ -213,6 +229,8 @@ const mainStore = (set: any): IMainStore => ({
       // NEW ALL BOOKS
       let newAllBooks = _.cloneDeep(state.allBooks);
 
+      let newAllSelectedLibraryIssueRequests = _.cloneDeep(state.selectedLibraryIssueRequests);
+
       const findIndex = newAllBooks?.findIndex(
         (book) => book.id === bookIdToDelete
       );
@@ -220,7 +238,17 @@ const mainStore = (set: any): IMainStore => ({
         newAllBooks![findIndex!] = {
           ...newAllBooks![findIndex!],
           libraryId: null,
+          issuedAt: null,
+          issuedTo: null,
+          issueDueDate: null,
+          issuedBy: null,
+          addedBy: null,
+          addedAt: null,
+          returnedAt: null,
         };
+
+        // REMOVE ALL ISSUE REQUESTS THAT HAVE THIS BOOK ID
+        newAllSelectedLibraryIssueRequests = newAllSelectedLibraryIssueRequests!.filter((issueRequest) => issueRequest.bookId === bookIdToDelete);
       }
 
       return {
@@ -230,6 +258,7 @@ const mainStore = (set: any): IMainStore => ({
           books: newSelectedLibraryBooks,
         },
         allBooks: newAllBooks,
+        selectedLibraryIssueRequests: newAllSelectedLibraryIssueRequests,
       };
     });
   },
@@ -368,20 +397,54 @@ const mainStore = (set: any): IMainStore => ({
   },
 
   // DELETE ISSUE REQUEST
-  deleteIssueRequest: (issueRequestId: string) => {
+  deleteIssueRequest: (issueRequestId: string, isAccepting: boolean, userId: string) => {
     set((state: IMainStore) => {
 
       let newSelectedLibraryIssueRequests = _.cloneDeep(state.selectedLibraryIssueRequests);
 
       const findIndex = newSelectedLibraryIssueRequests!.findIndex((issueRequest) => issueRequest.id === issueRequestId);
 
+      let newAllBooks = _.cloneDeep(state.allBooks);
+
+      if(isAccepting) {
+        const findBookIndex = newAllBooks!.findIndex((book) => book.id === newSelectedLibraryIssueRequests![findIndex].bookId);
+
+        newAllBooks![findBookIndex] = {
+          ...newAllBooks![findBookIndex],
+          issuedAt: new Date().toISOString(),
+          issueDueDate: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          issuedBy: userId,
+          issuedTo: newSelectedLibraryIssueRequests![findIndex].requestingUserId,
+        };
+      }
+
       newSelectedLibraryIssueRequests!.splice(findIndex, 1);
 
       return {
         ...state,
         selectedLibraryIssueRequests: newSelectedLibraryIssueRequests,
+        allBooks: newAllBooks,
       };
     })
+  },
+
+
+  returnBookFromMainStore: (
+    newBook: IBook,
+  ) => {
+    set((state:IMainStore) => {
+      let newAllBooks = _.cloneDeep(state.allBooks);
+
+      // FIND INDEX
+      const findIndex = newAllBooks!.findIndex((book) => book.id === newBook.id);
+
+      newAllBooks![findIndex] = newBook;
+
+      return {
+        ...state,
+        allBooks: newAllBooks,
+      };
+    });
   },
 });
 

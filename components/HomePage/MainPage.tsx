@@ -28,6 +28,7 @@ const MainPage:React.FC<IProps> = ({
         fetchAllLibraries,
         loading,
         fetchAllBooks,
+        fetchSelectedLibraryIssueRequests,
         allBooks,
         menuOptionSelected,
         selectedLibraryIssueRequests,
@@ -59,6 +60,7 @@ const MainPage:React.FC<IProps> = ({
                 <SelectedLibrary 
                     selectedLibrary={selectedLibrary}
                     fetchAllBooks={fetchAllBooks}
+                    fetchSelectedLibraryIssueRequests={fetchSelectedLibraryIssueRequests}
                     allBooks={allBooks}
                     menuOptionSelected={menuOptionSelected}
                     userProfile={userProfile}

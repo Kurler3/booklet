@@ -235,7 +235,7 @@ const SelectedHomeBooks: React.FC<IProps> = ({
     //////////////
     
     return (
-        !allBooks ?
+        !allBooks || !selectedLibraryIssueRequests ?
 
             (
                 <div className="top-0 left-0 absolute backdrop-blur-[2px] flex justify-center items-center w-full h-full">

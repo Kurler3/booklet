@@ -123,6 +123,7 @@ const bookResolver = {
                 bookInDb.addedBy = null;
                 bookInDb.addedAt = null;
                 bookInDb.returnedAt = null;
+                bookInDb.issuedTo = null;
 
                 // SAVE BOOK
                 await bookInDb.save();
@@ -193,6 +194,33 @@ const bookResolver = {
                 throw new GraphQLError(
                     error as string,
                 );
+            }
+        },
+
+        // RETURN BOOK
+        returnBook: async (_:any, args: {
+            bookId: string;
+        }) => {
+            try {
+                const {
+                    bookId
+                } = args;
+
+                // FIND BOOK
+                const book = await BookModel.findById(bookId);
+
+                // UPDATE BOOK
+                book.issuedAt = null;
+                book.issueDueDate = null;
+                book.issuedBy = null;
+                book.issuedTo = null;
+                book.returnedAt = new Date().toISOString();
+
+                await book.save();
+
+                return book;
+            } catch (error) {
+                throw new GraphQLError(error as string);
             }
         }
     }

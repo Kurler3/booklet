@@ -21,6 +21,7 @@ interface IProps {
     allUsers: UserType[]|null;
     allLibraries: ILibrary[];
     selectedLibraryIssueRequests: IIssueRequest[];
+    fetchSelectedLibraryIssueRequests: (libraryId:string) => void;
 }
 
 /////////////////////////
@@ -36,19 +37,23 @@ const SelectedLibrary:React.FC<IProps> = ({
     allUsers,
     allLibraries,
     selectedLibraryIssueRequests,
+    fetchSelectedLibraryIssueRequests,
 }) => {
 
     //////////////////
     // MAIN STORE ////
     //////////////////
 
-
+  
     // FETCH BOOKS
     useEffect(() => {
         if(!allBooks) {
             fetchAllBooks();    
         }
-    }, [allBooks, fetchAllBooks]);
+        if(!selectedLibraryIssueRequests) {
+            fetchSelectedLibraryIssueRequests(selectedLibrary.id as string);
+        }
+    }, [allBooks, fetchAllBooks, fetchSelectedLibraryIssueRequests, selectedLibrary.id, selectedLibraryIssueRequests]);
 
     /////////////
     // RENDER ///

@@ -155,6 +155,11 @@ const typeDefs = gql`
             userId: ID!,
             isAccepting: Boolean!,
         ): ID!
+
+        # RETURN BOOK
+        returnBook(
+            bookId: ID!,
+        ): Book!
     }
 `;
 

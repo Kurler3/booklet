@@ -54,8 +54,6 @@ const issueRequestResolver = {
                 // AWAIT SAVE
                 const result = await newIssueRequest.save();
 
-                
-
                 return {
                     id: result._id,
                     ...result._doc,

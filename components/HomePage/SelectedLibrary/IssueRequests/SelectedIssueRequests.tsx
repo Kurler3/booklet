@@ -67,9 +67,13 @@ const SelectedIssueRequests: React.FC<IProps> = ({
         DeleteIssueRequest,
         // OPTIONS
         {
-            update(_, result) {
+            update(_, result, options) {
                 // UPDATE MAIN STORE 
-                deleteIssueRequest(result.data.deleteLibraryIssueRequest);
+                deleteIssueRequest(
+                    result.data.deleteLibraryIssueRequest,
+                    options!.variables!.isAccepting,
+                    userProfile.id,
+                );
 
                 // SHOW SUCCESS TOAST
                 showToast(
