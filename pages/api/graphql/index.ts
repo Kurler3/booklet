@@ -76,7 +76,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       
         // WAIT FOR THE CREATE HANDLER
         await server.createHandler({
-            path: `${BASE_URL}/api/graphql`,
+            path: `/api/graphql`,
         })(req, res);
     } catch (error) {
         console.log('Big problem :/', error);
