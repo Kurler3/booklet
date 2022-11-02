@@ -20,6 +20,9 @@ import { RequestHandler } from "micro";
 // CONNECT DB FUNCTION
 import connectDb from "../../../backend/mongodb/mongoose";
 
+// BASE URL
+import { BASE_URL } from "../../../utils/constants";
+
 
 // CALL CONNECTED MONGODB FUNCTION
 connectDb();
@@ -73,7 +76,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       
         // WAIT FOR THE CREATE HANDLER
         await server.createHandler({
-            path: '/api/graphql',
+            path: `${BASE_URL}/api/graphql`,
         })(req, res);
     } catch (error) {
         console.log('Big problem :/', error);
