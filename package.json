@@ -9,11 +9,31 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "apollo-server-core": "^3.10.2",
+    "apollo-server-micro": "^3.10.2",
+    "bcrypt": "^5.0.1",
+    "bootstrap": "^5.2.2",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "micro-cors": "^0.1.1",
+    "mongoose": "^6.6.2",
     "next": "12.3.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.4.0",
+    "react-loader-spinner": "^5.3.4",
+    "react-select": "^5.4.0",
+    "react-toastify": "^9.0.8",
+    "react-tooltip": "^4.2.21",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/lodash": "^4.14.186",
+    "@types/micro-cors": "^0.1.2",
     "@types/node": "18.7.20",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",

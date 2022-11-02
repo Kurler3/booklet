@@ -1,3 +1,98 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');
+
+:root {
+  --dark-purple: #0d1033;
+  --normal-purple: #3b4eff;
+  --modal-container-bg: #00000096;
+}
+body {
+  /* font-family: "Roboto", sans-serif; */
+  font-family: 'Cabin', sans-serif;
+  background: #f1f1f1;
+  overflow: hidden;
+}
+
+.leftSideBarBg {
+  background-color: var(--dark-purple);
+}
+.tooltipCommon {
+  opacity: 0.85 !important;
+  border-radius: 5px !important;
+  max-width: 300px !important;
+  z-index: 99999 !important;
+}
+
+@keyframes fromDown {
+  from {
+    margin-top: 100vh;
+    opacity: 0;
+  }
+  to {
+    margin-top: 0px;
+    opacity: 1;
+  }
+}
+
+.fromDownAnim {
+  animation-name: fromDown;
+  animation-timing-function: ease;
+  animation-duration: 200ms;
+  animation-iteration-count: 1;
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}
+
+@keyframes opacityIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.opacityIn {
+  animation-name: opacityIn;
+  animation-duration: 300ms;
+  animation-timing-function: ease;
+  animation-iteration-count: 1;
+}
