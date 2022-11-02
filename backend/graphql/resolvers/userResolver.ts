@@ -4,6 +4,7 @@ import { validateLoginInput, validateRegisterInput } from "../../../utils/valida
 import UserModel from '../../mongodb/models/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { GraphQLError } from "graphql";
 
 const generateToken = (user: UserType) => {
     const token = jwt.sign({
@@ -24,9 +25,15 @@ const userResolver = {
         
         // GET ALL USERS
         getUsers: async () => {
-            const result = await UserModel.find();
+            try {
+                const result = await UserModel.find();
 
-            return result;
+                return result;     
+            } catch (error) {
+                console.log("Error fetching all users...", error);
+                throw new GraphQLError(error as string);
+            }
+           
         }
 
     },
