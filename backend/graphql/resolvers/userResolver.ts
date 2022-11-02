@@ -12,7 +12,7 @@ const generateToken = (user: UserType) => {
         username: user.username,
         librariesEnrolled: user.librariesEnrolled,
         createdAt: user.createdAt,
-    }, process.env.JWT_SECRET_KEY!, {expiresIn: '24h'});
+    }, process.env.NEXT_PUBLIC_JWT_SECRET_KEY!, {expiresIn: '24h'});
 
     return token;
 }

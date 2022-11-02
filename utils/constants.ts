@@ -9,7 +9,7 @@ export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*
 
 export const USER_TOKEN = "LOCAL_USER_TOKEN";
 
-export const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.PROD_BASE_URL;
+export const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : process.env.NEXT_PUBLIC_PROD_BASE_URL;
 
 
 // DARK PURPLE STRING
