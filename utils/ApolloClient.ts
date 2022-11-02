@@ -6,7 +6,7 @@ import {setContext} from '@apollo/client/link/context';
 import { BASE_URL, USER_TOKEN } from './constants';
 
 const GRAPHQL_URI = `${BASE_URL}/api/graphql`;
-
+console.log(GRAPHQL_URI)
 // AUTH
 export const authLink = setContext(() => {
     // let token;
