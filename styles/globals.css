@@ -3,15 +3,16 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');
 
 :root {
   --dark-purple: #0d1033;
   --normal-purple: #3b4eff;
   --modal-container-bg: #00000096;
 }
-
 body {
-  font-family: "Roboto", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
+  font-family: 'Cabin', sans-serif;
   background: #f1f1f1;
   overflow: hidden;
 }

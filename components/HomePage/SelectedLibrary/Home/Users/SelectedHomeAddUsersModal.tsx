@@ -177,7 +177,7 @@ const SelectedHomeAddUsersModal:React.FC<IProps> = ({
             <>
                  {/* ADMINS */}
                  <span className="text-[18px] font-semibold mt-3">
-                        Admins <span className='text-[15px] font-medium'>(can be empty)</span>
+                        Admins 
                     </span>
                     <Select
                         key={`select_library_create_modal_admin_select`}
@@ -194,7 +194,7 @@ const SelectedHomeAddUsersModal:React.FC<IProps> = ({
 
                     {/* LIBRARIANS */}
                     <span className="text-[18px] font-semibold mt-3">
-                        Librarians <span className='text-[15px] font-medium'>(can be empty)</span>
+                        Librarians 
                     </span>
                     <Select
                         key={`select_library_create_modal_librarian_select`}

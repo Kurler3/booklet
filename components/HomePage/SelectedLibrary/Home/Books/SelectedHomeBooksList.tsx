@@ -157,7 +157,7 @@ const SelectedHomeBooksList:React.FC<IProps> = ({
     // RENDER ////
     //////////////
     return (
-        <div className='w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-1 max-h-[90%] gap-4 flex flex-col'>
+        <div className='w-full border p-2 rounded-lg shadow-md overflow-auto overflow-x-hidden mt-1 max-h-[90%] gap-4 flex flex-col min-h-[110px]'>
                     {
                       filteredBooks.length > 0 ?  filteredBooks.map((book, index) => {
                             

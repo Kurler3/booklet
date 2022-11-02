@@ -30,7 +30,12 @@ const LeftSideBar:React.FC<IProps> = () => {
     /////////////////
     
     return (
-        <div className='w-[250px] min-h-[600px] h-full leftSideBarBg flex flex-col items-center justify-between py-10 gap-10 shadow-xl'>
+        <div className='w-[250px] min-h-[600px] h-full leftSideBarBg flex flex-col items-center justify-between py-10 gap-10'
+            style={{
+                borderTopRightRadius: '10px',
+                borderBottomRightRadius: '10px',
+            }}
+        >
 
             {/* APP TITLE */}
             <Link href="/">
@@ -48,7 +53,8 @@ const LeftSideBar:React.FC<IProps> = () => {
                     loggedUserId={userProfile.id}
                 />
                 :
-                <div className='text-white'>{!userProfile ? "Not Logged :/" : "Select a library!"}</div>
+                // <div className='text-white'>{!userProfile ? "Not Logged :/" : "Select a library!"}</div>
+                null
             }
 
             {/* SETTINGS */}

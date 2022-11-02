@@ -87,10 +87,11 @@ const LibraryListContainer:React.FC<IProps> = ({
                     return (
                         <div
                             key={`library_list_container_${library.id}_${index}`}
-                            className="p-2 flex items-center w-full bg-white mt-2 shadow-md border-b-gray-400 rounded-md"
+                            className="p-2 flex items-center w-full bg-white mt-2 shadow-md border-b-gray-400 rounded-md cursor-pointer transition hover:shadow-lg"
+                            onClick={() => handleClickLibraryCheckbox(library)}
                         >
                             <Button 
-                                onClick={() => handleClickLibraryCheckbox(library)}
+                                onClick={() => {}}
                                 btnCss={`w-[20px] h-[20px] ${isSelected ? "bg-blue-400" : "bg-gray-300"} hover:bg-blue-400 transition hover:scale-[1.1] shadow-lg mr-2 rounded-md`}
                                 key={`library_list_container_select_btn_${library.id}`}
                             />

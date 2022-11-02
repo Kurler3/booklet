@@ -29,7 +29,7 @@ const LeftSideBarMenu:React.FC<IProps> = ({
     // GET SELECTED MENU OPTION
     const { menuOptionSelected, changeSelectedMenuOption} = useMainStore();
 
-    const menuBtnContainerStyle = 'flex items-center justify-start gap-2 cursor-pointer p-2 transition rounded-md border w-full text-black bg-[#f1f1f1] hover:scale-[1.1]';
+    const menuBtnContainerStyle = 'flex items-center justify-start gap-2 cursor-pointer p-2 transition rounded-md border w-full text-black bg-[#f1f1f1] hover:scale-[1.1] ';
 
     const selectedMenuBtnStyle = 'flex items-center justify-start gap-2 cursor-default p-2 w-full text-white bg-blue-400 rounded-md border';
 
@@ -58,7 +58,7 @@ const LeftSideBarMenu:React.FC<IProps> = ({
 
                 {/* LABEL */}
                 <span
-                    className='text-md font-bold'
+                    className='text-md font-bold text-[13px]'
                 >
                     Home
                 </span>
@@ -79,7 +79,7 @@ const LeftSideBarMenu:React.FC<IProps> = ({
 
                         {/* LABEL */}
                         <span
-                            className='text-md font-bold'
+                            className='text-md font-bold text-[13px]'
                         >
                             Issue Requests
                         </span>
@@ -99,7 +99,7 @@ const LeftSideBarMenu:React.FC<IProps> = ({
 
                 {/* LABEL */}
                 <span
-                    className='text-md font-bold'
+                    className='text-[13px] font-bold flex-1'
                 >
                     Change Library
                 </span>
