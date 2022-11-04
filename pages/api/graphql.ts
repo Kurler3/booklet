@@ -23,7 +23,7 @@ import connectDb from "../../backend/mongodb/mongoose";
 // BASE URL
 // import { BASE_URL } from "../../utils/constants";
 
-
+connectDb();
 
 // EXPORT SERVER CONFIGURATION
 export const config = {
@@ -61,9 +61,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         //     return false;
         // }
 
-        // CALL CONNECTED MONGODB FUNCTION
-        await connectDb();
-
         // WAIT FOR THE SERVER TO START
         await startServer;
       
@@ -78,5 +75,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 // EXPORT THE HANDLER FUNCTION, BUT WITH CORS ALLOWED
-
 export default cors(handler as RequestHandler);
