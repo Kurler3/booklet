@@ -2,9 +2,9 @@
 import { ApolloServer} from "apollo-server-micro";
 
 // PLAYGROUND PLUGINS
-// import {
-//     ApolloServerPluginLandingPageGraphQLPlayground,
-// } from 'apollo-server-core';
+import {
+    ApolloServerPluginLandingPageGraphQLPlayground,
+} from 'apollo-server-core';
 
 // CROSS ORIGIN 
 import Cors from 'micro-cors';
@@ -46,15 +46,7 @@ const server = new ApolloServer({
     introspection: true,
 
     // PLUGINS
-    // plugins: [
-    //     // // IF IN PRODUCTION THEN USE PRODUCTION PLAYGROUND PLUGIN
-    //     // process.env.NODE_ENV === "production" ? 
-    //     // ApolloServerPluginLandingPageProductionDefault() 
-    //     // :
-    //     // ApolloServerPluginLandingPageLocalDefault()
-    //     ApolloServerPluginLandingPageGraphQLPlayground
-  
-    // ]
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
 });
 
 // START SERVER PROMISE
