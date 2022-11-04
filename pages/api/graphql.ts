@@ -10,18 +10,18 @@ import {
 import Cors from 'micro-cors';
 
 // IMPORT TYPE DEFS
-import typeDefs from '../../../backend/graphql/TypeDefs';
+import typeDefs from '../../backend/graphql/TypeDefs';
 
 // IMPORT RESOLVERS
-import resolvers from '../../../backend/graphql/resolvers/index';
+import resolvers from '../../backend/graphql/resolvers/index';
 import { NextApiRequest, NextApiResponse } from "next";
 import { RequestHandler } from "micro";
 
 // CONNECT DB FUNCTION
-import connectDb from "../../../backend/mongodb/mongoose";
+import connectDb from "../../backend/mongodb/mongoose";
 
 // BASE URL
-import { BASE_URL } from "../../../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 
 
 
