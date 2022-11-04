@@ -31,12 +31,17 @@ const authStore = (set:any):IAuth => ({
     },
     // FETCH ALL USERS FUNCTION
     fetchAllUsers: async () => {
-        // MAKE GRAPHQL REQUEST
-        const {data} = await client.query({
-            query: getAllUsersQuery,
-        }); 
+        try {
+            // MAKE GRAPHQL REQUEST
+            const {data} = await client.query({
+                query: getAllUsersQuery,
+            }); 
 
-        set({allUsers: data.getUsers});
+            set({allUsers: data.getUsers});     
+        } catch (error) {
+            console.log("Error fetching all users...", error);
+        }
+       
     },
 
     // UPDATE USERS LIBRARIES ENROLLED

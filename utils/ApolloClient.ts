@@ -3,7 +3,7 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 
 // APOLLO AUTH CONTEXT
 import {setContext} from '@apollo/client/link/context';
-import { BASE_URL, USER_TOKEN } from './constants';
+// import { BASE_URL, USER_TOKEN } from './constants';
 
 const GRAPHQL_URI = `/api/graphql`;
 
