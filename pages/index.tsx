@@ -25,7 +25,6 @@ const Home: NextPage<IProps> = ({
     if(allUsers === null) {
       fetchAllUsers();
     }
-   
   }, [allUsers, fetchAllUsers]);
 
 

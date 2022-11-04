@@ -36,7 +36,7 @@ const authStore = (set:any):IAuth => ({
             const {data} = await client.query({
                 query: getAllUsersQuery,
             }); 
-
+            
             set({allUsers: data.getUsers});     
         } catch (error) {
             console.log("Error fetching all users...", error);

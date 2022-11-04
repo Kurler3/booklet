@@ -24,8 +24,6 @@ import connectDb from "../../../backend/mongodb/mongoose";
 import { BASE_URL } from "../../../utils/constants";
 
 
-// CALL CONNECTED MONGODB FUNCTION
-connectDb();
 
 // EXPORT SERVER CONFIGURATION
 export const config = {
@@ -70,6 +68,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             res.end();
             return false;
         }
+
+        // CALL CONNECTED MONGODB FUNCTION
+        await connectDb();
 
         // WAIT FOR THE SERVER TO START
         await startServer;
