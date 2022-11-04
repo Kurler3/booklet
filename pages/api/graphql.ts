@@ -21,7 +21,7 @@ import { RequestHandler } from "micro";
 import connectDb from "../../backend/mongodb/mongoose";
 
 // BASE URL
-import { BASE_URL } from "../../utils/constants";
+// import { BASE_URL } from "../../utils/constants";
 
 
 
@@ -29,7 +29,7 @@ import { BASE_URL } from "../../utils/constants";
 export const config = {
     api: {
         bodyParser: false,
-        externalResolver: false,
+        // externalResolver: false,
     }
 };
 
@@ -40,7 +40,7 @@ const cors = Cors();
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    csrfPrevention: true,
+    // csrfPrevention: true,
     // MAKES IT SO THAT WE CAN GET THE REQUEST BODY IN THE CONTEXT IN THE RESOLVERS FUNCTION (ALLOWS TO CHECK FOR AUTH HEADERS)
     context: ({req}) => ({req}),
     introspection: true,
@@ -56,10 +56,10 @@ const startServer = server.start();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
 
-        if(req.method === "OPTIONS") {
-            res.end();
-            return false;
-        }
+        // if(req.method === "OPTIONS") {
+        //     res.end();
+        //     return false;
+        // }
 
         // CALL CONNECTED MONGODB FUNCTION
         await connectDb();
