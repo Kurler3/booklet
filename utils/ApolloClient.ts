@@ -33,7 +33,7 @@ const httpLink = createHttpLink({
 
 const client = new ApolloClient({
     // SET SERVER SIDE RENDERING 
-    ssrMode: true,
+    // ssrMode: true,
     link: authLink.concat(httpLink) as any,
     cache: new InMemoryCache()
 });

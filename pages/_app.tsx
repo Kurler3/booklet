@@ -58,7 +58,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [addUser, userProfile]);
 
   // IF IS IN SERVER SIDE, THEN DON'T DISPLAY FRONT-END
-  // if (isSSR) return null;
+  if (isSSR) return null;
 
   // IN CLIENT SIDE
   return (
