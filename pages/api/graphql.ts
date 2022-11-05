@@ -26,13 +26,13 @@ import { BASE_URL } from "../../utils/constants";
 connectDb();
 
 
-// INITIALIZE CORS
-const cors = Cors({
-    origin: "*",
-    allowCredentials: true,
-    allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
-    allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
-});
+// // INITIALIZE CORS
+// const cors = Cors({
+//     origin: "*",
+//     allowCredentials: true,
+//     allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
+//     allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
+// });
 
 // INIT APOLLO SERVER
 const server = new ApolloServer({
@@ -54,7 +54,8 @@ const startServer = server.start();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Methods", "*");
+
         // HANDLE PRE-FLIGHT
         if(req.method === "OPTIONS") {
             res.end();
