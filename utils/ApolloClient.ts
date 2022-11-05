@@ -27,7 +27,7 @@ export const authLink = setContext(() => {
 // HTTP LINK
 const httpLink = createHttpLink({
     fetch,
-    // credentials: 'same-origin',
+    credentials: 'same-origin',
     uri: GRAPHQL_URI,
     fetchOptions: {
         mode: 'no-cors'
