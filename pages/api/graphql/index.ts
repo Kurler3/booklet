@@ -52,7 +52,6 @@ const startServer = server.start();
 
 // INIT HANDLER FUNCTION FOR THE SERVER TO CALL
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    try {
         res.setHeader("Access-Control-Allow-Origin", "*");
 
         res.setHeader(
@@ -70,13 +69,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         await startServer;
 
         // WAIT FOR THE CREATE HANDLER
-        await server.createHandler({
+        return server.createHandler({
             path: `/api/graphql`,
         })(req, res);
-    } catch (error) {
-        console.log('Big problem :/', error);
-        res.status(500).json({message: "Something really really bad happened here"});
-    }
 }
 
 // EXPORT THE HANDLER FUNCTION, BUT WITH CORS ALLOWED
