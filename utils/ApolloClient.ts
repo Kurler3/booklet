@@ -5,7 +5,7 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
 import { BASE_URL, USER_TOKEN } from './constants';
 
-const GRAPHQL_URI = `${BASE_URL}/api/graphql`;
+const GRAPHQL_URI = `http://localhost:3000/api/graphql`;
 
 // AUTH
 export const authLink = setContext((_, {headers}) => {
