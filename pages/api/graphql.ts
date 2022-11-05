@@ -53,7 +53,8 @@ const startServer = server.start();
 // INIT HANDLER FUNCTION FOR THE SERVER TO CALL
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Origin", "*");
         // HANDLE PRE-FLIGHT
         if(req.method === "OPTIONS") {
             res.end();
