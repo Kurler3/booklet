@@ -30,6 +30,9 @@ const httpLink = createHttpLink({
     fetch,
     credentials: 'same-origin',
     uri: GRAPHQL_URI,
+    headers: {
+        Origin: BASE_URL
+    } 
     // fetchOptions: {
     //     mode: 'no-cors'
     // }
