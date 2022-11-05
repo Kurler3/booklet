@@ -16,7 +16,7 @@ const nextConfig = {
           },
           {
             key: 'Access-Control-Allow-Methods',
-            value: '*'
+            value: 'POST, GET, OPTIONS, HEAD'
           }
         ]
       }
