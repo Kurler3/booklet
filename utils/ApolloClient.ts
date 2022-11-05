@@ -27,7 +27,11 @@ export const authLink = setContext(() => {
 // HTTP LINK
 const httpLink = createHttpLink({
     fetch,
+    // credentials: 'same-origin',
     uri: GRAPHQL_URI,
+    fetchOptions: {
+        mode: 'no-cors'
+    }
 });
 
 
@@ -35,7 +39,7 @@ const client = new ApolloClient({
     // SET SERVER SIDE RENDERING 
     ssrMode: true,
     link: authLink.concat(httpLink) as any,
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
 });
 
 export default client;
