@@ -25,17 +25,10 @@ import { BASE_URL } from "../../utils/constants";
 
 connectDb();
 
-// EXPORT SERVER CONFIGURATION
-export const config = {
-    api: {
-        bodyParser: false,
-        // externalResolver: false,
-    }
-};
 
 // INITIALIZE CORS
 const cors = Cors({
-    origin: "https://studio.apollographql.com",
+    origin: "*",
     allowCredentials: true,
     allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
     allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
@@ -81,3 +74,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 // EXPORT THE HANDLER FUNCTION, BUT WITH CORS ALLOWED
 export default cors(handler as RequestHandler);
+
+
+// EXPORT SERVER CONFIGURATION
+export const config = {
+    api: {
+        bodyParser: false,
+    }
+};
