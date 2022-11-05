@@ -64,6 +64,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         // WAIT FOR THE SERVER TO START
         await startServer;
       
+        console.log('SERVER STARTED')
+
         // WAIT FOR THE CREATE HANDLER
         return await server.createHandler({
             path: `/api/graphql`,
