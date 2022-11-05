@@ -5,12 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "micro",
     "lint": "next lint"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "apollo-server-core": "^3.10.2",
+    "apollo-server-express": "^3.11.1",
     "apollo-server-micro": "^3.10.2",
     "bcrypt": "^5.0.1",
     "bootstrap": "^5.2.2",
@@ -18,6 +19,7 @@
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "micro": "^9.4.1",
     "micro-cors": "^0.1.1",
     "mongoose": "^6.6.2",
     "next": "12.3.1",

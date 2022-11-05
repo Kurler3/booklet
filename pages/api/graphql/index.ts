@@ -1,5 +1,5 @@
 // IMPORT APOLLO SERVER
-import { ApolloServer} from "apollo-server-micro";
+import { ApolloServer} from "apollo-server-express";
 
 // PLAYGROUND PLUGINS
 import {
@@ -69,9 +69,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         await startServer;
 
         // WAIT FOR THE CREATE HANDLER
-        return server.createHandler({
-            path: `/api/graphql`,
-        })(req, res);
+        server.getMiddleware({
+        path: '/api/graphql'
+    })(req, res)
 }
 
 // EXPORT THE HANDLER FUNCTION, BUT WITH CORS ALLOWED
@@ -82,5 +82,6 @@ export default cors(handler as RequestHandler);
 export const config = {
     api: {
         bodyParser: false,
+        externalResolver: true,
     }
 };
