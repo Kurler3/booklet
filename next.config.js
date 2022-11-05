@@ -18,10 +18,10 @@ const nextConfig = {
             key: 'Access-Control-Allow-Methods',
             value: 'POST'
           },
-          {
-            key: 'Content-Type',
-            value: 'application/json'
-          }
+          // {
+          //   key: 'Content-Type',
+          //   value: 'application/json'
+          // }
         ]
       }
     ]
