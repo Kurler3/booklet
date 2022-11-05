@@ -30,15 +30,15 @@ connectDb();
 const cors = Cors({
     origin: "*",
     allowCredentials: true,
-    allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
-    allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
+    // allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
+    // allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
 });
 
 // INIT APOLLO SERVER
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    csrfPrevention: true,
+    // csrfPrevention: true,
     // MAKES IT SO THAT WE CAN GET THE REQUEST BODY IN THE CONTEXT IN THE RESOLVERS FUNCTION (ALLOWS TO CHECK FOR AUTH HEADERS)
     context: ({req}) => ({req}),
     introspection: true,

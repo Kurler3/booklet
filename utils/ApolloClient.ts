@@ -28,11 +28,11 @@ export const authLink = setContext((_, {headers}) => {
 // HTTP LINK
 const httpLink = createHttpLink({
     fetch,
-    credentials: 'same-origin',
+    // credentials: 'same-origin',
     uri: GRAPHQL_URI,
-    fetchOptions: {
-        mode: 'no-cors'
-    }
+    // fetchOptions: {
+    //     mode: 'no-cors'
+    // }
 });
 
 
