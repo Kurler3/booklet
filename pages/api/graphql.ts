@@ -30,8 +30,8 @@ connectDb();
 const cors = Cors({
     origin: "*",
     allowCredentials: true,
-    allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
-    allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
+    // allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
+    // allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
 });
 
 // INIT APOLLO SERVER
@@ -53,6 +53,12 @@ const startServer = server.start();
 // INIT HANDLER FUNCTION FOR THE SERVER TO CALL
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+        res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+
         // HANDLE PRE-FLIGHT
         if(req.method === "OPTIONS") {
             res.setHeader("access-control-allow-methods", ['POST']);
