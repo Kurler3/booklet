@@ -34,7 +34,12 @@ export const config = {
 };
 
 // INITIALIZE CORS
-const cors = Cors();
+const cors = Cors({
+    origin: "https://studio.apollographql.com",
+    allowCredentials: true,
+    allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
+    allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
+});
 
 // INIT APOLLO SERVER
 const server = new ApolloServer({
@@ -55,21 +60,6 @@ const startServer = server.start();
 // INIT HANDLER FUNCTION FOR THE SERVER TO CALL
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-
-        res.setHeader("Access-Control-Allow-Credentials", "true");
-        res.setHeader(
-            "Access-Control-Allow-Origin",
-            "https://studio.apollographql.com"
-        );
-        res.setHeader(
-            "Access-Control-Allow-Headers",
-            "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers"
-        );
-        res.setHeader(
-            "Access-Control-Allow-Methods",
-            "POST, GET, PUT, PATCH, DELETE, OPTIONS, HEAD"
-        );
-
         // HANDLE PRE-FLIGHT
         if(req.method === "OPTIONS") {
             res.end();
