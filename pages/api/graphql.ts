@@ -55,11 +55,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         res.setHeader("Access-Control-Allow-Origin", "*");
 
-        // HANDLE PRE-FLIGHT
-        if(req.method === "OPTIONS") {
-            res.end();
-            return false;
-        }
+        // // HANDLE PRE-FLIGHT
+        // if(req.method === "OPTIONS") {
+        //     res.end();
+        //     return false;
+        // }
 
         // WAIT FOR THE SERVER TO START
         await startServer;
