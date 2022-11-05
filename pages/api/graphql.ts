@@ -30,8 +30,8 @@ connectDb();
 const cors = Cors({
     origin: "*",
     allowCredentials: true,
-    // allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
-    // allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
+    allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
+    allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
 });
 
 // INIT APOLLO SERVER
