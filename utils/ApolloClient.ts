@@ -8,7 +8,7 @@ import { BASE_URL, USER_TOKEN } from './constants';
 const GRAPHQL_URI = `${BASE_URL}/api/graphql`;
 
 // AUTH
-export const authLink = setContext(() => {
+export const authLink = setContext((_, {headers}) => {
     // let token;
     // if(localStorage) {
     //     token = localStorage.getItem(USER_TOKEN);
@@ -18,6 +18,7 @@ export const authLink = setContext(() => {
     // SET AUTH HEADER
     return {
         headers: {
+            ...headers,
             // Authorization: token ? `Bearer: ${token}` : '',
             Authorization: "",
         }
