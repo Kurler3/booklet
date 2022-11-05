@@ -55,6 +55,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         res.setHeader("Access-Control-Allow-Origin", "*");
 
+        res.setHeader(
+            "Access-Control-Allow-Methods",
+            "POST, GET, PUT, PATCH, DELETE, OPTIONS, HEAD"
+        );
+
         // HANDLE PRE-FLIGHT
         if(req.method === "OPTIONS") {
             res.end();
@@ -65,7 +70,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         await startServer;
 
         // WAIT FOR THE CREATE HANDLER
-        return await server.createHandler({
+        await server.createHandler({
             path: `/api/graphql`,
         })(req, res);
     } catch (error) {
