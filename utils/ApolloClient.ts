@@ -31,7 +31,9 @@ const httpLink = createHttpLink({
     credentials: 'same-origin',
     uri: GRAPHQL_URI,
     headers: {
-        Origin: BASE_URL
+        Origin: '*',
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
     } 
     // fetchOptions: {
     //     mode: 'no-cors'
@@ -41,7 +43,7 @@ const httpLink = createHttpLink({
 
 const client = new ApolloClient({
     // SET SERVER SIDE RENDERING 
-    ssrMode: true,
+    ssrMode: typeof window === "undefined",
     link: authLink.concat(httpLink) as any,
     cache: new InMemoryCache(),
 });

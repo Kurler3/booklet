@@ -10,29 +10,29 @@ import {
 import Cors from 'micro-cors';
 
 // IMPORT TYPE DEFS
-import typeDefs from '../../backend/graphql/TypeDefs';
+import typeDefs from '../../../backend/graphql/TypeDefs';
 
 // IMPORT RESOLVERS
-import resolvers from '../../backend/graphql/resolvers/index';
+import resolvers from '../../../backend/graphql/resolvers/index';
 import { NextApiRequest, NextApiResponse } from "next";
 import { RequestHandler } from "micro";
 
 // CONNECT DB FUNCTION
-import connectDb from "../../backend/mongodb/mongoose";
+import connectDb from "../../../backend/mongodb/mongoose";
 
 // BASE URL
-import { BASE_URL } from "../../utils/constants";
+import { BASE_URL } from "../../../utils/constants";
 
 connectDb();
 
 
-// // INITIALIZE CORS
-// const cors = Cors({
-//     origin: "*",
-//     allowCredentials: true,
-//     allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
-//     allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
-// });
+// INITIALIZE CORS
+const cors = Cors({
+    // origin: "*",
+    // allowCredentials: true,
+    // allowMethods: ["POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
+    // allowHeaders: ["access-control-allow-credentials","access-control-allow-origin","content-type"],
+});
 
 // INIT APOLLO SERVER
 const server = new ApolloServer({
@@ -55,16 +55,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         res.setHeader("Access-Control-Allow-Origin", "*");
 
-        // // HANDLE PRE-FLIGHT
-        // if(req.method === "OPTIONS") {
-        //     res.end();
-        //     return false;
-        // }
+        // HANDLE PRE-FLIGHT
+        if(req.method === "OPTIONS") {
+            res.end();
+            return false;
+        }
 
         // WAIT FOR THE SERVER TO START
         await startServer;
-      
-        console.log('SERVER STARTED')
 
         // WAIT FOR THE CREATE HANDLER
         return await server.createHandler({
@@ -77,7 +75,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 // EXPORT THE HANDLER FUNCTION, BUT WITH CORS ALLOWED
-export default handler 
+export default cors(handler as RequestHandler); 
 
 
 // EXPORT SERVER CONFIGURATION
