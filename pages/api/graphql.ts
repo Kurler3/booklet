@@ -54,7 +54,6 @@ const startServer = server.start();
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Methods", "*");
 
         // HANDLE PRE-FLIGHT
         if(req.method === "OPTIONS") {
