@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    NEXT_PUBLIC_PROD_BASE_URL: "https://rainbow-malasada-f9d172.netlify.app",
+    NEXT_PUBLIC_PROD_BASE_URL: "https://booklet-library.onrender.com",
   },
   headers: async () => {
     return [
