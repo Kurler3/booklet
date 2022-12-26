@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    NEXT_PUBLIC_PROD_BASE_URL: process.env.NEXT_PUBLIC_PROD_BASE_URL,
+    NEXT_PUBLIC_PROD_BASE_URL: "https://rainbow-malasada-f9d172.netlify.app",
   },
   headers: async () => {
     return [
