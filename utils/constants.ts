@@ -9,8 +9,8 @@ export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*
 
 export const USER_TOKEN = "LOCAL_USER_TOKEN";
 
-export const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : 'https://booklet-five.vercel.app';
-
+// export const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : 'https://booklet-five.vercel.app';
+export const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://rainbow-malasada-f9d172.netlify.app";
 
 // DARK PURPLE STRING
 export const DARK_PURPLE = "#0d1033";
