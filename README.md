@@ -1,34 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Project Introduction
 
-## Getting Started
+This is a Full Stack web app that was a project for school. It's a library management app and it's built with Next.js, TailwindCSS, Apollo, GraphQL and MongoDB.
 
-First, run the development server:
+I used zustand for the state management, instead of using the usual redux, for a change.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+I deployed the app with heroku at: https://booklet-library.herokuapp.com/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Login Page
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+![image](https://user-images.githubusercontent.com/43253459/200141682-0280655c-4dc1-4236-94f9-f747d6d30324.png)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+# Select Library Page
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+![image](https://user-images.githubusercontent.com/43253459/200141696-e3adcb29-c92f-4e0c-adf4-a57dbc721f1b.png)
 
-## Learn More
+# Create a Library
 
-To learn more about Next.js, take a look at the following resources:
+![image](https://user-images.githubusercontent.com/43253459/200141709-2c3ebebd-1fc5-4386-accf-73d23dfe7a0f.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# After selecting a library
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![image](https://user-images.githubusercontent.com/43253459/200141724-48a88e37-c529-4558-a6b3-4aa9469b7ac5.png)
