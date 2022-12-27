@@ -21,9 +21,9 @@ import { RequestHandler } from "micro";
 import connectDb from "../../../backend/mongodb/mongoose";
 
 // BASE URL
-import { BASE_URL } from "../../../utils/constants";
+// import { BASE_URL } from "../../../utils/constants";
 
-// connectDb();
+connectDb();
 
 
 // INITIALIZE CORS
@@ -53,7 +53,7 @@ const startServer = server.start();
 // INIT HANDLER FUNCTION FOR THE SERVER TO CALL
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         
-        await connectDb();
+        // await connectDb();
         
         res.setHeader("Access-Control-Allow-Origin", "*");
 
